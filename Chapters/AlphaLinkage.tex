@@ -1,0 +1,21 @@
+\chapter{$\alpha$-Linkage}
+
+We define $\alpha$ as the parameter with which the output of an algorithm is weighted. In this chapter we propose different distance measures depending on the weight parameter $\alpha$.
+
+\section{Linear Interpolation between two different linkage strategies}
+
+In the first setting we are using the single linkage distance $d_{SL}(X,Y)$ and the complete linkage distance $d_{CL}(X,Y)$. By combining the two distances we can create a linear model that ranges from $\alpha = 0$ (single linkage) to $\alpha = 1$ (complete linkage) resulting in equation \ref{eq:singlecomplete}.
+
+\begin{equation}
+    \begin{aligned}
+        d_{SC}(X,Y,\alpha) &= (1 - \alpha) \cdot d_{SL}(X,Y) + \alpha \cdot d_{CL}(X,Y)\\
+        &= (1 - \alpha) \min\limits_{x \in X, y \in Y} d(x,y) + \alpha \max\limits_{x \in X, y \in Y} d(x,y)
+    \end{aligned}
+    \label{eq:singlecomplete}
+\end{equation}
+
+\section{Linear Interpolation between three different linkage strategies}
+
+\section{Proposed Algorithms}
+
+\section{Performance Optimizations}
