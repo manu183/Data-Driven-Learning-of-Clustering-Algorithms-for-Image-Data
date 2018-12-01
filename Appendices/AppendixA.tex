@@ -1,11 +1,124 @@
-\chapter{An Appendix}
+\chapter{The Hungarian Method}
+\label{sec:hungarian}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at pulvinar nisi. Phasellus hendrerit, diam placerat interdum iaculis, mauris justo cursus risus, in viverra purus eros at ligula. Ut metus justo, consequat a tristique posuere, laoreet nec nibh. Etiam et scelerisque mauris. Phasellus vel massa magna. Ut non neque id tortor pharetra bibendum vitae sit amet nisi. Duis nec quam quam, sed euismod justo. Pellentesque eu tellus vitae ante tempus malesuada. Nunc accumsan, quam in congue consequat, lectus lectus dapibus erat, id aliquet urna neque at massa. Nulla facilisi. Morbi ullamcorper eleifend posuere. Donec libero leo, faucibus nec bibendum at, mattis et urna. Proin consectetur, nunc ut imperdiet lobortis, magna neque tincidunt lectus, id iaculis nisi justo id nibh. Pellentesque vel sem in erat vulputate faucibus molestie ut lorem.
+Our goal is to find the best possible matching between two clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$. In order to do so, we calculate the cost of matching each possible pair of clusters within the two clusterings. 
+% Table \ref{app:hung:distances} shows how such a cost matrix can look like.
 
-Quisque tristique urna in lorem laoreet at laoreet quam congue. Donec dolor turpis, blandit non imperdiet aliquet, blandit et felis. In lorem nisi, pretium sit amet vestibulum sed, tempus et sem. Proin non ante turpis. Nulla imperdiet fringilla convallis. Vivamus vel bibendum nisl. Pellentesque justo lectus, molestie vel luctus sed, lobortis in libero. Nulla facilisi. Aliquam erat volutpat. Suspendisse vitae nunc nunc. Sed aliquet est suscipit sapien rhoncus non adipiscing nibh consequat. Aliquam metus urna, faucibus eu vulputate non, luctus eu justo.
+% \begin{table}[h]
+%     \centering
+%     \begin{tabular}{|l | l l l l l|}
+%     \hline
+%     j\textbackslash i & 1 & 2 & 3 & 4 & 5\\ \hline
+%     1 & 20 & 15 & 30 & 50 & 40\\
+%     2 & 80 & 10 & 15 & 20 & 30\\
+%     3 & 20 & 30 & 50 & 80 & 60\\
+%     4 & 30 & 50 & 40 & 20 & 10\\
+%     5 & 20 & 30 & 40 & 50 & 25\\ \hline
+%     \end{tabular}
+%     \caption{In order to determine the optimal matching between two clusterings, we note the pairwise matching costs.}
+%     \label{app:hung:distances}
+% \end{table}
 
-Donec urna leo, vulputate vitae porta eu, vehicula blandit libero. Phasellus eget massa et leo condimentum mollis. Nullam molestie, justo at pellentesque vulputate, sapien velit ornare diam, nec gravida lacus augue non diam. Integer mattis lacus id libero ultrices sit amet mollis neque molestie. Integer ut leo eget mi volutpat congue. Vivamus sodales, turpis id venenatis placerat, tellus purus adipiscing magna, eu aliquam nibh dolor id nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed cursus convallis quam nec vehicula. Sed vulputate neque eget odio fringilla ac sodales urna feugiat.
+To find the optimal matching in a brute force way, we have to look at each possible matching. Say we want to match each $i$ to one $j$. For $i = 1$ we can pick from 5 different values of $j$, for $i = 2$ there are 4 potential values of $j$. This will overall result in $k! = 5! = 120$ different combinations, thus the complexity of the brute force approach is $O(k!)$. A more efficient algorithm (especially for higher values of $k$) was introduced by Kuhn and Munkres \cite{kuhn1955hungarian}\cite{munkres1957algorithms}. It consists of three major steps. In the first one, we subtract the row minima from each row. This step is performed in table \ref{app:hung:step1}.
 
-Phasellus nisi quam, volutpat non ullamcorper eget, congue fringilla leo. Cras et erat et nibh placerat commodo id ornare est. Nulla facilisi. Aenean pulvinar scelerisque eros eget interdum. Nunc pulvinar magna ut felis varius in hendrerit dolor accumsan. Nunc pellentesque magna quis magna bibendum non laoreet erat tincidunt. Nulla facilisi.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l | l l l l l| l |}
+    \hline
+    j\textbackslash i & 1 & 2 & 3 & 4 & 5 & \\ \hline
+    1 & 5 & 0 & 15 & 35 & 25 & (-15)\\
+    2 & 70 & 0 & 5 & 10 & 20 & (-10)\\
+    3 & 0 & 10 & 30 & 60 & 40 & (-20)\\
+    4 & 20 & 40 & 30 & 10 & 0 & (-10)\\
+    5 & 0 & 10 & 20 & 30 & 5 & (-20)\\ \hline
+    \end{tabular}
+    \caption{Hungarian method step 1: Subtract the row minima from each row.}
+    \label{app:hung:step1}
+\end{table}
 
-Duis eget massa sem, gravida interdum ipsum. Nulla nunc nisl, hendrerit sit amet commodo vel, varius id tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac dolor est. Suspendisse ultrices tincidunt metus eget accumsan. Nullam facilisis, justo vitae convallis sollicitudin, eros augue malesuada metus, nec sagittis diam nibh ut sapien. Duis blandit lectus vitae lorem aliquam nec euismod nisi volutpat. Vestibulum ornare dictum tortor, at faucibus justo tempor non. Nulla facilisi. Cras non massa nunc, eget euismod purus. Nunc metus ipsum, euismod a consectetur vel, hendrerit nec nunc.
+After subtracting the row minima, we now also subtract the column minima from each column as shown in table \ref{app:hung:step2}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l | l l l l l |}
+    \hline
+    j\textbackslash i & 1 & 2 & 3 & 4 & 5\\ \hline
+    1 & 5 & 0 & 10 & 25 & 25\\
+    2 & 70 & 0 & 0 & 0 & 20\\
+    3 & 0 & 10 & 25 & 50 & 40\\
+    4 & 20 & 40 & 25 & 0 & 0\\
+    5 & 0 & 10 & 15 & 20 & 5\\ \hline
+    & - & - & (-5) & (-10) & -\\ \hline
+    \end{tabular}
+    \caption{Hungarian method step 2: Subtract the column minima from each column.}
+    \label{app:hung:step2}
+\end{table}
+
+Now we try to find the optimal matching. To do so, we cover all zeros with lines and count the minumum needed lines to do so. Table \ref{app:hung:step3} shows that we need four lines.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l | l l l l l |}
+    \hline
+    j\textbackslash i & 1 & 2 & 3 & 4 & 5\\ \hline
+    1 & \cellcolor{orange!25}5 & \cellcolor{orange!50}0 & 10 & 25 & 25\\
+    2 & \cellcolor{orange!75}70 & \cellcolor{orange!75}0 & \cellcolor{orange!75}0 & \cellcolor{orange!75}0 & \cellcolor{orange!75}20\\
+    3 & \cellcolor{orange!25}0 & \cellcolor{orange!50}10 & 25 & 50 & 40\\
+    4 & \cellcolor{orange!75}20 & \cellcolor{orange!75}40 & \cellcolor{orange!75}25 & \cellcolor{orange!75}0 & \cellcolor{orange!75}0\\
+    5 & \cellcolor{orange!25}0 & \cellcolor{orange!50}10 & 15 & 20 & 5\\ \hline
+    \end{tabular}
+    \caption{Hungarian method step 3: Cover all zeros with as few lines as possible.}
+    \label{app:hung:step3}
+\end{table}
+
+After covering the zeros and counting the lines, we found the optimal matching in case the number of lines equals the number of rows (or columns) in the matrix. As we need four lines and the matrix has five rows in this example, we have to add more zeros. To do that, we subtract the minimum value of the matrix (which is 5 here) from all uncovered values that are not zero and add it to all values that are not zero and covered twice. Now we can again check the needed lines as in table \ref{app:hung:additionalstep}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l | l l l l l |}
+    \hline
+    j\textbackslash i & 1 & 2 & 3 & 4 & 5\\ \hline
+    1 & 5 & 0 & 5 & 20 & 20\\
+    2 & 75 & 0 & 0 & 0 & 20\\
+    3 & 0 & 10 & 20 & 45 & 35\\
+    4 & 25 & 45 & 25 & 0 & 0\\
+    5 & 0 & 10 & 10 & 15 & 0\\ \hline
+    \end{tabular}
+    \begin{tabular}{|l | l l l l l |}
+        \hline
+        j\textbackslash i & 1 & 2 & 3 & 4 & 5\\ \hline
+        1 & \cellcolor{orange!25}5 & \cellcolor{orange!50}0 & 5 & 20 & 20\\
+        2 & \cellcolor{orange!75}75 & \cellcolor{orange!75}0 & \cellcolor{orange!75}0 & \cellcolor{orange!75}0 & \cellcolor{orange!75}20\\
+        3 & \cellcolor{orange!25}0 & \cellcolor{orange!50}10 & 20 & 45 & 35\\
+        4 & \cellcolor{orange!75}25 & \cellcolor{orange!75}45 & \cellcolor{orange!75}25 & \cellcolor{orange!75}0 & \cellcolor{orange!75}0\\
+        5 & \cellcolor{orange!100}0 & \cellcolor{orange!100}10 & \cellcolor{orange!100}10 & \cellcolor{orange!100}15 & \cellcolor{orange!100}0\\ \hline
+    \end{tabular}
+    \caption{Hungarian method additional step: Create more zeroes until the number of minimal needed lines to cover all zeros matches the number of rows.}
+    \label{app:hung:additionalstep}
+\end{table}
+
+This will then result in the assignment seen in table \ref{app:hung:assignment}. Applying the matching to the input matrix then gives the optimal cost by summing the optimal values. For this example the optimal cost is then 95.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l | l l l l l |}
+    \hline
+    j\textbackslash i & 1 & 2 & 3 & 4 & 5\\ \hline
+    1 & 5 & \cellcolor{blue!25}0 & 5 & 20 & 20\\
+    2 & 75 & 0 & \cellcolor{blue!25}0 & 0 & 20\\
+    3 & \cellcolor{blue!25}0 & 10 & 20 & 45 & 35\\
+    4 & 25 & 45 & 25 & \cellcolor{blue!25}0 & 0\\
+    5 & 0 & 10 & 10 & 15 & \cellcolor{blue!25}0\\ \hline
+    \end{tabular}
+    \begin{tabular}{|l | l l l l l|}
+        \hline
+        j\textbackslash i & 1 & 2 & 3 & 4 & 5\\ \hline
+        1 & 20 & \cellcolor{blue!25}15 & 30 & 50 & 40\\
+        2 & 80 & 10 & \cellcolor{blue!25}15 & 20 & 30\\
+        3 & \cellcolor{blue!25}20 & 30 & 50 & 80 & 60\\
+        4 & 30 & 50 & 40 & \cellcolor{blue!25}20 & 10\\
+        5 & 20 & 30 & 40 & 50 & \cellcolor{blue!25}25\\ \hline
+    \end{tabular}
+    \caption{Result of the hungarian method: The optimal matching between two clusterings.}
+    \label{app:hung:assignment}
+\end{table}

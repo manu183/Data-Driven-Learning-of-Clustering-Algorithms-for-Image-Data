@@ -1,1 +1,23 @@
 \chapter{Related Work}
+
+Balcan et al. proposed the two infinite families to interpolate between different linkage strategies \cite{DBLP:journals/corr/BalcanNVW16}, such as shown in equations \ref{eq:algfam1} and \ref{eq:algfam2}.
+
+\begin{equation}
+    \begin{aligned}
+        \mathcal{A}_1 = \left\{ \left( \min\limits_{u \in A, v \in B} (d(u,v))^\alpha +  \max\limits_{u \in A, v \in B} (d(u,v))^\alpha\ \right)^{1 / \alpha} \middle| \alpha \in \mathbb{R} \cup \{\infty, -\infty\} \right\}
+    \end{aligned}
+    \label{eq:algfam1}
+\end{equation}
+
+Equation \ref{eq:algfam1} shows a distances in the range between single linkage ($\alpha = -\infty$) and complete linkage ($\alpha = \infty$). Balcan et al. also show that $\mathbb{R} \cup \{\infty, -\infty\}$ contains a maximum of $O(n^8)$ different intervals, where each interval $[\alpha_{lo}, \alpha_{hi}]$ represents a different merging behavior.
+
+\begin{equation}
+    \begin{aligned}
+        \mathcal{A}_2 = \left\{ \left( \frac{1}{\|A\| \|B\|} \sum\limits_{u \in A, v \in B} (d(u,v))^\alpha \right)^{1 / \alpha} \middle| \alpha \in \mathbb{R} \cup \{\infty, -\infty\} \right\}
+    \end{aligned}
+    \label{eq:algfam2}
+\end{equation}
+
+Equation \ref{eq:algfam2} will also result in single linkage for $\alpha = - \infty$ and complete linkage for $\alpha = \infty$. In addition to that, the family $\mathcal{A}_2$ also contains the definition of average linkage ($\alpha = 0$). However, the guarantee for maximum $O(n^8)$ intervals does not apply to this family. A formal guarantee will be $O(n^{n-1})$, but this thesis will show that the experimental results are much better than the actual formal guarantee.
+
+In addition to the families $\mathcal{A}_1$ and $\mathcal{A}_2$, this thesis will also propose another family to efficiently interpolate between single, average and complete linkage in section \ref{sec:alphabeta}.

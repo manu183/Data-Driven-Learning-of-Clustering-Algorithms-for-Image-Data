@@ -8,10 +8,15 @@
 
 % Include any extra LaTeX packages required
 \usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage[square, numbers, comma, sort&compress]{natbib}  % Use the "Natbib" style for the references in the Bibliography
 \usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
 \usepackage{vector}  % Allows "\bvec{}" and "\buvec{}" for "blackboard" style bold vectors in maths
+\usepackage[table]{xcolor}% http://ctan.org/pkg/xcolor
 \hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
+\usepackage{pgfplots}
+\usepackage[]{algorithm2e}
 
 %% ----------------------------------------------------------------
 \begin{document}
@@ -186,7 +191,7 @@
 
 \input{Chapters/AlphaLinkage}
 
-\input{Chapters/AlphaBetaLinkage}
+% \input{Chapters/AlphaBetaLinkage}
 
 \input{Chapters/ExperimentalSetup} % Experimental Setup
 
