@@ -62,6 +62,28 @@ The CIFAR-100 dataset contains similar images, but instead of 6,000 images each 
 
 Having superclasses and subclasses allows clustering between different subclasses within a superclass and also between different superclasses. This allows more experiments than for the CIFAR10 data.
 
+\subsection{Omniglot}
+
+The omniglot dataset contains 1623 handwritten characters from 50 different alphabets, where each character is represented by 20 different images. Each image is grayscale and represented by 105x105 pixels \cite{Lake1332}. Figure \ref{fig:omniglotcharacters} shows characters of the more well-known Latin, Greek and Hebrew alphabets that are part of the dataset.
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{.3\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/latin}
+\end{minipage}
+\begin{minipage}{.3\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/greek}
+\end{minipage}
+\begin{minipage}{.3\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/hebrew}
+\end{minipage}
+\caption{The omniglot dataset contains handwritten characters of different alphabets, such as Latin, Greek and Hebrew \cite{Lake1332}.}
+\label{fig:omniglotcharacters}
+\end{figure}
+
 \section{Cost functions}
 
 In order to evaluate the quality of a clustering, we need some kind of cost function that compares the generated clustering $C_1,...,C_k$ with the target clustering $C_1^*, ..., C_k^*$. One method to compare them is the majority distance as shown in equation \ref{eq:majoritydistance} where $n$ ist the number of sampled points.
@@ -73,11 +95,11 @@ In order to evaluate the quality of a clustering, we need some kind of cost func
     \label{eq:majoritydistance}
 \end{equation}
 
-Another way to compare two clusterings in by using the hamming distance between the generated and the target clusterings defined as shown in figure \ref{eq:hammingdistance}.
+This cost function is motivated by finding corresponding clusters with the lowest distance, i.e. each generated cluster gets matched with the optimal target cluster. However two generated clusters can be matched with the same target cluster. This motivates the hamming distance as shown in figure \ref{eq:hammingdistance}.
 
 \begin{equation}
     \begin{aligned}
-        cost_{hamming}(C_{1:k}, C_{1:k}^*) = 
+        cost_{hamming}(C_{1:k}, C_{1:k}^*) = \max\limits_{\sigma} \frac{1}{n} \sum\limits_{i=1}^{k} (\|C_i\| - \max\limits_{\sigma, j} \|C_i \cap C_j^*\|)
     \end{aligned}
     \label{eq:hammingdistance}
 \end{equation}

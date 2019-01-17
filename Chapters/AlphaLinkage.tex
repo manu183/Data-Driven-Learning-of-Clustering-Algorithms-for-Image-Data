@@ -40,13 +40,9 @@ The last of the three settings describes the interpolation between the average l
 
 \section{Proposed Algorithms}
 
-Our goal is to find an algorithm that determines all different behavior depending on different values of $\alpha$. To do so, we propose two different algorithms. 
+Our goal is to find an algorithm that determines all different behavior depending on different values of $\alpha$. To do so, we propose different algorithms. The goal of the first algorithm is to divide the interval of $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ to subintervals where the behavior is consistent within each interval. 
 
-\subsection{Algorithm 1: Splitting up into different intervals}
-
-The goal of the first algorithm is to divide the interval of $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ to subintervals where the behavior is consistent within each interval. 
-
-\begin{algorithm}[H]
+\begin{algorithm}[ht]
     \KwData{input data $p_1, ..., p_N$, initial states $st$}
     \KwResult{$k$ intervals $[\alpha_0, \alpha_1], ..., [\alpha_{k-1},\alpha_k]$}
     \For{$iteration\gets1$ \KwTo $N-1$}{
@@ -69,7 +65,7 @@ The goal of the first algorithm is to divide the interval of $\alpha \in [\alpha
     \label{alg:alphalinkage1}
 \end{algorithm}
 
-Starting from an interval $\alpha \in [\alpha_{lo}, \alpha_{hi}]$, we calculate the merging clusters by $\argmin\limits_{X, Y} d(X,Y,\alpha)$ for both the minimum $\alpha_{li}$ and the maximum $\alpha_{hi}$ of the interval. In case both values of $\alpha$ return the same pair of merging clusters $X$ and $Y$, we merge $X$ and $Y$. In case the values of $\alpha_{lo}$ and $\alpha_{hi}$ lead to different merges, we can calculate a value $\alpha_{split}$ where we know that for values of $\alpha \in [\alpha_{lo}, alpha_{split})$ we merge the clusters found for $\argmin\limits_{X, Y} d(X,Y,\alpha_{lo})$ and for values of $\alpha \in [\alpha_{split}, alpha_{hi}]$ we merge the clusters found for $\argmin\limits_{X, Y} d(X,Y,\alpha_{hi})$. In order to calculate the value of $\alpha_{split}$ we can equalize the distance functions of the merges of clusters $X, Y$ and the clusters $A, B$ (say $\alpha_{lo}$ leads to merging $X$ and $Y$ and $\alpha_{hi}$ leads to merging $A$ and $B$) as seen in equation \ref{eq:equalize}. 
+Starting from an interval $\alpha \in [\alpha_{lo}, \alpha_{hi}]$, we calculate the merging clusters by $\min\limits_{X, Y} d(X,Y,\alpha)$ for both the minimum $\alpha_{li}$ and the maximum $\alpha_{hi}$ of the interval. In case both values of $\alpha$ return the same pair of merging clusters $X$ and $Y$, we merge $X$ and $Y$. In case the values of $\alpha_{lo}$ and $\alpha_{hi}$ lead to different merges, we can calculate a value $\alpha_{split}$ where we know that for values of $\alpha \in [\alpha_{lo}, alpha_{split})$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\alpha_{lo})$ and for values of $\alpha \in [\alpha_{split}, alpha_{hi}]$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\alpha_{hi})$. In order to calculate the value of $\alpha_{split}$ we can equalize the distance functions of the merges of clusters $X, Y$ and the clusters $A, B$ (say $\alpha_{lo}$ leads to merging $X$ and $Y$ and $\alpha_{hi}$ leads to merging $A$ and $B$) as seen in equation \ref{eq:equalize}. 
 
 \begin{equation}
     \begin{aligned}
@@ -195,11 +191,23 @@ As experimental results turn out to need a lot of memory (up to $\approx$ 20 GB 
          }
       }
     }
-    \caption{Instead of calculating the nodes layerwise, this algorithm works pathwise, i.e. it goes down one path of a tree to a leaf node and evaluates it before continuing with the next split. This approach needs much less memory than the previous algorithms and has about the same runtime.}
+    \caption{Instead of calculating the nodes layerwise, this algorithm works pathwise, i.e. it goes down one path of a tree to a leaf node and evaluates it before continuing with the next split. This approach needs much less memory than the previous algorithms and has about the same runtime as shown in figure \ref{fig:performance}.}
     \label{alg:alphalinkage3}
 \end{algorithm}
 
-\subsection{Algorithm 2: Calculating the exact behavior}
+\begin{figure}[h]
+\centering
+\begin{minipage}{.45\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/memory_mnist_ac}
+\end{minipage}\hfill
+\begin{minipage}{.45\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{images/runtime_mnist_ac}
+\end{minipage}
+\caption{The depth first implementation needs less memory and also has a better runtime compared to the breadth first implementation.}
+\label{fig:performance}
+\end{figure}
 
 Instead of merging iteratively and steadily shrinking the intervals, we propose an algorithm with a geometric motivation. We are again evaluating an interval $[\alpha_{lo}, \alpha_{hi}]$, but we interprete the different merges as linear functions depending on $\alpha$. We can start by calculating the merge candidate for the start value $\alpha_{lo}$ and calculate the next intersection that will yield to the next merge. By calculating all the intersections of linear functions, we can also determine all the different intervals for the range $[\alpha_{lo}, \alpha_{hi}]$, where different merging behaviors occure. Algorithm \ref{alg:alphalinkage4} describes this procedure.
 
@@ -216,6 +224,28 @@ Instead of merging iteratively and steadily shrinking the intervals, we propose 
     \caption{}
     \label{alg:alphalinkage4}
 \end{algorithm}
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[ 
+        xlabel=$\alpha$,
+        ylabel={$d$},
+        xmin=0.4,
+        xmax=0.9,
+        xtick={0.45,0.525,0.725,0.8},
+        xticklabels={$\alpha_{lo}$, $\alpha_{s_1}$, $\alpha_{s_2}$, $\alpha_{hi}$},
+        width=0.5\textwidth,
+        yticklabels={,,}
+        ] 
+        \addplot[mark=none, red] {-3+8*x}; 
+        \addplot[mark=none, black] {-8*x+7};
+        \addplot[mark=none, blue] {1.2};
+        \end{axis} 
+    \end{tikzpicture}
+    \caption{Simply calculating the split values between the start and the end value of the range $[\alpha_{lo}, \alpha_{hi}]$ will not necessarily lead to the optimal values. By doing so, the blue line (constant $d$ value) will not be considered.}
+    \label{fig:optimal}
+\end{figure}
 
 \section{Performance Optimizations}
 
