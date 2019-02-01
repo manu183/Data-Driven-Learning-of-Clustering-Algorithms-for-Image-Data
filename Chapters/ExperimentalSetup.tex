@@ -3,7 +3,7 @@
 This work evaluates the proposed algorithms for image and text data. This chapter describes the used datasets, the evaluation methods and the experimental setups.
 
 \section{Datasets}
-\label{sec:datasets}
+\label{chapter:datasets}
 
 \subsection{Never Ending Language Learner data}
 
@@ -84,13 +84,16 @@ The omniglot dataset contains 1623 handwritten characters from 50 different alph
 \label{fig:omniglotcharacters}
 \end{figure}
 
+The omniglot dataset is similar to the MNIST dataset as it also contains handwritten characters, however it has more different characters and less images of each of them. This allows us to run more learning tasks.
+
 \section{Cost functions}
+\label{chapter:costfunctions}
 
 In order to evaluate the quality of a clustering, we need some kind of cost function that compares the generated clustering $C_1,...,C_k$ with the target clustering $C_1^*, ..., C_k^*$. One method to compare them is the majority distance as shown in equation \ref{eq:majoritydistance} where $n$ ist the number of sampled points.
 
 \begin{equation}
     \begin{aligned}
-        cost_{majority}(C_{1:k}, C_{1:k}^*) = \frac{1}{n} \sum\limits_{i=1}^{k} (\|C_i\| - \max\limits_j \|C_i \cap C_j^*\|)
+        cost_{majority}(C_{1:k}, C_{1:k}^*) = \frac{1}{n} \sum\limits_{i=1}^{k} (|C_i| - \max\limits_j |C_i \cap C_j^*|)
     \end{aligned}
     \label{eq:majoritydistance}
 \end{equation}
@@ -99,7 +102,7 @@ This cost function is motivated by finding corresponding clusters with the lowes
 
 \begin{equation}
     \begin{aligned}
-        cost_{hamming}(C_{1:k}, C_{1:k}^*) = \max\limits_{\sigma} \frac{1}{n} \sum\limits_{i=1}^{k} (\|C_i\| - \max\limits_{\sigma, j} \|C_i \cap C_j^*\|)
+        cost_{hamming}(C_{1:k}, C_{1:k}^*) = \max\limits_{\sigma} \frac{1}{n} \sum\limits_{i=1}^{k} (|C_i| - \max\limits_{\sigma, j} |C_i \cap C_j^*|)
     \end{aligned}
     \label{eq:hammingdistance}
 \end{equation}
