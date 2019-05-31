@@ -218,11 +218,11 @@ Figure \ref{fig:mnist1000avg} shows that both strategies give a valuable improve
     $cost_{opt_{AC}}$ & 0.443139\\
     $\Delta cost_{AC}$ & 3.3047\%\\\hline
     \end{tabular}
-    \caption{Our proposed algorithm reduces the cost by up to $\Delta_{max} cost = 5.548\%$.}
+    \caption{Over the first 12,000 points of the MNIST dataset our algorithm improvese the averaged hamming cost for $3.3\%$ }
     \label{table:mnist1000avg}
 \end{table}
 
-Table \ref{table:mnist1000avg} shows that the improvement for average to complete linkage interpolation is $3.3\%$ and for single to complete linkage it is $3.7\%$. The optimal cost corresponds to $\alpha = 0.856557$ in the $SC$ setting and $\alpha = 0.63275$ in the $AC$ setting.
+Table \ref{table:mnist1000avg} shows that the improvement for average to complete linkage interpolation is $3.3\%$ and for single to complete linkage it is $3.7\%$. The optimal cost corresponds to $\alpha = 0.856557$ in the $SC$ setting and $\alpha = 0.63275$ in the AC setting.
 
 \begin{figure}[h]
 \centering
@@ -239,3 +239,5 @@ Table \ref{table:mnist1000avg} shows that the improvement for average to complet
 \end{figure}
 
 \section{Parameter Advising}
+
+The previously shown results were averaged over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$. We select the pool of $\alpha$-values through the local optima for each experiment. The best $k$ values of $\alpha$, where $k$ is much smaller than the number of experiments, can then be calculated with an integer optimization problem. A scenario where this setup can be used is by having a domain expert, who can select the best clustering from the $k$ suggested ones.

@@ -18,6 +18,6 @@ Equation \ref{eq:algfam1} shows a distances in the range between single linkage 
     \label{eq:algfam2}
 \end{equation}
 
-Equation \ref{eq:algfam2} will also result in single linkage for $\alpha = - \infty$ and complete linkage for $\alpha = \infty$. In addition to that, the family $\mathcal{A}_2$ also contains the definition of average linkage ($\alpha = 0$). However, the guarantee for maximum $O(n^8)$ intervals does not apply to this family. A formal guarantee will be $O(n^{n-1})$, but this thesis will show that the experimental results are much better than the actual formal guarantee.
+Equation \ref{eq:algfam2} will also result in single linkage for $\alpha = - \infty$ and complete linkage for $\alpha = \infty$. In addition to that, the family $\mathcal{A}_2$ also contains the definition of average linkage ($\alpha = 0$). However, the guarantee for maximum $O(n^8)$ intervals does not apply to this family. A formal guarantee will be $O(n^4 2^n)$, but this thesis will show that the experimental results are much better than the actual formal guarantee.
 
-In addition to the families $\mathcal{A}_1$ and $\mathcal{A}_2$, this thesis will also propose another family to efficiently interpolate between single, average and complete linkage in section \ref{sec:alphabeta}.
+Balcan et. al also provided a solution to calculate all different merges, however this approach solved the mathematical equations and led to the same clusters being used for a merge quite a often. As our solution only evaluates cases where different clusters get merged, the algorithm described in the following section has a lower runtime as well as a lower lower complexity.

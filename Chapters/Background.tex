@@ -7,17 +7,15 @@ This increasing amount of data allows us improve the learning capabilities of ma
 
 However, such observations are mostly not that trivial and often require more effort in order to obtain useful a-priori information. In order to cluster financial standing, one could imagine seeing different clusters depending on the age or the education. But how many clusters would result here? The data has to be processed and evaluated for different values in this case.
 
-\section{Transfer Learning}
-
 Once our algorithm performs well for our data and our tasks, we then want to transfer the gained knowledge to different tasks. Say the algorithm already learned how to differentiate images of the handwritten digits zero, one and two, the same algorithm should then be able to apply the gained knowledge to distinguish between other handwritten digits too. The gained knowledge is some kind of learned data, that can for example be the feature representation of a Convolutional Neural Network, where a potential goal can be to transfer the representation knowledge to another classification task.
 
 For clustering tasks learned knowledge could be a number of clusters, a good feature representation for the input data or other useful information that allows performing similar clustering tasks better by transferring the knowledge.
 
-\section{Linkage-based hierarchical clustering}
+\section{Linkage-based hierarchical clustering.}
 
 This thesis focuses on agglomerative hierarchical clustering, i.e. clustering algorithms that merge clusters starting from each cluster as its own point until all points belong to the same cluster. At each iteration the clusters with the closest distance are merged together. As there are various clustering algorithms, there also are various distance measurements. One way of describe the distance between two clusters, say $X$ and $Y$ is by defining a linkage between them. There are three different methods to do so.
 
-\subsection{Single Linkage}
+\paragraph{Single Linkage.}
 
 Single linkage defines a distance between two clusters $X$ and $Y$ as the distance between the two nearest points of these clusters (see equation \ref{eq:singlelinkage}).
 
@@ -28,7 +26,7 @@ Single linkage defines a distance between two clusters $X$ and $Y$ as the distan
     \label{eq:singlelinkage}
 \end{equation}
 
-\subsection{Complete Linkage}
+\paragraph{Complete Linkage.}
 
 Complete linkage defines a distance between two clusters $X$ and $Y$ as the distance between the two farthest points of these clusters (see equation \ref{eq:completelinkage}).
 
@@ -39,18 +37,18 @@ Complete linkage defines a distance between two clusters $X$ and $Y$ as the dist
     \label{eq:completelinkage}
 \end{equation}
 
-\subsection{Average Linkage}
+\paragraph{Average Linkage}
 
 Average linkage defines a distance between two clusters $X$ and $Y$ as the average distance between all points $x \in X$ and all points $y \in Y$ (see equation \ref{eq:averagelinkage}).
 
 \begin{equation}
     \begin{aligned}
-        d_{AL}(X,Y) = \frac{1}{\|X\|\|Y\|}\sum\limits_{x \in X, y \in Y} d(x,y)
+        d_{AL}(X,Y) = \frac{1}{|X||Y|}\sum\limits_{x \in X, y \in Y} d(x,y)
     \end{aligned}
     \label{eq:averagelinkage}
 \end{equation}
 
-\subsection{Effects of different linkage strategies}
+\paragraph{Effects of different linkage strategies.}
 
 Depending on the linkage strategy, the pairwise distances between all $N$ clusters $C_1, ..., C_N$ will be different. As the clustering algorithm merges the closest pair of clusters in each iteration, the merging clusters $C_i$ and $C_j$ with $i, j \in 1,...,N$ might vary as shown in figure \ref{fig:linkage_effects}, where ten clusters $C_0, ..., C_9$ get clustered with bottom-up hierarchical clustering using the Euclidean distance as distance $d(x,y)$ to calculate the pairwise distance according to the three mentioned linkage strategies.
 

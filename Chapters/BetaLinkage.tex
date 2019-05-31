@@ -1,0 +1,4 @@
+\chapter{Optimizing the Metric}
+\label{sec:beta}
+
+In a similar fashion as described in section \ref{chapter:alphalinkage} this sections aims to optimize a metric that is a linear combination of several metrics. For instance, images can hav a 2D pixel representation and a text describing the each image. Combining these features for clustering tasks can be problematic as it is not how the optimal weight between these features should be. Does a word describe more than a subset of the image, are the features equally important or does the pixel image lead to better clusterings? With $\beta$-linkage we provide a framework based on $\alpha$-linkage that calculates different merges based on linear combinations of representations and leads to optimized clusterings.
