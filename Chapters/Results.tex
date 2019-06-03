@@ -48,6 +48,8 @@ In addition to averaged costs, we also evaluated the clusterings for multiple va
 
 As our only formal guarantee was that there will be a maximum of $O(n^8)$ intervals in the range between single and complete linkage, we also had a look at the actual results. Since the proof for single and complete linkage in Balcan et. al \cite{DBLP:journals/corr/BalcanNVW16} relies on the fact that the distance $d_{SC}(X,Y,\alpha)$ is based on four points and a split between two merges thus is based on eight points, we would expect experiments containing average linkage to have more intervals, because the average linkage distance is based on all points of the clusters. Finding formal guarantees for the average distance is not a part of this thesis and will briefly be discussed in section \ref{section:futurework}.
 
+In addition to looking at the resulting loss, we also evaluated how well our algorithm is able to discover new subcategories. In the given data, only very specific class labels are given such as luxurious suites, broad road or denver international airport that all belong to a certain location, i.e. these noun phrases have the specific label and the only more generalized group is the location class. In \ref{sec:nellsubcategories}, we listed potential subcategories that our algorithm found and annotated them with a label manually. For instance, the noun phrase luxurious suites could then be grouped together with similar ones into the cluster suite that is a subset of the cluster office building room.
+
 \section{Clustering Image Data}
 
 We first clustered the MNIST data. First experiments were run with 250 points in each run.
