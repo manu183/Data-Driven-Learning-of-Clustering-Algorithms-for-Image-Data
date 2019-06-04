@@ -62,3 +62,15 @@ Depending on the linkage strategy, the pairwise distances between all $N$ cluste
 \end{figure}
 
 As different points are merged together, this also means that the clustering may have a different quality. This thesis compares the clusterings' quality for different data by introducing algorithms to efficiently determine the quality not only for these linkage strategies but also for their linear combinations.
+
+\section{Generating Feature Representations}
+
+In order to improve overall the clustering performance, this work uses several techniques to obtain better feature representations of text and image data. 
+
+\subsection{Text Features}
+
+To cluster different words, there are several ways to create a difference measurement of these words. A rather simple approach would be to calculate the edit distance that describes the difference of the characters in the words \cite{ristad1998learning}. However, this approach does contain any semantic information, i.e. synonyms will have a larger distance than wanted. This motivates to leverage contextual information, where we use several pre-trained models on different datasets. Stanford's GloVe provides such models that incorporate knowledge from Wikipedia and social networks \cite{pennington2014glove}.\\
+
+In addition, CMU's Machine Learning Department provides another way to compare words. Their Never-Ending Language Learner provides information in which contexts certain words are used online \cite{nell_pairs}. We can create a corpus containing all different contexts. Similar to the bag-of-words approach, we can then count the occurrences of the words in the corpus' contexts. However, the resulting data is very sparse and Euclidean distance will not work well to compare the ``bag-of-context'' representations, i.e. other measurements such as the cosine distance are preferred.
+
+\subsection{Image Features}

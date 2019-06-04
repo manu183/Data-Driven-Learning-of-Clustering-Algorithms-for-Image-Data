@@ -190,17 +190,17 @@
 %% In English theses, an additional German Abstract is needed.
 \newcommand{\includeabstract}{
 \ifcurrentbaselanguage{English}{
-\input{sections/acknowledgements_en.tex}
+\input{Appendices/Acknowledgement.tex}
 % include English and German abstracts
-\input{sections/abstract_en.tex}
+\input{Appendices/Abstract_en.tex}
 \begin{otherlanguage}{ngerman}
 \selectlanguage{ngerman}
-\input{sections/abstract_de.tex}
+\input{Appendices/Abstract_de.tex}
 \selectlanguage{english}
 \end{otherlanguage}
 }{
 % include only German abstract
-\include{sections/abstract_de}
+\include{Appendices/Abstract_de}
 }
 }
 

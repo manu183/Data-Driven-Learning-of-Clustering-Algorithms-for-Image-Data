@@ -242,9 +242,3 @@ Table \ref{table:mnist1000avg} shows that the improvement for average to complet
 \caption{The first six batches of the MNIST dataset result in similar curves when being evaluated between single and complete linkage.}
 \label{fig:mnist1000sc}
 \end{figure}
-
-\section{Parameter Advising}
-
-The previously shown results were averaged over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$. We select the pool of $\alpha$-values through the local optima for each experiment. The best $k$ values of $\alpha$, where $k$ is much smaller than the number of experiments, can then be calculated with an integer optimization problem. A scenario where this setup can be used is by having a domain expert, who can select the best clustering from the $k$ suggested ones.
-
-\todo[inline]{Greedy Parameter Advising}

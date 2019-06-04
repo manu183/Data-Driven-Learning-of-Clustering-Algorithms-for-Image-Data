@@ -147,4 +147,32 @@ In addition to these experiments, we will try to cluster as diverse as possible 
 
 In comparison to picking as diverse as possible superclasses, we also evaluate the performance for as similar as possible subclasses. Similar subclasses are already given in the dataset through the subclasses within one superclass. We then evaluate the majority and the hamming cost for each superclass and again average the cost over all 20 superclasses to evaluate an optimal value for the parameter $\alpha$.
 
+\section{Parameter Advising}
+
+The previously described settings average over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$ \cite{deblasio2015parameter}. We select the pool of $\alpha$-values through the local optima for each experiment. The best $k$ values of $\alpha$, where $k$ is much smaller than the number of experiments, can then be calculated with an integer optimization problem. A scenario where this setup can be used is by having a domain expert, who can select the best clustering from the $k$ suggested ones.
+
+\begin{equation}
+  \alpha_1^*, \dots, \alpha_k^*
+  = \argmax_{\alpha_1, \dots, \alpha_k} \sum_{i=1}^N \max_{j \in [k]} u\bigl(S, T(S, \alpha_j)\bigr).
+  \label{eq:advising}
+\end{equation}
+
+\todo[inline]{Facility Location Advising}
+
+\begin{align*}
+  \argmax_{x_{ij}, y_j} \qquad&\sum_{i = 1}^N \sum_{j = 1}^m x_{ij} u(S_i, T(S_i, \alpha_j)) \\
+  \text{subject to} \qquad& \sum_{j=1}^m y_j = k \\
+  & \text{for each $i \in [N]$, } \sum_{j=1}^m x_{ij} = 1 \\
+  & \text{for each $i \in [N], j \in [M]$, } x_{ij} \leq y_j.
+\end{align*}
+
+\todo[inline]{Greedy Parameter Advising}
+
+\begin{equation}
+\sum_{i=1}^N \max\{u(S_i, T(S_i, \alpha_1)), u(S_i, T(S_i, \alpha_2)\} 
+\end{equation}
+
+
+
+
 The results of these experiments are discussed in the following section \ref{sec:results}.
