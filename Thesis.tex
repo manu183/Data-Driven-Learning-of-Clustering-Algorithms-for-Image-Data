@@ -15,8 +15,10 @@
 %% Available modes: draft, final (see README)
 \documentclass[twoside, english]{sdqthesis}
 \graphicspath{Figures/}
+\usepackage{float}
 \usepackage{amsmath}
 \usepackage{subfigure}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
@@ -52,10 +54,10 @@
 
 %% The reviewers are the professors that grade your thesis
 \reviewerone{Prof. Dr. Rüdiger Dillmann}
-%\reviewertwo{Prof. Dr.-Ing. Rainer Stiefelhagen}
+\reviewertwo{}
 
 %% The advisors are PhDs or Postdocs
-\advisorone{Prof. Dr. Maria-Florina Balcan}
+\advisorone{}
 %% The second advisor can be omitted
 %\advisortwo{Dr. Sebastian Stüker}
 
@@ -166,6 +168,8 @@
 \input{Appendices/AppendixA}	% Appendix Title
 
 \input{Appendices/AppendixB} % Appendix Title
+
+\input{Appendices/AppendixC} % Appendix Title
 
 \end{document}
 

@@ -43,7 +43,7 @@ The last of the three settings describes the interpolation between the average l
 
 Our goal is to find an algorithm that determines all different behavior depending on different values of $\alpha$. To do so, we propose different algorithms. The goal of the first algorithm is to divide the interval of $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ to subintervals where the behavior is consistent within each interval. 
 
-\begin{algorithm}[ht]
+\begin{algorithm}[H]
     \KwData{input data $p_1, ..., p_N$, initial states $st$}
     \KwResult{$k$ intervals $[\alpha_0, \alpha_1], ..., [\alpha_{k-1},\alpha_k]$}
     \For{$iteration\gets1$ \KwTo $N-1$}{
@@ -95,7 +95,7 @@ Applying \ref{eq:equalize} to a concrete example of distance functions leads to 
 
 After knowing the exact consistent range, we split the clusters for the different states and then calculate the merge candidates for the start and the end of the new intervals again. We can show the different possible merges in a tree of executions, where each node represents one interval $[\alpha_{lo}, \alpha_{hi}]$ where the same clusters get merged (see figure \ref{fig:toe}).
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/res_tree}
     \caption{Different values of $\alpha$ lead to different merges. We calculate a tree where we start with the entire range $[\alpha_{lo}, \alpha_{hi}]$ and split the interval into all different subintervals with consistent merges.}
@@ -106,7 +106,7 @@ We perform the described procedure for iterations $i = count(points) -1$ times u
 
 However just calculating the split values in a range $[\alpha_{lo}, \alpha_{hi}]$ does not necessarily yield to the best possible solution. One of these examples is demonstrated in figure \ref{fig:notoptimal}, where the blue line for the constant value of $d$ will not be considered, only the lines $\alpha \in [\alpha_{lo}, alpha_{split})$ (red) and $\alpha \in [\alpha_{split}, alpha_{high}]$ (black) will be.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \begin{axis}[ 
@@ -130,7 +130,7 @@ However just calculating the split values in a range $[\alpha_{lo}, \alpha_{hi}]
 
 In order to solve this, we can recursively check each resulting interval again if it contains different merging behaviors.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \begin{axis}[ 
@@ -196,7 +196,7 @@ As experimental results turn out to need a lot of memory (up to $\approx$ 20 GB 
     \label{alg:alphalinkage3}
 \end{algorithm}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \begin{minipage}{.45\textwidth}
   \centering
@@ -226,7 +226,7 @@ Instead of merging iteratively and steadily shrinking the intervals, we propose 
     \label{alg:alphalinkage4}
 \end{algorithm}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \begin{axis}[ 
@@ -256,7 +256,7 @@ In order to have real-world applications, the proposed algorithms should run in 
 
 One of the most time-consuming parts was the calculating of the distances. For each pair of clusters $C_i, C,j$ the distance had to be calculated for each clustering state. We optimized this by using dynamic programming and stored the distance matrices $D_{lower}$ and $D_{upper}$ for each state. The naming results from the different interpolation settings where we interpolate from one linkage distance (lower) to another linkage distance (upper), e.g. the setting in equation \ref{eq:singlecomplete} describes the interpolation from single linkage (lower) to complete linkage (upper). In this example we then store the pairwise distances for both single linkage and complete linkage and in order to find the merge candidates we have to do iterate over the distance matrices instead of calculating the distances over and over again. When we merge two clusters, we then update the distance matrices for the given state. Table \ref{dp:distances} shows an example for the pairwise distances of clusters $i$ and $j$.
 
-\begin{table}[h]
+\begin{table}[H]
     \centering
     \begin{tabular}{|l | l l l l l|}
     \hline
@@ -294,7 +294,7 @@ Currently we can access the costs for a pair of clusters $C_i$ and $C_j$ through
 
 In addition to that we can also remove the diagonal values as they represent the distances between the same clusters and are thus always zero. This results in table \ref{dp:distances3}.
 
-\begin{table}[h]
+\begin{table}[H]
     \centering
     \begin{tabular}{|l | l l l l l|}
     \hline

@@ -120,20 +120,20 @@ This cost function is motivated by finding corresponding clusters with the lowes
 
 However, the hamming distance consists of an assignment problem to find the optimal matching $\sigma$ between the generated clusters and the target clusters. Table \ref{table:matching} shows how such a matching can look like.
 
-% \begin{table}[h]
-%     \centering
-%     \begin{tabular}{|l | l l l l l|}
-%     \hline
-%     j\textbackslash i & 1 & 2 & 3 & 4 & 5\\ \hline
-%     1 & 20 & \cellcolor{blue!25}15 & 30 & 50 & 40\\
-%     2 & 80 & 10 & \cellcolor{blue!25}15 & 20 & 30\\
-%     3 & \cellcolor{blue!25}20 & 30 & 50 & 80 & 60\\
-%     4 & 30 & 50 & 40 & \cellcolor{blue!25}20 & 10\\
-%     5 & 20 & 30 & 40 & 50 & \cellcolor{blue!25}25\\ \hline
-%     \end{tabular}
-%     \caption{In order to calculate the hamming distance between two clusterings, we have to calculate the optimal mapping that results in lowest distance for these two clusterings. For random distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (blue highlighted cells) in a brute force way or more efficiently with the hungarian method \cite{kuhn1955hungarian}\cite{munkres1957algorithms}.}
-%     \label{table:matching}
-% \end{table}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l | l l l l l|}
+    \hline
+    j\textbackslash i & 1 & 2 & 3 & 4 & 5\\ \hline
+    1 & 20 & \cellcolor{blue!25}15 & 30 & 50 & 40\\
+    2 & 80 & 10 & \cellcolor{blue!25}15 & 20 & 30\\
+    3 & \cellcolor{blue!25}20 & 30 & 50 & 80 & 60\\
+    4 & 30 & 50 & 40 & \cellcolor{blue!25}20 & 10\\
+    5 & 20 & 30 & 40 & 50 & \cellcolor{blue!25}25\\ \hline
+    \end{tabular}
+    \caption{In order to calculate the hamming distance between two clusterings, we have to calculate the optimal mapping that results in lowest distance for these two clusterings. For random distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (blue highlighted cells) in a brute force way or more efficiently with the hungarian method \cite{kuhn1955hungarian}\cite{munkres1957algorithms}.}
+    \label{table:matching}
+\end{table}
 
 While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkred modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. A detailed explanation of the hungarian method is included in appendix \ref{sec:hungarian}.
 
