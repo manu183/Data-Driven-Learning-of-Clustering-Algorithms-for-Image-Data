@@ -100,7 +100,9 @@ The omniglot dataset is similar to the MNIST dataset as it also contains handwri
 \section{Cost functions}
 \label{chapter:costfunctions}
 
-In order to evaluate the quality of a clustering, we need some kind of cost function that compares the generated clustering $C_1,...,C_k$ with the target clustering $C_1^*, ..., C_k^*$. One method to compare them is the majority distance as shown in equation \ref{eq:majoritydistance} where $n$ ist the number of sampled points.
+In order to evaluate the quality of a clustering, we need some kind of cost function that compares the generated clustering $C_1,...,C_k$ with the target clustering $C_1^*, ..., C_k^*$. 
+
+\paragraph{Majority Cost.} One method to compare them is the majority distance as shown in equation \ref{eq:majoritydistance} where $n$ ist the number of sampled points.
 
 \begin{equation}
     \begin{aligned}
@@ -109,7 +111,9 @@ In order to evaluate the quality of a clustering, we need some kind of cost func
     \label{eq:majoritydistance}
 \end{equation}
 
-This cost function is motivated by finding corresponding clusters with the lowest distance, i.e. each generated cluster gets matched with the optimal target cluster. However two generated clusters can be matched with the same target cluster. This motivates the hamming distance as shown in figure \ref{eq:hammingdistance}.
+This cost function is motivated by finding corresponding clusters with the lowest distance, i.e. each generated cluster gets matched with the optimal target cluster. However two generated clusters can be matched with the same target cluster. 
+
+\paragraph{Hamming  Cost.} This motivates the hamming distance as shown in figure \ref{eq:hammingdistance}.
 
 \begin{equation}
     \begin{aligned}
@@ -137,19 +141,12 @@ However, the hamming distance consists of an assignment problem to find the opti
 
 While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkred modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. A detailed explanation of the hungarian method is included in appendix \ref{sec:hungarian}.
 
-\section{Experiments}
-
-In order to find new subclusters for the NELL data, we cluster each of the 32 main categories seperately. This results in 32 different clustering tasks, where we compare the results of each clustering task with the target labels using the majority distance function. We will receive a cost function $cost(\alpha)$, that shows us for which value of $\alpha$ the resulting clusterings are good, for each category. By averaging all cost functions, we know for which values of $\alpha$ the $\alpha$-linkage performs well in general. Beside having a value of $\alpha$ that can be used for other clustering tasks, the experiments also give different representation levels of clusters that are discussed in section \ref{sec:results}.
-
-To cluster the image data, we set up $10 \choose 5$ $= 252$ different experiments by selecting all combinations of five out of the ten labels. In order to do so in efficient time, we subsample the dataset to 60 points for each label, so one experiment will cluster 300 points. By having a fixed set of point, we can show that a certain value of $\alpha$ will lead to good results for the subsampled data. We will use this kind of experiments for all in section \ref{sec:datasets} mentioned image datasets where all RGB-channels are treated equally for colored images.
-
-In addition to these experiments, we will try to cluster as diverse as possible superclasses of the CIFAR100 dataset by manually picking the five superclasses fish, flowers, household furniture, people and vehicles 1. For each superclass we pick one subclass and evaluate the results for all $5 *$ $5 \choose 1$ $= 25$ different combinations of subclasses. In addition to the experiments with $k = 5$ clusters, we compare these results to the results for picking two different subclasses of each superclass ($5 *$ $5 \choose 2$ $= 50$ different experiments) resulting in $k = 10$ clusters and also for picking three different subclasses ($5 *$ $5 \choose 3$ $= 50$ different experiments) resulting in $k = 15$ clusters.
-
-In comparison to picking as diverse as possible superclasses, we also evaluate the performance for as similar as possible subclasses. Similar subclasses are already given in the dataset through the subclasses within one superclass. We then evaluate the majority and the hamming cost for each superclass and again average the cost over all 20 superclasses to evaluate an optimal value for the parameter $\alpha$.
 
 \section{Parameter Advising}
 
-The previously described settings average over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$ \cite{deblasio2015parameter}. We select the pool of $\alpha$-values through the local optima for each experiment. The best $k$ values of $\alpha$, where $k$ is much smaller than the number of experiments, can then be calculated with an integer optimization problem. A scenario where this setup can be used is by having a domain expert, who can select the best clustering from the $k$ suggested ones.
+Our settings average over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$ \cite{deblasio2015parameter}. We select the pool of $\alpha$-values through the local optima for each experiment. The best $k$ values of $\alpha$, where $k$ is much smaller than the number of experiments, can then be calculated with an integer optimization problem. A scenario where this setup can be used is by having a domain expert, who can select the best clustering from the $k$ suggested ones.\\
+
+More formally, we want to to find the optimal parameters $\alpha_1^*, \dots, \alpha_k^*$ such that they optimize the utility $u$ of a clustering instance $S$ and the resulting clustering tree $T(S, \alpha)$ (see equation \ref{eq:advising}). In order to calculate the parameters $\alpha_1^*, \dots, \alpha_k^*$, we first have a look at parameter advising described as facility location problem.
 
 \begin{equation}
   \alpha_1^*, \dots, \alpha_k^*
@@ -157,7 +154,7 @@ The previously described settings average over multiple experiments and show one
   \label{eq:advising}
 \end{equation}
 
-\todo[inline]{Facility Location Advising}
+\paragraph{Facility Location Advising.} We create an integer optimization problem for a candidate set $\alpha_1, \dots, \alpha_m$ over the clustering instances $S_1, \dots, S_N$ and introduce the selection parameters $y_1, \dots, y_m \in \{0, 1\}$ that indicate whether $\alpha_j$ is used as one of the $k$ parameters. Also, we denote $x_{ij} \in \{0, 1\}$ as the auxiliary variable with the interpretation that $x_{ij} = 1$ whenever $\alpha_j$ is the best chosen parameter for problem instance $S_i$. This leads to the following optimization problem that optimizes the overall utility.
 
 \begin{align*}
   \argmax_{x_{ij}, y_j} \qquad&\sum_{i = 1}^N \sum_{j = 1}^m x_{ij} u(S_i, T(S_i, \alpha_j)) \\
@@ -166,13 +163,13 @@ The previously described settings average over multiple experiments and show one
   & \text{for each $i \in [N], j \in [M]$, } x_{ij} \leq y_j.
 \end{align*}
 
-\todo[inline]{Greedy Parameter Advising}
+Note that the optimization problem contains three constraints. $\sum_{j=1}^m y_j = k$ makes sure that exactly $k$ values are used, the second guarantees that we assign clustering instance to at most one parameter, and the final constraint ensures that we only assign clustering instances to selected parameters. In our experiments, we use IBM ILOG’s CPLEX to solve these integer programming problems. However, the computation of the optimal values is very complex, so we also implement a greedy strategy that calculates approximately optimal values more efficiently.
+
+\paragraph{Greedy Parameter Advising.} In a convex space, it is very likely that an optimal value $\alpha_n^*$ will also be optimal when calculating $k = n + 1$ optimal values. Leveraging this knowledge, we can iteratively calculate the optimal values $\alpha_1, \dots, \alpha_m$ step by step, where we first calculate $\alpha_1^*$ that has the largest utility over all clustering instances $S$ and then calculate $\alpha_2^*$ that results in the highest utility combined with $\alpha_1^*$ (see equation \ref{eq:greedypa}).
 
 \begin{equation}
 \sum_{i=1}^N \max\{u(S_i, T(S_i, \alpha_1)), u(S_i, T(S_i, \alpha_2)\} 
+\label{eq:greedypa}
 \end{equation}
 
-
-
-
-The results of these experiments are discussed in the following section \ref{sec:results}.
+The results of the experiments with the mentioned datasets are discussed in the following section \ref{sec:results}.

@@ -1,6 +1,8 @@
 \chapter{Efficient Algorithm Selection}
 \label{chapter:alphalinkage}
 
+\todo[inline]{more formal definitions and lemmas}
+
 We define $\alpha$ as the parameter with which the output of an algorithm is weighted. In this chapter we propose different distance measures depending on the weight parameter $\alpha$ that allows us interpolating between different linkage strategies in a way similar to the proposed by Balcan et al. \cite{DBLP:journals/corr/BalcanNVW16}, where a infinite interval was proposed.
 
 To have a real application, we need to have a finite set of intervals. So we interpolate between one algorithm with $\alpha = 0$ and another algorithm with $\alpha = 1$, where for $\alpha = 0$ the result will be the result of algorithm 1 and for $\alpha = 1$ the result of algorithm 2.
@@ -22,7 +24,7 @@ Equivalently we can interpolate between the single linkage distance $d_{SL}(X,Y)
 \begin{equation}
     \begin{aligned}
         d_{SA}(X,Y,\alpha) &= (1 - \alpha) \cdot d_{SL}(X,Y) + \alpha \cdot d_{AL}(X,Y)\\
-        &= (1 - \alpha) \min\limits_{x \in X, y \in Y} d(x,y) + \alpha \frac{1}{\|X\| \|Y\|}\sum\limits_{x \in X, y \in Y} d(x,y)
+        &= (1 - \alpha) \min\limits_{x \in X, y \in Y} d(x,y) + \alpha \frac{1}{|X| |Y|}\sum\limits_{x \in X, y \in Y} d(x,y)
     \end{aligned}
     \label{eq:singleaverage}
 \end{equation}
@@ -32,7 +34,7 @@ The last of the three settings describes the interpolation between the average l
 \begin{equation}
     \begin{aligned}
         d_{AC}(X,Y,\alpha) &= (1 - \alpha) \cdot d_{AL}(X,Y) + \alpha \cdot d_{CL}(X,Y)\\
-        &= (1 - \alpha) \frac{1}{\|X\| \|Y\|}\sum\limits_{x \in X, y \in Y} d(x,y) + \alpha \max\limits_{x \in X, y \in Y} d(x,y)
+        &= (1 - \alpha) \frac{1}{|X| |Y|}\sum\limits_{x \in X, y \in Y} d(x,y) + \alpha \max\limits_{x \in X, y \in Y} d(x,y)
     \end{aligned}
     \label{eq:averagecomplete}
 \end{equation}
@@ -40,6 +42,8 @@ The last of the three settings describes the interpolation between the average l
 % \section{Linear Interpolation between three different linkage strategies}
 
 \section{Proposed Algorithms}
+
+\todo[inline]{user other algorithm environment}
 
 Our goal is to find an algorithm that determines all different behavior depending on different values of $\alpha$. To do so, we propose different algorithms. The goal of the first algorithm is to divide the interval of $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ to subintervals where the behavior is consistent within each interval. 
 
@@ -122,6 +126,11 @@ However just calculating the split values in a range $[\alpha_{lo}, \alpha_{hi}]
         \addplot[mark=none, red] {-3+8*x}; 
         \addplot[mark=none, black] {-8*x+7};
         \addplot[mark=none, blue] {1.2};
+        \addplot [only marks] table {
+        0.45   0.6
+        0.625  2
+        0.8    0.6
+        };
         \end{axis} 
     \end{tikzpicture}
     \caption{Simply calculating the split values between the start and the end value of the range $[\alpha_{lo}, \alpha_{hi}]$ will not necessarily lead to the optimal values. By doing so, the blue line (constant $d$ value) will not be considered.}
@@ -146,6 +155,13 @@ In order to solve this, we can recursively check each resulting interval again i
         \addplot[mark=none, red] {-3+8*x}; 
         \addplot[mark=none, black] {-8*x+7};
         \addplot[mark=none, blue] {1.2};
+        \addplot [only marks] table {
+        0.45   0.6
+        0.525  1.2
+        0.625  1.2
+        0.725  1.2
+        0.8    0.6
+        };
         \end{axis} 
     \end{tikzpicture}
     \caption{Simply calculating the split values between the start and the end value of the range $[\alpha_{lo}, \alpha_{hi}]$ will not necessarily lead to the optimal values. By doing so, the blue line (constant $d$ value) will not be considered.}
@@ -177,7 +193,7 @@ As experimental results turn out to need a lot of memory (up to $\approx$ 20 GB 
 \begin{algorithm}[H]
     \KwData{input data $p_1, ..., p_N$, initial states $st$}
     \KwResult{$k$ intervals $[\alpha_0, \alpha_1], ..., [\alpha_{k-1},\alpha_k]$}
-    \While{$\|st\| > 0$}{
+    \While{$|st| > 0$}{
         \ForEach{state $s \in st$}{%
         remove state $s$\;
         \eIf{$s$ is final}{
@@ -242,6 +258,12 @@ Instead of merging iteratively and steadily shrinking the intervals, we propose 
         \addplot[mark=none, red] {-3+8*x}; 
         \addplot[mark=none, black] {-8*x+7};
         \addplot[mark=none, blue] {1.2};
+        \addplot [only marks] table {
+        0.45   0.6
+        0.525  1.2
+        0.725  1.2
+        0.8    0.6
+        };
         \end{axis} 
     \end{tikzpicture}
     \caption{Simply calculating the split values between the start and the end value of the range $[\alpha_{lo}, \alpha_{hi}]$ will not necessarily lead to the optimal values. By doing so, the blue line (constant $d$ value) will not be considered.}
@@ -283,10 +305,10 @@ Currently we can access the costs for a pair of clusters $C_i$ and $C_j$ through
     \hline
     j\textbackslash i & 0 & 1 & 2 & 3 & 4\\ \hline
     0 & 0 & 1.243 & 1.512 & 2.468 & 5.1243\\
-    1 & & 0 & 2.443 & 3.1412 & 4.443\\
-    2 & & & 0 & 3.8988 & 6.827\\
-    3 & & & & 0 & 5.72\\
-    4 & & & & & 0\\ \hline
+    1 & \cellcolor{gray!25} & 0 & 2.443 & 3.1412 & 4.443\\
+    2 & \cellcolor{gray!25} & \cellcolor{gray!25} & 0 & 3.8988 & 6.827\\
+    3 & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & 0 & 5.72\\
+    4 & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & 0\\ \hline
     \end{tabular}
     \caption{Storing the pairwise distances of all clusters avoids calculating the distances over and over again.}
     \label{dp:distances2}
@@ -299,11 +321,11 @@ In addition to that we can also remove the diagonal values as they represent the
     \begin{tabular}{|l | l l l l l|}
     \hline
     j\textbackslash i & 0 & 1 & 2 & 3 & 4\\ \hline
-    0 & & 1.243 & 1.512 & 2.468 & 5.1243\\
-    1 & & & 2.443 & 3.1412 & 4.443\\
-    2 & & & & 3.8988 & 6.827\\
-    3 & & & & & 5.72\\
-    4 & & & & &\\ \hline
+    0 & \cellcolor{gray!25} & 1.243 & 1.512 & 2.468 & 5.1243\\
+    1 & \cellcolor{gray!25} & \cellcolor{gray!25} & 2.443 & 3.1412 & 4.443\\
+    2 & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & 3.8988 & 6.827\\
+    3 & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & 5.72\\
+    4 & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} \\ \hline
     \end{tabular}
     \caption{Storing the pairwise distances of all clusters avoids calculating the distances over and over again.}
     \label{dp:distances3}
@@ -322,10 +344,10 @@ Calculating this index in a nested loop is very expensive, however we calculate 
 
 \subsection{Implementation-specific Optimizations}
 
-In order to optimize the implementation even further, we will have a look into the implementation. One optimization that already was briefly described is the flatterning of the matrices, so the resulting list will be one-dimensional and can be iterated easier and faster.
+In order to optimize the implementation even further, we will have a look into the implementation. One optimization that already was briefly described is the flatterning of the matrices, so the resulting list will be one-dimensional and can be iterated easier and faster.\\
 
-Another observation is that copy operations are computationally expensive, so we avoid them as much as possible. In the described algorithms (\ref{alg:alphalinkage1}, \ref{alg:alphalinkage2} and \ref{alg:alphalinkage3}) we removed a state from the list of states and added other states. In an optimized way, we do not remove the state and just overwrite the state with the resulting state. Once there are splits in the current interval, the state gets overwritten and additional states get added to the list.
+Another observation is that copy operations are computationally expensive, so we avoid them as much as possible. In the described algorithms (\ref{alg:alphalinkage1}, \ref{alg:alphalinkage2} and \ref{alg:alphalinkage3}) we removed a state from the list of states and added other states. In an optimized way, we do not remove the state and just overwrite the state with the resulting state. Once there are splits in the current interval, the state gets overwritten and additional states get added to the list.\\
 
-We can also optimize the way of updating the distance matrices. Instead of adding new clusters there for a merge of clusters $i$ and $j$ we update the distances of $i$ to all active clusters with the distances of the resulting cluster. The distances of the cluster $j$ will not be considered for merges anymore as the index $j$ gets removed from the active indices. This has the advantage that the size of the distance matrices will not increase after merges.
+We can also optimize the way of updating the distance matrices. Instead of adding new clusters there for a merge of clusters $i$ and $j$ we update the distances of $i$ to all active clusters with the distances of the resulting cluster. The distances of the cluster $j$ will not be considered for merges anymore as the index $j$ gets removed from the active indices. This has the advantage that the size of the distance matrices will not increase after merges.\\
 
 Also, the data types make an important contribution to the memory usage. Instead of using double precision floating point values, single precision is enough to clearly identify and separate all the resulting intervals. Same goes for the distances as we only need the minimum and maximum distances, that are not effected by loss of precision. To store the indices of the clusters, we know that they will not exceed $2^{16}$, so they can be store as half precision values.
