@@ -21,12 +21,12 @@ In general we evaluate two different types of experiments that apply for most of
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{SC.}
-  {\includegraphics[width=\linewidth]{images/ringsanddiskssc}}
+  {\includegraphics[width=\linewidth]{plots/ringsanddiskssc}}
 \end{minipage}\quad
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{AC.}
-  {\includegraphics[width=\linewidth]{images/ringsanddisksac}}
+  {\includegraphics[width=\linewidth]{plots/ringsanddisksac}}
 \end{minipage}
 \caption{%
   %
@@ -41,15 +41,15 @@ In general we evaluate two different types of experiments that apply for most of
 \centering
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/nell_sc}
+  \includegraphics[width=\linewidth]{plots/nell_sc}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/nell_sa}
+  \includegraphics[width=\linewidth]{plots/nell_sa}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/nell_ac}
+  \includegraphics[width=\linewidth]{plots/nell_ac}
 \end{minipage}
 \caption{$\alpha$-linkage using 250 points for each clustering instance gives minor improvements for the NELL data when clustering between single and complete (left) and average and complete linkage (right). As complete linkage performs best of our input strategies, interpolating between single and average linkage (middle) does not lead to improvements.}
 \label{fig:nellresults}
@@ -78,11 +78,11 @@ As the algorithm became a lot more efficient during this work, we scaled up the 
 \centering
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/nell_sc_1000}
+  \includegraphics[width=\linewidth]{plots/nell_sc_1000}
 \end{minipage}
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/nell_ac_1000}
+  \includegraphics[width=\linewidth]{plots/nell_ac_1000}
 \end{minipage}
 \caption{$\alpha$-linkage using 1000 points for each clustering instance gives minor improvements for the NELL data when clustering between single and complete (left) and average and complete linkage (right).}
 \label{fig:nellresults1000}
@@ -107,11 +107,11 @@ As the algorithm became a lot more efficient during this work, we scaled up the 
 \centering
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/nell_sc_1000_top10}
+  \includegraphics[width=\linewidth]{plots/nell_sc_1000_top10}
 \end{minipage}
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/nell_ac_1000_top10}
+  \includegraphics[width=\linewidth]{plots/nell_ac_1000_top10}
 \end{minipage}
 \caption{$\alpha$-linkage using 1000 points for each clustering instance gives minor improvements for the NELL data when clustering between single and complete (left) and average and complete linkage (right).}
 \label{fig:nell1000top10}
@@ -192,27 +192,27 @@ In addition to using the original features, we also use the word embeddings and 
 \centering
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-0}
+  \includegraphics[width=\linewidth]{plots/mnist-sc-0}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-1}
+  \includegraphics[width=\linewidth]{plots/mnist-sc-1}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-2}
+  \includegraphics[width=\linewidth]{plots/mnist-sc-2}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-3}
+  \includegraphics[width=\linewidth]{plots/mnist-sc-3}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-4}
+  \includegraphics[width=\linewidth]{plots/mnist-sc-4}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-5}
+  \includegraphics[width=\linewidth]{plots/mnist-sc-5}
 \end{minipage}
 \caption{Over the first six batches of the MNIST data, interpolating between single and complete linkage shows a similar behavior.}
 \label{fig:mnistscbatches}
@@ -239,7 +239,7 @@ Table \ref{table:mnistscbatches} leads to several observations. Clustering point
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{images/mnist-sc-averaged.png}
+    \includegraphics[width=0.5\textwidth]{plots/mnist-sc-averaged.png}
     \caption{Evaluating the first six batches of the MNIST data interpolating between single and complete linkage results in major improvements over both single and complete linkage.}
     \label{fig:mnistscbatchesavg}
 \end{figure}
@@ -263,7 +263,7 @@ Figure \ref{fig:mnistscbatchesavg} and table \ref{table:mnist1000avgsc} show tha
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{images/mnist-sc-random.png}
+    \includegraphics[width=0.5\textwidth]{plots/mnist-sc-random.png}
     \caption{Selecting labels and points randomly leads to a similar curve when interpolating between single and complete linkage using the MNIST data.}
     \label{fig:mnistscrandom}
 \end{figure}
@@ -289,11 +289,11 @@ Table \ref{table:mnist1000randomsc} compares the results for both settings when 
 \centering
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-top-10}
+  \includegraphics[width=\linewidth]{plots/mnist-sc-top-10}
 \end{minipage}
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-random-top-10}
+  \includegraphics[width=\linewidth]{plots/mnist-sc-random-top-10}
 \end{minipage}
 \caption{}
 \label{fig:mnistsctop10}
@@ -307,27 +307,27 @@ Similar to that, we also interpolate between average and complete linkage and ev
 \centering
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-0}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-0}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-1}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-1}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-2}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-2}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-3}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-3}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-4}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-4}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-5}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-5}
 \end{minipage}
 \caption{Over the first six batches of the MNIST data, interpolating between average and complete linkage shows quite different curves.}
 \label{fig:mnist1000acbatch}
@@ -352,11 +352,11 @@ Similar to that, we also interpolate between average and complete linkage and ev
 \centering
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-averaged}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-averaged}
 \end{minipage}
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-random}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-random}
 \end{minipage}
 \caption{Comparing the batch and the random experients for the MNIST data when interpolating between average and complete linkage leads to similar curves.}
 \label{fig:mnistacavg}
@@ -383,11 +383,11 @@ Figure \ref{fig:mnistacavg} shows the comparison between the batch (left) and th
 \centering
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-top-10}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-top-10}
 \end{minipage}
 \begin{minipage}{.45\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-random-top-10}
+  \includegraphics[width=\linewidth]{plots/mnist-ac-random-top-10}
 \end{minipage}
 \caption{}
 \label{fig:mnistactop10}
@@ -402,22 +402,22 @@ Summarizing, we also obtained very positive results for $d_{AC}$, however the re
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{By evaluating all 252 combinations of five different labels, the average error goes down to $2.6\%$ that makes an improvement of $7.4\%$ compared to complete linkage.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-avg}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-avg}}
 \end{minipage}\quad
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{Evaluating 512 random sets of labels and points gives an eror of $7.1\%$ that is an improvement of $1.9\%$ compared to complete linkage.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-random}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-random}}
 \end{minipage}
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{Considerung more than one optimal value to evaluate the experiments results in lower costs, e.g. using two values $\alpha_{opt}$ cuts the cost by $50\%$ and using three values results in a cost below $1\%$.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-sc-top-10}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-sc-top-10}}
 \end{minipage}\quad
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{On random sets of labels and randomly selected points, taking more than one optimal value $\alpha_{opt}$ also gives major improvements. With three values the cost goes down below $3\%$ that is less than a half of the original optimum.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-sc-random-top-10}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-sc-random-top-10}}
 \end{minipage}
 \caption{By learning feature representations with a Convolutional Neural Network, we can reduce the overall error a lot compared to clustering raw pixel images.}
 \label{fig:mnist1000cnn}
@@ -432,32 +432,32 @@ Figure \ref{fig:mnist1000cnn} shows that single linkage still performs poorly, h
 \begin{minipage}{.3\textwidth}
   \centering
   \subcaptionbox{The learned characters (i.e. labels $\{0,1,2,3,4\}$) can be clustered very well. Similar to training on all labels, the error goes down close to $0\%$.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-sub-01234}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-01234}}
 \end{minipage}\quad
 \begin{minipage}{.3\textwidth}
   \centering
   \subcaptionbox{Combining three trained ($0,2,4$) with two untrained digits ($6,8$) still leads to an optimal error of $2.1\%$ that is $10\%$ below complete linkage.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-sub-02468}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-02468}}
 \end{minipage}\quad
 \begin{minipage}{.3\textwidth}
   \centering
   \subcaptionbox{Clustering three untrained ($5,7,9$) with two trained digits ($1,3$) already leads to larger errors of $15.1\%$.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-sub-13579}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-13579}}
 \end{minipage}
 \begin{minipage}{.3\textwidth}
   \centering
   \subcaptionbox{Even by clustering only untrained characters, the error goes down to $37\%$ that is a major improvement compared to clustering the raw pixel features that resulted in an optimal cost of $44\%$.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-sub-56789}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-56789}}
 \end{minipage}\quad
 \begin{minipage}{.3\textwidth}
   \centering
   \subcaptionbox{Averaged over all 252 instances, the error for $\alpha_{opt} = 0.67$ is $20.7\%$ and an improvement of $1.4\%$ compared to complete linkage and $23\%$ compared to the raw pixel features.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-sub-sc}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-sc}}
 \end{minipage}\quad
 \begin{minipage}{.3\textwidth}
   \centering
   \subcaptionbox{Parameter advising results in major improvements for this setting. Using three values $\alpha^* \in \{0.86, 0.67, 0.99\}$ reduces the error by additional $5.3\%$ to $15.5\%$.} 
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-sub-sc-top10}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-sc-top10}}
 \end{minipage}
 \caption{Learning features depending on a subset of the represented digits leads to different results. While applying the learned digits still leads to almost perfect clusterings, clustering the unlearned digits leads to worse results that still are much better than applying the raw pixel features.}
 \label{fig:mnist1000cnnsub}
@@ -470,12 +470,12 @@ Figure \ref{fig:mnist1000cnn} shows that single linkage still performs poorly, h
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{Compared to complete linkage, we got an improvement of $4.5\%$ for $\alpha_{opt} = 0.74$.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-even-odd-sc}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-even-odd-sc}}
 \end{minipage}\quad
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{Applying parameter advising shows significant improvements for small numbers of $k$.}
-  {\includegraphics[width=\linewidth]{images/mnist-cnn-even-odd-sc-top10}}
+  {\includegraphics[width=\linewidth]{plots/mnist-cnn-even-odd-sc-top10}}
 \end{minipage}
 \caption{%
   %
@@ -491,12 +491,12 @@ Figure \ref{fig:mnist1000cnn} shows that single linkage still performs poorly, h
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{Evaluating the experiments of all combinations of five labels within the first batch shows strong discontinuities.}
-  {\includegraphics[width=\linewidth]{images/mnist_overview}}
+  {\includegraphics[width=\linewidth]{plots/mnist_overview}}
 \end{minipage}\quad
 \begin{minipage}{.45\textwidth}
   \centering
   \subcaptionbox{Evaluating 512 experiments with randomized digits and points shows similar results with smoother curves.}
-  {\includegraphics[width=\linewidth]{images/mnist_overview_random}}
+  {\includegraphics[width=\linewidth]{plots/mnist_overview_random}}
 \end{minipage}
 \caption{%
   %
@@ -509,10 +509,6 @@ Figure \ref{fig:mnist1000cnn} shows that single linkage still performs poorly, h
 
 
 
-
-
-% --------------------------------------------------------------
-
 \paragraph{Omniglot Experiments.}
 
 \paragraph{CIFAR Experiments.} In addition to these experiments, we will try to cluster as diverse as possible superclasses of the CIFAR100 dataset by manually picking the five superclasses fish, flowers, household furniture, people and vehicles 1. For each superclass we pick one subclass and evaluate the results for all $5 *$ $5 \choose 1$ $= 25$ different combinations of subclasses. In addition to the experiments with $k = 5$ clusters, we compare these results to the results for picking two different subclasses of each superclass ($5 *$ $5 \choose 2$ $= 50$ different experiments) resulting in $k = 10$ clusters and also for picking three different subclasses ($5 *$ $5 \choose 3$ $= 50$ different experiments) resulting in $k = 15$ clusters.\\
@@ -520,118 +516,3 @@ Figure \ref{fig:mnist1000cnn} shows that single linkage still performs poorly, h
 In comparison to picking as diverse as possible superclasses, we also evaluate the performance for as similar as possible subclasses. Similar subclasses are already given in the dataset through the subclasses within one superclass. We then evaluate the majority and the hamming cost for each superclass and again average the cost over all 20 superclasses to evaluate an optimal value for the parameter $\alpha$.
 
 \section{Metric Learning}
-
-
-\section{Clustering Text Data}
-
-We subsampled the NELL data to a maximum of 250 points in each class and then evaluated each of the 32 classes separately. Figure \ref{fig:nellresults} shows the resulting majority distances for the three different types of linear interpolation.
-
-We observe that single linkage performs very poorly and complete linkage performs very well for the NELL data. Table \ref{table:nellresults} shows the improvements we got over the other clustering strategies.
-
-The total improvement over the common linkage methods is $0.493\%$ and the best clustering we generated had an error of $15.442\%$. With this clustering we also managed to extract new subcategories as listed in table \ref{table:nellcategories}.
-
-In addition to averaged costs, we also evaluated the clusterings for multiple values of $\alpha$. This is helpful in situations where a domain expert can select from multiple suggestions. For example, if we consider the best three values of $\alpha$, the domain expert can choose from three different clusterings. In order to calculate the $N$ best values of $\alpha$, we selected the 32 optimal values resulting from the experiments that led to an integer optimization problem. This resulted in ?????.
-
-As our only formal guarantee was that there will be a maximum of $O(n^8)$ intervals in the range between single and complete linkage, we also had a look at the actual results. Since the proof for single and complete linkage in Balcan et. al \cite{DBLP:journals/corr/BalcanNVW16} relies on the fact that the distance $d_{SC}(X,Y,\alpha)$ is based on four points and a split between two merges thus is based on eight points, we would expect experiments containing average linkage to have more intervals, because the average linkage distance is based on all points of the clusters. Finding formal guarantees for the average distance is not a part of this thesis and will briefly be discussed in section \ref{section:futurework}.
-
-In addition to looking at the resulting loss, we also evaluated how well our algorithm is able to discover new subcategories. In the given data, only very specific class labels are given such as luxurious suites, broad road or denver international airport that all belong to a certain location, i.e. these noun phrases have the specific label and the only more generalized group is the location class. In \ref{sec:nellsubcategories}, we listed potential subcategories that our algorithm found and annotated them with a label manually. For instance, the noun phrase luxurious suites could then be grouped together with similar ones into the cluster suite that is a subset of the cluster office building room.
-
-\section{Clustering Image Data}
-
-We first clustered the MNIST data. First experiments were run with 250 points in each run.
-
-\begin{figure}[h]
-\centering
-\begin{minipage}{.3\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{images/MNIST_SC_250}
-\end{minipage}
-\begin{minipage}{.3\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{images/MNIST_SA_250}
-\end{minipage}
-\begin{minipage}{.3\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{images/MNIST_AC_250}
-\end{minipage}
-\caption{The omniglot dataset contains handwritten characters of different alphabets, such as Latin, Greek and Hebrew \cite{Lake1332}.}
-\label{fig:mnist250}
-\end{figure}
-
-Figure \ref{fig:mnist250} shows the experimental results averaged over all 252 $10 \choose 5$ experiments, i.e. all different combinations of five unique labels. Again, we observe that interpolating between single and average linkage does not give us good results. Table \ref{table:mnist250results} summarizes the results we obtain for these experiments.
-
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|l | l|}
-    \hline
-    Strategy & Hamming Cost\\ \hline
-    Single Linkage & 0.782354\\
-    Average Linkage & 0.634206\\
-    Complete Linkage & 0.441931\\
-    $\alpha_{SC}(0.861624,)$ & 0.420714\\
-    $\alpha_{AC}(0.849407)$ & 0.416627\\\hline
-    \end{tabular}
-    \caption{Our proposed algorithm reduces the cost by $\Delta cost = 2.5304\%$.}
-    \label{table:mnist250results}
-\end{table}
-
-Reducing the cost by $\Delta cost = 2.5304\%$ seems to be a good result already. However the goal was to learn a parameter $\alpha$ that represents the entire dataset well. Because the procedure is very ressource-expensive, the results only looked at the first 500 points of the dataset as we clustered points from five labels in experiments of 250 points, i.e. we were using the first 50 points for each of the ten labels. This led us to running the same setting with other batches of the dataset to see if the subset of 500 points gives a good representation of the entire dataset. Figure ??? shows the results for the second batch and unfortunately the curves look quite differently, i.e. the batch did not give a good representation for the dataset.
-
-To overcome this problem, we decided to scale up the experiments, so each of them used 1,000 instead of 250 points. As we used cloud computing to run the experiments in a reasonable time, we only evaluated the single to complete linkage and the average to complete linkage interpolation. We started with the single to complete linkage interpolation, where we show the results for the first six batches in figure \ref{fig:mnist1000sc}. Each batch contains 2,000 points, i.e. the six batches cover the first 12,000 points of the dataset.
-
-As the curves look quite similar, we also want to analyse if the optimal values are similar. Thus we calculate the hamming cost for the optimal value of $\alpha$ in table \ref{table:mnist1000sc}.
-
-We were running the same experiments for the interpolation between average and complete linkage.
-
-The curves for interpolating between average and complete linkage in figure \ref{ref:mnist1000ac} vary more than the curves for interpolating between single and complete linkage \ref{fig:mnist1000sc}. This results in a higher variation in the optimal values of $\alpha$ and the performance increase as shown in table \ref{table:mnist1000ac}.
-
-In order to compare the both interpolation strategies, we averaged over the six batches to to see how well the different batches fit to each other. The results are shown in figure \ref{fig:mnist1000avg}.
-
-\begin{figure}[h]
-\centering
-\begin{minipage}{.45\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-averaged}
-\end{minipage}
-\begin{minipage}{.45\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-averaged}
-\end{minipage}
-\caption{Averaging the first six batches over both linkage strategies allows us to see how good they perform on the first 12,000 points of the MNIST dataset.}
-\label{fig:mnist1000avg}
-\end{figure}
-
-Figure \ref{fig:mnist1000avg} shows that both strategies give a valuable improvement over single, average and complete linkage on the first 12,000 points of the MNIST dataset. The exact improvement is shown in table \ref{table:mnist1000avg}.
-
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|l | l |}
-    \hline
-    Strategy & Hamming Cost\\ \hline
-    Single Linkage & 0.797102\\
-    Average Linkage & 0.65857\\
-    Complete Linkage & 0.476186\\
-    $cost_{opt_{SC}}$ & 0.439207\\
-    $\Delta cost_{SC}$ & 3.6979\%\\
-    $cost_{opt_{AC}}$ & 0.443139\\
-    $\Delta cost_{AC}$ & 3.3047\%\\\hline
-    \end{tabular}
-    \caption{Over the first 12,000 points of the MNIST dataset our algorithm improvese the averaged hamming cost for $3.3\%$ }
-    \label{table:mnist1000avg}
-\end{table}
-
-Table \ref{table:mnist1000avg} shows that the improvement for average to complete linkage interpolation is $3.3\%$ and for single to complete linkage it is $3.7\%$. The optimal cost corresponds to $\alpha = 0.856557$ in the $SC$ setting and $\alpha = 0.63275$ in the AC setting.
-
-\begin{figure}[h]
-\centering
-\begin{minipage}{.45\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{images/mnist-sc-random}
-\end{minipage}
-\begin{minipage}{.45\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{images/mnist-ac-random}
-\end{minipage}
-\caption{The first six batches of the MNIST dataset result in similar curves when being evaluated between single and complete linkage.}
-\label{fig:mnist1000sc}
-\end{figure}
