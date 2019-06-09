@@ -12,9 +12,9 @@ In general we evaluate two different types of experiments that apply for most of
 
 \paragraph{Batch Data Experiments.} In the first one, we evaluate certain data batches, i.e. we subsample the $n$-th set of points in sorted order for each of the target classes. To generalize the experiments for larger datasets, we average over multiple batches. In our experiments, we evaluate all distinct combinations of $k$ classes, e.g. for multiple datasets we have 10 target classes and use 5 labels for our experiments, i.e. we evaluate all $10 \choose 5$ combinations to cover all possible label subsets.
 
-\paragraph{Randomized Experiments.} In the other setting, we select the points for certain classes by random. Averaging over a large number of clustering instances allows us to cover a major fraction of the dataset. To clusters a subset of the target classes, we also select the classes by random. Overall, in case both experimental settings agree, we know that the results are generalized well for the underlying data distribution.
+\paragraph{Randomized Experiments.} In the other setting, we follow \cite{NIPS2016_6385} and \cite{pmlr-v70-finn17a}. We select the points for certain classes by random. Averaging over a large number of clustering instances allows us to cover a major fraction of the dataset. To clusters a subset of the target classes, we also select the classes by random. Overall, in case both experimental settings agree, we know that the results are generalized well for the underlying data distribution.
 
-\paragraph{Synthetic Experiments}.
+\paragraph{Synthetic Experiments.} Here we generated 1000 clustering instances by random given the data distribution shown in section \ref{chapter:datasets}, i.e. all instances contain four classes, two rings and two disks. In figure \ref{fig:syntheticexperiments} we observe that all three linkage strategies perform very similarly. Only single linkage does slightly better with an error below $25\%$ while both average and complete linkage are above $25\%$. Interpolating between single and linkage (a) leads to significantly lower errors, where interpolating between average and complete linkage (b) does not lead to improvements. As this example motivates interpolating between single and complete linkage, we elaborate this setting further.
 
 \begin{figure}[H]
 \centering

@@ -13,7 +13,7 @@ Interpolating between two of the three mentioned linkage strategies results in t
 
 \begin{equation}
     \begin{aligned}
-        d_{SC}(X,Y,\alpha) &= (1 - \alpha) \cdot d_{SL}(X,Y) + \alpha \cdot d_{CL}(X,Y)\\
+        \dsc(X,Y,\alpha) &= (1 - \alpha) \cdot d_{SL}(X,Y) + \alpha \cdot d_{CL}(X,Y)\\
         &= (1 - \alpha) \min\limits_{x \in X, y \in Y} d(x,y) + \alpha \max\limits_{x \in X, y \in Y} d(x,y)
     \end{aligned}
     \label{eq:singlecomplete}
@@ -23,7 +23,7 @@ Equivalently we can interpolate between the single linkage distance $d_{SL}(X,Y)
 
 \begin{equation}
     \begin{aligned}
-        d_{SA}(X,Y,\alpha) &= (1 - \alpha) \cdot d_{SL}(X,Y) + \alpha \cdot d_{AL}(X,Y)\\
+        \dsa(X,Y,\alpha) &= (1 - \alpha) \cdot d_{SL}(X,Y) + \alpha \cdot d_{AL}(X,Y)\\
         &= (1 - \alpha) \min\limits_{x \in X, y \in Y} d(x,y) + \alpha \frac{1}{|X| |Y|}\sum\limits_{x \in X, y \in Y} d(x,y)
     \end{aligned}
     \label{eq:singleaverage}
@@ -33,7 +33,7 @@ The last of the three settings describes the interpolation between the average l
 
 \begin{equation}
     \begin{aligned}
-        d_{AC}(X,Y,\alpha) &= (1 - \alpha) \cdot d_{AL}(X,Y) + \alpha \cdot d_{CL}(X,Y)\\
+        \dac(X,Y,\alpha) &= (1 - \alpha) \cdot d_{AL}(X,Y) + \alpha \cdot d_{CL}(X,Y)\\
         &= (1 - \alpha) \frac{1}{|X| |Y|}\sum\limits_{x \in X, y \in Y} d(x,y) + \alpha \max\limits_{x \in X, y \in Y} d(x,y)
     \end{aligned}
     \label{eq:averagecomplete}

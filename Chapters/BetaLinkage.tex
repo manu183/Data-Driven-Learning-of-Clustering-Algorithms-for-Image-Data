@@ -10,6 +10,29 @@ In a similar fashion as described in section \ref{chapter:alphalinkage} this sec
     \label{fig:metrics}
 \end{figure}
 
-For instance, figure \ref{fig:metrics} shows a set of points that might be put in clusters easily. However, if you only look at the distance regarding the $X_1$-axis or the $X_2$-axis clustering will be very difficult, because each of the axis does not describe the spatial correlation anymore. This example is selected on purpose to motivate the following experiments where we learn optimal combinations of different metrics.
+For instance, figure \ref{fig:metrics} shows a set of points that might be put in clusters easily. However, if you only look at the distance regarding the $X_1$-axis or the $X_2$-axis clustering will be very difficult, because each of the axis does not describe the spatial correlation anymore. This example is selected on purpose to motivate the following experiments where we learn optimal combinations of different metrics.\\ 
 
-\todo[inline]{Explain difference to previous section.}
+To interpolate between $d_0$ and $d_1$, we use the same interpolation as discussed in section \ref{chapter:alphalinkage}. We use a parameter $\beta \in [0,1]$ and weight the metrics as shown in equation \ref{eq:betalinkage}.
+
+\begin{equation}
+d_\beta(x,x') = (1 - \beta) \cdot d_0(x,x') + \beta \cdot d_1(x,x')
+\label{eq:betalinkage}
+\end{equation}
+
+\begin{equation}
+d_\beta(x,x') = d_0(x,x') + \beta \cdot (d_1(x,x') - d_0(x,x'))
+\label{eq:betalinear}
+\end{equation}
+
+We can then compete all possible discontinuities by comparing the distances of given clusters $(x, x')$ and $(y, y')$. As $d_\beta(x,x')$ is a linear function depending on $\beta$ (see equation \ref{eq:betalinear}), we can compute all discontinuities by solving the following equation.
+
+\begin{align*}
+&d_\beta(x,x') = d_\beta(y,y')\\
+&(1 - \beta) \cdot d_0(x,x') + \beta \cdot d_1(x,x') = (1 - \beta) \cdot d_0(y,y') + \beta \cdot d_1(y,y')\\
+&d_0(x,x') - \beta \cdot d_0(x,x')  + \beta \cdot d_1(x,x') = d_0(y,y') - \beta \cdot d_0(y,y') + \beta \cdot d_1(y,y')\\
+&\beta \cdot (- d_0(x,x') + d_1(x,x') + d_0(y,y') - d_1(y,y')) = - d_0(x,x') + d_0(y,y')\\
+&\beta = \frac{- d_0(x,x') + d_0(y,y')}{- d_0(x,x') + d_1(x,x') + d_0(y,y') - d_1(y,y')}
+\label{eq:discont}
+\end{align*}
+
+As we know that the function $d_\beta$ is a linear function depending on $\beta$ and we showed that all discontinuities depend on four points, we know that there at most $O(n^4)$ well-defined intervals $I_i \in [0,1]$ for any clustering instance $S$, i.e. in any interval $I_i$ the algorithm will merge the same two points.
