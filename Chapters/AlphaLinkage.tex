@@ -1,8 +1,6 @@
 \chapter{Efficient Algorithm Selection}
 \label{chapter:alphalinkage}
 
-\todo[inline]{more formal definitions and lemmas}
-
 We define $\alpha$ as the parameter with which the output of an algorithm is weighted. In this chapter we propose different distance measures depending on the weight parameter $\alpha$ that allows us interpolating between different linkage strategies in a way similar to the proposed by Balcan et al. \cite{DBLP:journals/corr/BalcanNVW16}, where a infinite interval was proposed.
 
 To have a real application, we need to have a finite set of intervals. So we interpolate between one algorithm with $\alpha = 0$ and another algorithm with $\alpha = 1$, where for $\alpha = 0$ the result will be the result of algorithm 1 and for $\alpha = 1$ the result of algorithm 2.
@@ -43,38 +41,72 @@ The last of the three settings describes the interpolation between the average l
 
 \section{Proposed Algorithms}
 
-\todo[inline]{use other algorithm environment}
+Our goal is to find an algorithm that determines all different behavior depending on different values of $\alpha$. To do so, we propose different algorithms. First, we start with notations. In general, we evaluate results for a data domain $\mathcal{X}$. There, we maximize the utility $u$ of a clustering instance with the set of points $S = \{x_1, ..., x_n\} \in \mathcal{X}$ and an (unknown) target clustering $\mathcal{Y} = \{C_1, ..., C_k\}$. The output of the bottom up clustering is a binary cluster tree as shown in figure \ref{fig:linkage_effects} and calculated with algorithm \ref{alg:alphalinkage} where the top level node contains one cluster with all points and the leaf nodes contain one cluster for each point. We then prune the cluster tree to $k$ clusters in order to compare these clusters to the target distribution. Afterwards, we use the in section \ref{chapter:costfunctions} discussed cost functions as quality criteria for the resulting criteria.
 
-Our goal is to find an algorithm that determines all different behavior depending on different values of $\alpha$. To do so, we propose different algorithms. The goal of the first algorithm is to divide the interval of $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ to subintervals where the behavior is consistent within each interval. 
+\begin{algorithm}
+\textbf{Input:} Merge functions $\DZero$ and $\DOne$, parameter $\alpha \in [0,1]$, and clustering instance $S = \{x_1, \dots, x_n\}$.
+\begin{enumerate}[nosep, leftmargin=*]
+\item Let $\mathcal{N} = \{\leaf(x_1), \dots, \leaf(x_n)\}$ be the initial set of nodes (one leaf per point).
+\item While $|\mathcal{N}| > 1$
+\begin{enumerate}[nosep, leftmargin=*]
+  \item Let $A, B \in \mathcal{N}$ be the clusters in $\mathcal{N}$ minimizing $\Dalpha(A,B) = (1-\alpha)\cdot \DZero(A,B) + \alpha \cdot \DOne(A,B)$.
+  \item Remove nodes $A$ and $B$ from $\mathcal{N}$ and add $\node(A,B)$ to $\mathcal{N}$.
+\end{enumerate}
+\item Return the cluster tree (the only element of $\mathcal{N}$).
+\end{enumerate}
+\caption{$\alpha$-linkage Clustering}
+\label{alg:alphalinkage}
+\end{algorithm}
 
-\begin{algorithm}[H]
-    \KwData{input data $p_1, ..., p_N$, initial states $st$}
-    \KwResult{$k$ intervals $[\alpha_0, \alpha_1], ..., [\alpha_{k-1},\alpha_k]$}
-    \For{$iteration\gets1$ \KwTo $N-1$}{
-        \ForEach{state $s \in st$}{%
-        remove state $s$\;
-        $cand_1, cand_2 \gets $find merge candidates for $s.\alpha_{lo}$ and $s.\alpha_{hi}$\;
-        \eIf{$cand_1 == cand_2$}{
-          $ms \gets$ merge $cand_1$\;
-          add state $ms$ with interval $[\alpha_{lo},\alpha_{hi}]$ to the end of $st$\;
-          }{
-          $\alpha_{split} \gets$ calculate split\;
-          $s_1 \gets$ merge $cand_1$\;
-          $s_2 \gets$ merge $cand_2$\;
-          add state $s_1$ with interval $[\alpha_{lo},\alpha_{split}]$ to the end of $st$\;
-          add state $s_2$ with interval $[\alpha_{split},\alpha_{hi}]$ to the end of $st$\;
-         }
-        }
-      }
-    \caption{We calculate all from splits resulting different intervals between $\alpha_{lo}$ and $\alpha_{hi}$, merge the resulting clusters and do so until each state contains only one cluster with all points.}
+ Next, we show an algorithm to divide the interval of $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ into subintervals where the behavior is consistent within each interval, i.e. we split the interval $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ into several different executions depending on the parameter $\alpha$. First, we introduce the definition of an execution tree that stores all intervals $\mathcal{I} \in [0,1]$ that lead to different clusterings. We start with the entire range $[\alo, \ahi]$ and then iteratively bound the interval depending on the different merges. The result is a tree where each node represents a different merging behavior (see figure \ref{fig:toe}) and in the end, each leaf node corresponds to one cluster tree.
+
+ \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/ClusterTreeFigure}
+    \caption{The ``tree of executions'' stores all different merge behaviors and the resulting $\alpha$-intervals behaviors in a tree.}
+    \label{fig:toe}
+\end{figure}
+
+\begin{algorithm}
+    \textbf{Input:} Merge functions $\DZero$ and $\DOne$, clustering instance $S = \{x_1, \dots, x_n\}$ and initial state $st$
+    \begin{enumerate}[nosep, leftmargin=*]
+    \item Let $\mathcal{I} = \emptyset$ be the initially empty set of parameter intervals.
+    \item For $iteration 1$ : $N-1$
+        \begin{itemize}[nosep, leftmargin=*]
+        \item For each state $s \in st$
+            \begin{enumerate}[nosep, leftmargin=*]
+                \item remove state $s$
+                \item Let $A, B$ and $C, D$ be the clusters that get merged for $\alo$ and $\ahi$.
+                \item If $(A,B) == (C,D)$
+                \begin{enumerate}[nosep, leftmargin=*]
+                    \item $ms \gets$ merge $(A, B)$\;
+                    \item add state $ms$ with interval $[\alpha_{lo},\alpha_{hi}]$ to the end of $st$
+                \end{enumerate}
+                \item Else
+                \begin{enumerate}[nosep, leftmargin=*]
+                    \item $\alpha_{split} \gets$ calculate split $((A, B), (C, D))$
+                    \item $s_1 \gets$ merge $(A,B)$
+                    \item $s_2 \gets$ merge $(C, D)$
+                    \item add state $s_1$ with interval $[\alpha_{lo},\alpha_{split})$ to the end of $st$
+                    \item add state $s_2$ with interval $[\alpha_{split},\alpha_{hi})$ to the end of $st$
+                \end{enumerate}
+            \end{enumerate}
+        \end{itemize}
+        \item For output state $s \in st$
+            \begin{itemize}
+                \item add interval $i = [st.\alo, st.\ahi)$ to $\mathcal{I}$
+            \end{itemize}
+        \item Return $\mathcal{I}$
+    \end{enumerate}  
+    \caption{Building the Execution Tree}
     \label{alg:alphalinkage1}
 \end{algorithm}
 
-Starting from an interval $\alpha \in [\alpha_{lo}, \alpha_{hi}]$, we calculate the merging clusters by $\min\limits_{X, Y} d(X,Y,\alpha)$ for both the minimum $\alpha_{li}$ and the maximum $\alpha_{hi}$ of the interval. In case both values of $\alpha$ return the same pair of merging clusters $X$ and $Y$, we merge $X$ and $Y$. In case the values of $\alpha_{lo}$ and $\alpha_{hi}$ lead to different merges, we can calculate a value $\alpha_{split}$ where we know that for values of $\alpha \in [\alpha_{lo}, alpha_{split})$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\alpha_{lo})$ and for values of $\alpha \in [\alpha_{split}, alpha_{hi}]$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\alpha_{hi})$. In order to calculate the value of $\alpha_{split}$ we can equalize the distance functions of the merges of clusters $X, Y$ and the clusters $A, B$ (say $\alpha_{lo}$ leads to merging $X$ and $Y$ and $\alpha_{hi}$ leads to merging $A$ and $B$) as seen in equation \ref{eq:equalize}. 
+Starting from an interval $\alpha \in [\alpha_{lo}, \alpha_{hi}]$, algorithm \ref{alg:alphalinkage1} calculates the merging clusters by $\min\limits_{X, Y} d(X,Y,\alpha)$ for both the minimum $\alo$ and the maximum $\ahi$ of the interval. In case both values of $\alpha$ return the same pair of merging clusters $A$ and $B$, we merge $A$ and $B$. In case the values of $\alo$ and $ahi$ lead to different merges, we can calculate a value $\alpha_{split}$ where we know that for values of $\alpha \in [\alo, alpha_{split})$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\alo)$ and for values of $\alpha \in [\alpha_{split}, \ahi]$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\ahi)$. In order to calculate the value of $\alpha_{split}$ we can equalize the distance functions of the merges of clusters $A, B$ and the clusters $C, D$ (say $\alpha_{lo}$ leads to merging $A$ and $B$ and $\alpha_{hi}$ leads to merging $C$ and $D$ or vice versa) as seen in equation \ref{eq:equalize}. 
 
 \begin{equation}
     \begin{aligned}
-        d(X,Y,\alpha_{split}) = d(A,B,\alpha_{split})
+        d_{\alpha}(A,B) = d_{\alpha}(C,D)
     \end{aligned}
     \label{eq:equalize}
 \end{equation}
@@ -84,33 +116,34 @@ Applying \ref{eq:equalize} to a concrete example of distance functions leads to 
 \begin{equation}
     \begin{aligned}
         \begin{gathered}
-        d_{SC}(X,Y,\alpha_{split}) = d_{SC}(A,B,\alpha_{split})\\
-        (1 - \alpha_{split}) \min\limits_{x \in X, y \in Y} d(x,y) + \alpha_{split} \max\limits_{x \in X, y \in Y} d(x,y) = \\
-        = (1 - \alpha_{split}) \min\limits_{a \in A, b \in B} d(a,b) + \alpha_{split} \max\limits_{a \in A, b \in B} d(a,b)\\
-        (- \alpha_{split}) \min\limits_{x \in X, y \in Y} d(x,y) + \alpha_{split} \max\limits_{x \in X, y \in Y} d(x,y) + \alpha_{split} \min\limits_{a \in A, b \in B} d(a,b) - \alpha_{split} \max\limits_{a \in A, b \in B} d(a,b) =\\
-        = - \min\limits_{x \in X, y \in Y} d(x,y) + \min\limits_{a \in A, b \in B} d(a,b)\\
-        \alpha_{split} (- \min\limits_{x \in X, y \in Y} d(x,y) + \max\limits_{x \in X, y \in Y} d(x,y) + \min\limits_{a \in A, b \in B} d(a,b) - \max\limits_{a \in A, b \in B} d(a,b)) =\\
-        = - \min\limits_{x \in X, y \in Y} d(x,y) + \min\limits_{a \in A, b \in B} d(a,b)\\
-        \alpha_{split} = \frac{- \min\limits_{x \in X, y \in Y} d(x,y) + \min\limits_{a \in A, b \in B} d(a,b)}{- \min\limits_{x \in X, y \in Y} d(x,y) + \max\limits_{x \in X, y \in Y} d(x,y) + \min\limits_{a \in A, b \in B} d(a,b) - \max\limits_{a \in A, b \in B} d(a,b)}
+        d_{SC}(A,B) = d_{SC}(C,D)\\
+        (1 - \alpha_{split}) \min\limits_{a \in A, b \in B} d(a,b) + \alpha_{split} \max\limits_{a \in A, b \in B} d(a,b) = \\
+        = (1 - \alpha_{split}) \min\limits_{c \in C, d \in D} d(c,d) + \alpha_{split} \max\limits_{c \in C, d \in D} d(c,d)\\
+        (- \alpha_{split}) \min\limits_{a \in A, b \in B} d(a,b) + \alpha_{split} \max\limits_{a \in A, b \in B} d(a,b) + \alpha_{split} \min\limits_{c \in C, d \in D} d(c,d) - \alpha_{split} \max\limits_{c \in C, d \in D} d(c,d) =\\
+        = - \min\limits_{a \in A, b \in B} d(a,B) + \min\limits_{C \in C, d \in D} d(c,d)\\
+        \alpha_{split} (- \min\limits_{a \in A, b \in B} d(a,b) + \max\limits_{a \in A, b \in B} d(a,b) + \min\limits_{c \in C, d \in D} d(c,d) - \max\limits_{c \in C, d \in D} d(c,d)) =\\
+        = - \min\limits_{a \in A, b \in B} d(a,b) + \min\limits_{c \in C, d \in D} d(c,d)\\
+        \alpha_{split} = \frac{- \min\limits_{a \in A, b \in B} d(a,b) + \min\limits_{c \in C, d \in D} d(c,d)}{- \min\limits_{a \in A, b \in B} d(a,b) + \max\limits_{a \in A, b \in B} d(a,b) + \min\limits_{c \in C, d \in D} d(c,d) - \max\limits_{c \in C, d \in D} d(c,d)}
     \end{gathered}
     \end{aligned}
     \label{eq:equalizesc}
 \end{equation}
 
-After knowing the exact consistent range, we split the clusters for the different states and then calculate the merge candidates for the start and the end of the new intervals again. We can show the different possible merges in a tree of executions, where each node represents one interval $[\alpha_{lo}, \alpha_{hi}]$ where the same clusters get merged (see figure \ref{fig:toe}).
+After knowing the exact consistent range, we split the clusters for the different states and then calculate the merge candidates for the start and the end of the new intervals again. We can show the different possible merges in a tree of executions, where each node represents one interval $[\alpha_{lo}, \alpha_{hi}]$ where the same clusters get merged (see figure \ref{fig:toe}). We perform the described procedure for iterations $i = count(points) -1$ times until only one cluster containing all points is left. All the leaf nodes in the resulting tree of executions then represent one interval $[\alpha_{lo}, \alpha_{hi}]$ where the clustering is expected to be consistent within the interval and each interval contains a different clustering. Next we will show that all intervals are well-defined, i.e. in each interval, the clustering always is constant. To do so, we prove that each distance function is a linear function depending on the parameter $\alpha$ (see equation \ref{eq:linear}).
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/res_tree}
-    \caption{Different values of $\alpha$ lead to different merges. We calculate a tree where we start with the entire range $[\alpha_{lo}, \alpha_{hi}]$ and split the interval into all different subintervals with consistent merges.}
-    \label{fig:toe}
-\end{figure}
+\begin{equation}
+    \begin{aligned}
+        \begin{gathered}
+        d_\alpha(A,B) = \alpha \cdot d_0(A,B) + (1-\alpha) \cdot d_1(A,B)\\
+        = d_1(A,B) + \alpha \cdot (d_0(A,B) + \cdot d_1(A,B))
+        \end{gathered}
+    \end{aligned}
+    \label{eq:linear}
+\end{equation}
 
-We perform the described procedure for iterations $i = count(points) -1$ times until only one cluster containing all points is left. All the leaf nodes in the resulting tree of executions then represent one interval $[\alpha_{lo}, \alpha_{hi}]$ where the clustering is consistent within the interval and each interval contains a different clustering.\\
+As we now know that all distance functions are linear functions, we can argue that by calculating the intersection of two distance functions, we can say that both distance functions will be optimal for some region. However just calculating the split values in a range $[\alpha_{lo}, \alpha_{hi}]$ does not necessarily yield to the best possible solution. One of these examples is demonstrated in figure \ref{fig:notoptimal}, where the blue line for the constant value of $d$ will not be considered, only the lines $\alpha \in [\alpha_{lo}, alpha_{split})$ (red) and $\alpha \in [\alpha_{split}, alpha_{high}]$ (black) will be.
 
-However just calculating the split values in a range $[\alpha_{lo}, \alpha_{hi}]$ does not necessarily yield to the best possible solution. One of these examples is demonstrated in figure \ref{fig:notoptimal}, where the blue line for the constant value of $d$ will not be considered, only the lines $\alpha \in [\alpha_{lo}, alpha_{split})$ (red) and $\alpha \in [\alpha_{split}, alpha_{high}]$ (black) will be.
-
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{tikzpicture}
         \begin{axis}[ 
@@ -123,10 +156,11 @@ However just calculating the split values in a range $[\alpha_{lo}, \alpha_{hi}]
         width=0.5\textwidth,
         yticklabels={,,}
         ] 
+        
         \addplot[mark=none, red] {-3+8*x}; 
         \addplot[mark=none, black] {-8*x+7};
         \addplot[mark=none, blue] {1.2};
-        \addplot [only marks] table {
+        \addplot [mark=*,very thick] table {
         0.45   0.6
         0.625  2
         0.8    0.6
@@ -155,7 +189,7 @@ In order to solve this, we can recursively check each resulting interval again i
         \addplot[mark=none, red] {-3+8*x}; 
         \addplot[mark=none, black] {-8*x+7};
         \addplot[mark=none, blue] {1.2};
-        \addplot [only marks] table {
+        \addplot [mark=*,very thick] table {
         0.45   0.6
         0.525  1.2
         0.625  1.2
@@ -170,49 +204,66 @@ In order to solve this, we can recursively check each resulting interval again i
 
 By calculating the split points recursively, the example in figure \ref{fig:notoptimal2} will result in the intervals $[\alpha_{lo}, \alpha_{s_1}]$, $[\alpha_{s_1}, \alpha_{s_2}]$, $[\alpha_{s_2}, \alpha_{s_3}]$ and $[\alpha_{s_3}, \alpha_{s_{hi}}]$. The optimal distance between $\alpha_{s_1}$ and $\alpha_{s_3}$ is covered now, but the results contain one unncessary interval as $\alpha_{s_2}$ still splits two intervals. The algorithm can check if older splits are still relevant, however the runtime cost to do so will be more expensive than carrying one additional interval with the same distance. We can use this knowledge and adapt algorithm \ref{alg:alphalinkage1}.
 
-\begin{algorithm}[H]
-    \KwData{input data $p_1, ..., p_N$, initial states $st$}
-    \KwResult{$k$ intervals $[\alpha_0, \alpha_1], ..., [\alpha_{k-1},\alpha_k]$}
-    \For{$iteration\gets1$ \KwTo $N-1$}{
-        \ForEach{state $s \in st$}{%
-        remove state $s$\;
-        ranges $\gets$ find ranges between $s.\alpha_{lo}$ and $s.\alpha_{hi}$\;
-        \ForEach{range $r \in ranges$}{%
-                $cand \gets$ candidate for range\;
-                $ms \gets$ merge $cand$\;
-                add state $ms$ with range $r$ to the end of $st$\;
-        }
-      }
-    }
-    \caption{By calculating the split points between $\alpha_{lo}$ and $\alpha_{hi}$ recursively, we ensure that no optimal interval is left out.}
+\begin{algorithm}
+    \textbf{Input:} Merge functions $\DZero$ and $\DOne$, clustering instance $S = \{x_1, \dots, x_n\}$ and initial state $st$
+    \begin{enumerate}[nosep, leftmargin=*]
+    \item Let $\mathcal{I} = \emptyset$ be the initially empty set of parameter intervals.
+    \item For iteration $1$ : $n-1$
+    \begin{itemize}[nosep, leftmargin=*]
+        \item For each state $s \in st$
+        \begin{enumerate}[nosep, leftmargin=*]
+            \item remove state $s$
+            \item ranges $\gets$ find ranges between $s.\alo$ and $s.\ahi$
+            \item For each range $r \in ranges$
+            \begin{enumerate}
+                \item $A, B \gets$ candidate for range
+                \item $ms \gets$ merge $A, B$\;
+                \item add state $ms$ with range $r$ to the end of $st$
+            \end{enumerate}
+        \end{enumerate}
+    \end{itemize}
+    \item For output state $s \in st$
+            \begin{itemize}
+                \item add interval $i = [st.\alo, st.\ahi)$ to $\mathcal{I}$
+            \end{itemize}
+        \item Return $\mathcal{I}$
+    \end{enumerate}
+    \caption{Recursive Interval Calculation}
     \label{alg:alphalinkage2}
 \end{algorithm}
 
-As experimental results turn out to need a lot of memory (up to $\approx$ 20 GB for 300 points and 20,000 states), we want to adapt algorithm \ref{alg:alphalinkage2} so that it uses less memory. The memory usage scales relative to the amount of currently in-memory stored states, so the goal is to reduce these. As the amount of states is much larger than the amound of iterations, we calculate and evaluate the leave nodes of the tree and keep the alternative merges stored. This results in algorithm \ref{alg:alphalinkage3}.
+As experimental results turn out to need a lot of memory (up to $\approx$ 20 GB for 300 points and 20,000 states), we want to adapt algorithm \ref{alg:alphalinkage2} so that it uses less memory. The memory usage scales relative to the amount of currently in-memory stored states, so the goal is to reduce these. As the amount of states is much larger than the amound of iterations, we calculate and evaluate the leave nodes of the tree and keep the alternative merges stored, i.e. we use a depth-first instead of a breadth-first approach. This results in algorithm \ref{alg:alphalinkage3}.
 
-\begin{algorithm}[H]
-    \KwData{input data $p_1, ..., p_N$, initial states $st$}
-    \KwResult{$k$ intervals $[\alpha_0, \alpha_1], ..., [\alpha_{k-1},\alpha_k]$}
-    \While{$|st| > 0$}{
-        \ForEach{state $s \in st$}{%
-        remove state $s$\;
-        \eIf{$s$ is final}{
-          evaluate $s$\;
-          }{
-          ranges $\gets$ find ranges between $s.\alpha_{lo}$ and $s.\alpha_{hi}$\;
-            \ForEach{range $r \in ranges$}{%
-                    $cand \gets$ candidate for range\;
-                    $ms \gets$ merge $cand$\;
-                    add state $ms$ with range $r$ to the beginning of $st$\;
-            }
-         }
-      }
-    }
-    \caption{Instead of calculating the nodes layerwise, this algorithm works pathwise, i.e. it goes down one path of a tree to a leaf node and evaluates it before continuing with the next split. This approach needs much less memory than the previous algorithms and has about the same runtime as shown in figure \ref{fig:performance}.}
+\begin{algorithm}
+    \textbf{Input:} Merge functions $\DZero$ and $\DOne$, clustering instance $S = \{x_1, \dots, x_n\}$ and initial state $st$
+    \begin{enumerate}[nosep, leftmargin=*]
+    \item Let $\mathcal{I} = \emptyset$ be the initially empty set of parameter intervals.
+    \item While $|st| > 0$
+    \begin{itemize}[nosep, leftmargin=*]
+        \item For each state $s \in st$
+        \begin{enumerate}
+            \item remove state $s$\;
+            \item If $s$ is final: add interval $i = [s.\alo, s.\ahi)$ to $\mathcal{I}$
+            \item Else: 
+            \begin{enumerate}
+                \item ranges $\gets$ find ranges between $s.\alpha_{lo}$ and $s.\alpha_{hi}$
+                \item For each range $r \in ranges$
+                \begin{enumerate}
+                    \item $A, B \gets$ candidate for range
+                    \item $ms \gets$ merge $A, B$
+                    \item add state $ms$ with range $r$ to the beginning of $st$
+                \end{enumerate}
+            \end{enumerate}
+        \end{enumerate}
+    \end{itemize}
+    \end{enumerate}
+    \caption{Depth-first $\alpha$-linkage}
     \label{alg:alphalinkage3}
 \end{algorithm}
 
-\begin{figure}[H]
+Using a depth-first implementation instead of a breadth-first implementation leads to huge benefits. We do not need a lot of memory anymore and together with the memory / copying costs, we also improve the runtime. Figure \ref{fig:performance} gives insights about the memory usage and the required runtime for our MNIST experiments with algorithm \ref{alg:alphalinkage2} (breadth-first) and algorithm \ref{alg:alphalinkage3} (depth-first). We notice that the memory usage for the breadth-first implementation had an exponential growth. Clustering 500 points already needed 8 GB of memory, that was the maximum of the device the experiments were run on, i.e. for larger-scale experiments we would have been forced to use better hardware. Instead, with the depth-first we have a linear growth over the points and it is possible to reduce the amount of needed memory further if the intervals do not have to be stored in-memory, e.g. when we run an experiment on one dataset, we can directly export resulting intervals. For the breadth-first approach this would also be possible, but not prior to the last iteration, as we have to store each interval in each of the previous iterations. In addition, figure \ref{fig:performance} shows that the runtime also benefits from using the depth-first implementation. While we needed more than one hour to evaluate 500 points, we now need less than 10 minutes. This allows us to scale up our experiments from so far $\approx 250$ points to $\approx 1,000$ points.
+
+\begin{figure}
 \centering
 \begin{minipage}{.45\textwidth}
   \centering
@@ -226,23 +277,39 @@ As experimental results turn out to need a lot of memory (up to $\approx$ 20 GB 
 \label{fig:performance}
 \end{figure}
 
-Instead of merging iteratively and steadily shrinking the intervals, we propose an algorithm with a geometric motivation. We are again evaluating an interval $[\alpha_{lo}, \alpha_{hi}]$, but we interprete the different merges as linear functions depending on $\alpha$. We can start by calculating the merge candidate for the start value $\alpha_{lo}$ and calculate the next intersection that will yield to the next merge. By calculating all the intersections of linear functions, we can also determine all the different intervals for the range $[\alpha_{lo}, \alpha_{hi}]$, where different merging behaviors occure. Algorithm \ref{alg:alphalinkage4} describes this procedure.
+As an addition, instead of merging iteratively and steadily shrinking the intervals, we propose a tweaked version of algorithm \ref{alg:alphalinkage3} with a geometric motivation. We are again evaluating an interval $[\alpha_{lo}, \alpha_{hi}]$, but we interpret the different merges as linear functions depending on $\alpha$. We can start by calculating the merge candidate for the start value $\alpha_{lo}$ and calculate the next intersection that will yield to the next merge. By calculating all the intersections of linear functions, we can also determine all the different intervals for the range $[\alpha_{lo}, \alpha_{hi}]$, where different merging behaviors occure. Algorithm \ref{alg:alphalinkage4} describes this procedure.
 
-\begin{algorithm}[H]
-    \KwData{input data $p_1, ..., p_N$, start value $\alpha_{lo}$, end value $\alpha_{hi}$}
-    \KwResult{$k$ intervals $[\alpha_0, \alpha_1], ..., [\alpha_{k-1},\alpha_k]$}
-    $\alpha \gets \alpha_{lo}$\;
-    linear function $lf \gets$ get lf for alpha\;
-    \While{$\alpha < \alpha_{hi}$}{
-        $\alpha_{new} \gets$ calculate next split for $\alpha$\; 
-        $lf \gets$ get lf for $\alpha_{new}$\;
-        $\alpha \gets \alpha_{new}$
-    }
-    \caption{}
+\begin{algorithm}
+    \textbf{Input:} Merge functions $\DZero$ and $\DOne$, clustering instance $S = \{x_1, \dots, x_n\}$ and initial state $st$
+    \begin{enumerate}[nosep, leftmargin=*]
+    \item Let $\mathcal{I} = \emptyset$ be the initially empty set of parameter intervals.
+    \item While $|st| > 0$
+    \begin{itemize}[nosep, leftmargin=*]
+        \item For each state $s \in st$
+        \begin{enumerate}
+            \item remove state $s$\;
+            \item If $s$ is final: add interval $i = [s.\alo, s.\ahi)$ to $\mathcal{I}$
+            \item Else: 
+            \begin{enumerate}
+                \item $\alpha \gets \alpha_{lo}$\;
+                \item linear function $lf \gets$ get lf for $\alpha$
+                \item While $\alpha < \alpha_{hi}$
+                \begin{enumerate}
+                    \item $\alpha_{new} \gets$ calculate next split for $\alpha$
+                    \item $lf \gets$ get lf for $\alpha_{new}$\;
+                    \item $\alpha \gets \alpha_{new}$
+                \end{enumerate}
+            \end{enumerate}
+        \end{enumerate}
+    \end{itemize}
+    \end{enumerate}
+    \caption{$\alpha$-linkage with Geometric Interval Calculation}
     \label{alg:alphalinkage4}
 \end{algorithm}
 
-\begin{figure}[H]
+This leads to a clean implementation, where we do not store unnecessary intervals (see figure \ref{fig:notoptimal2}) any longer. In contrast, we now only store the intervals where different merges occur. By interpreting the geometrics of linear functions, we always find the optimal merges for any value of $\alpha$ leading to well-defined intervals for any clustering instance interpolating within $\dsc$, $\dsa$ or $\dac$. Figure \ref{fig:optimal} shows the optimized clustering of the exemplary distance functions.
+
+\begin{figure}
     \centering
     \begin{tikzpicture}
         \begin{axis}[ 
@@ -258,7 +325,7 @@ Instead of merging iteratively and steadily shrinking the intervals, we propose 
         \addplot[mark=none, red] {-3+8*x}; 
         \addplot[mark=none, black] {-8*x+7};
         \addplot[mark=none, blue] {1.2};
-        \addplot [only marks] table {
+        \addplot [mark=*,very thick] table {
         0.45   0.6
         0.525  1.2
         0.725  1.2
@@ -276,7 +343,7 @@ In order to have real-world applications, the proposed algorithms should run in 
 
 \subsection{Dynamic Programming}
 
-One of the most time-consuming parts was the calculating of the distances. For each pair of clusters $C_i, C,j$ the distance had to be calculated for each clustering state. We optimized this by using dynamic programming and stored the distance matrices $D_{lower}$ and $D_{upper}$ for each state. The naming results from the different interpolation settings where we interpolate from one linkage distance (lower) to another linkage distance (upper), e.g. the setting in equation \ref{eq:singlecomplete} describes the interpolation from single linkage (lower) to complete linkage (upper). In this example we then store the pairwise distances for both single linkage and complete linkage and in order to find the merge candidates we have to do iterate over the distance matrices instead of calculating the distances over and over again. When we merge two clusters, we then update the distance matrices for the given state. Table \ref{dp:distances} shows an example for the pairwise distances of clusters $i$ and $j$.
+One of the most time-consuming parts was the calculation of the distances. For each pair of clusters $C_i, C_j$ the distance had to be calculated for each clustering state. We optimized this by using dynamic programming to store the distance matrices $D_{lower}$ and $D_{upper}$ for each state. There we interpolate from one linkage distance (lower) to another linkage distance (upper), e.g. the $\dsc$ setting describes the interpolation from single linkage (lower) to complete linkage (upper). In this example we then store the pairwise distances for both single linkage and complete linkage and in order to find the merge candidates we have to iterate over the distance matrices instead of calculating the distances over and over again. When we merge two clusters, we then update the distance matrices for the given state. Table \ref{dp:distances} shows an example for the pairwise distances of clusters $i$ and $j$.
 
 \begin{table}[H]
     \centering
@@ -293,11 +360,11 @@ One of the most time-consuming parts was the calculating of the distances. For e
     \label{dp:distances}
 \end{table}
 
-One observation that we can make is that the matrix has a lot of redundant values, because $D(i,j) = D(j,i)$. Removing these rendundant values will result in a trade-off between copying and indexing costs and will be discussed in the following section. Another optimization we can do is storing the indices of the active clusters, i.e. the clusters that can get merged. Once two clusters got merged, they cannot be merged any further, only the resulting cluster can. So we then do not have to consider the old clusters anymore and can remove them from the set of active indicies. This allows us to find the merge candidates faster as the pool of candidates gets smaller.
+One observation that we can make is that the matrix has a lot of redundant values, because all our distance functions are symmetric, i.e. $D(i,j) = D(j,i)$. Removing these redundant values will result in a trade-off between copying and indexing costs and will be discussed in the following section. Another optimization we can do is to store the indices of the active clusters, i.e. the clusters that can get merged. Once two clusters got merged, they cannot be merged any further, only the resulting cluster can. So we then do not have to consider the old clusters anymore and can remove them from the set of active indicies. This allows us to find the merge candidates faster as the pool of candidates gets smaller.
 
 \subsection{Trade-Off between Copying and Indexing Costs}
 
-Currently we can access the costs for a pair of clusters $C_i$ and $C_j$ through $D[i,j]$ or $D[i + j * width]$ for flattened matrices. These indices are very easy to calculate. In order to remove the redundant values from the distance matrix we remove all values below the diagonal as shown in table \ref{dp:distances2}.
+Currently we can access the costs for a pair of clusters $C_i$ and $C_j$ through $D[i,j]$ or $D[i + j * width]$ for flattened matrices. These indices are very easy to determine. In order to remove the redundant values from the distance matrix we remove all values below the diagonal as shown in table \ref{dp:distances2}.
 
 \begin{table}[h]
     \centering
@@ -310,7 +377,7 @@ Currently we can access the costs for a pair of clusters $C_i$ and $C_j$ through
     3 & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & 0 & 5.72\\
     4 & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & 0\\ \hline
     \end{tabular}
-    \caption{Storing the pairwise distances of all clusters avoids calculating the distances over and over again.}
+    \caption{Removing the redundant distance values leads to less memory usage, but to more efficient index calculations.}
     \label{dp:distances2}
 \end{table}
 
@@ -327,7 +394,7 @@ In addition to that we can also remove the diagonal values as they represent the
     3 & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & 5.72\\
     4 & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} & \cellcolor{gray!25} \\ \hline
     \end{tabular}
-    \caption{Storing the pairwise distances of all clusters avoids calculating the distances over and over again.}
+    \caption{We also get rid of the distances between the same clusters in the stored distance matrices.}
     \label{dp:distances3}
 \end{table}
 
@@ -340,9 +407,7 @@ The matrices are now smaller, so they need less memory. In the example, we chang
     \label{eq:indexing}
 \end{equation}
 
-Calculating this index in a nested loop is very expensive, however we calculate the part that does not depend on $i$ in the outer loop and thus only need to add $i$ in the inner loop. This does not only yield to a lower memory usage of $\approx 30\%$, but also increases the runtime by TODO.
-
-\todo[inline]{runtime improvement factor}
+Calculating this index in a nested loop is very expensive, however we calculate the part that does not depend on $i$ in the outer loop and thus only need to add $i$ in the inner loop. This does not only yield to a lower memory usage of $\approx 30\%$, but also increases the runtime by the same factor.
 
 \subsection{Implementation-specific Optimizations}
 

@@ -25,8 +25,14 @@
 \usepackage{colortbl}
 %\usepackage[urlcolor=blue, colorlinks=true, linkcolor=black, citecolor=blue]{hyperref}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
 \usepackage{pgfplots}
-\usepackage[]{algorithm2e}
 \usepackage{subcaption}
+\usepackage{csquotes}
+\usepackage{algorithm}
+
+\usepackage{alphalph}
+\renewcommand*{\thesubfigure}{%
+\alphalph{\value{subfigure}}%
+}%
 
 \newcommand \dsingle {d_\text{min}}
 \newcommand \dcomplete {d_\text{max}}
@@ -34,6 +40,37 @@
 \newcommand \dsc {\mathcal{D}_\text{SC}}
 \newcommand \dsa {\mathcal{D}_\text{SA}}
 \newcommand \dac {\mathcal{D}_\text{AC}}
+
+\newcommand \alo {\alpha_\text{lo}}
+\newcommand \ahi {\alpha_\text{hi}}
+\newcommand \blo {\beta_\text{lo}}
+\newcommand \bhi {\beta_\text{hi}}
+
+\newcommand \metric {\operatorname{d}}
+\newcommand \metricp [1]{\operatorname{d_{#1}}}
+\newcommand \dbeta {\metricp{\beta}}
+\newcommand \dOne {\metricp{1}}
+\newcommand \dZero {\metricp{0}}
+
+\newcommand \cmetric [1]{\operatorname{D_{#1}}}
+\newcommand \mergep [1]{\cmetric{#1}}
+\newcommand \Dalpha {\cmetric{\alpha}}
+\newcommand \DOne {\cmetric{1}}
+\newcommand \DZero {\cmetric{0}}
+\newcommand \Dmin {\cmetric{\text{min}}}
+\newcommand \Dmax {\cmetric{\text{max}}}
+\newcommand \Davg {\cmetric{\text{avg}}}
+
+\newcommand \leaf {\operatorname{Leaf}}
+\newcommand \node {\operatorname{Node}}
+\newcommand \target {\mathcal{Y}}
+
+\newcommand \cX {\mathcal{X}}
+\newcommand \cA {\mathcal{A}}
+\newcommand \mergeFamily {\cA_\text{merge}}
+\newcommand \mergeAlg [1]{A_{#1}^\text{merge}}
+\newcommand \metricFamily {\cA_\text{metric}}
+\newcommand \metricAlg [1]{A_{#1}^\text{metric}}
 
 
 %% ---------------------------------
@@ -176,7 +213,7 @@
 
 \input{Appendices/AppendixB} % Appendix Title
 
-%\input{Appendices/AppendixC} % Appendix Title
+\input{Appendices/AppendixC} % Appendix Title
 
 \end{document}
 
