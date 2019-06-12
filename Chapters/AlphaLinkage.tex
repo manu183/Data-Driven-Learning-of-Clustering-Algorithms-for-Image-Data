@@ -1,7 +1,7 @@
 \chapter{Efficient Algorithm Selection}
 \label{chapter:alphalinkage}
 
-We define $\alpha$ as the parameter with which the output of an algorithm is weighted. In this chapter we propose different distance measures depending on the weight parameter $\alpha$ that allows us interpolating between different linkage strategies in a way similar to the proposed by Balcan et al. \cite{DBLP:journals/corr/BalcanNVW16}, where a infinite interval was proposed.
+We define $\alpha$ as the parameter with which the distance of an algorithm is weighted. In this chapter we propose different distance measures depending on the weight parameter $\alpha$ that allows us interpolating between different linkage strategies in a way similar to the proposed by Balcan et al. \cite{DBLP:journals/corr/BalcanNVW16}, where a infinite interval was proposed.
 
 To have a real application, we need to have a finite set of intervals. So we interpolate between one algorithm with $\alpha = 0$ and another algorithm with $\alpha = 1$, where for $\alpha = 0$ the result will be the result of algorithm 1 and for $\alpha = 1$ the result of algorithm 2.
 
@@ -41,7 +41,7 @@ The last of the three settings describes the interpolation between the average l
 
 \section{Proposed Algorithms}
 
-Our goal is to find an algorithm that determines all different behavior depending on different values of $\alpha$. To do so, we propose different algorithms. First, we start with notations. In general, we evaluate results for a data domain $\mathcal{X}$. There, we maximize the utility $u$ of a clustering instance with the set of points $S = \{x_1, ..., x_n\} \in \mathcal{X}$ and an (unknown) target clustering $\mathcal{Y} = \{C_1, ..., C_k\}$. The output of the bottom up clustering is a binary cluster tree as shown in figure \ref{fig:linkage_effects} and calculated with algorithm \ref{alg:alphalinkage} where the top level node contains one cluster with all points and the leaf nodes contain one cluster for each point. We then prune the cluster tree to $k$ clusters in order to compare these clusters to the target distribution. Afterwards, we use the in section \ref{chapter:costfunctions} discussed cost functions as quality criteria for the resulting criteria.
+Our goal is to find an algorithm that determines all different behaviors depending on the value of $\alpha$. To do so, we propose different algorithms. First, we start with notations. In general, we evaluate results for a data domain $\cX$. Here, we maximize the utility $u$ of a clustering instance with the set of points $S = \{x_1, ..., x_n\} \in \mathcal{X}$ and an (unknown) target clustering $\target = \{C_1, ..., C_k\}$. The output of the bottom up clustering is a binary cluster tree as shown in figure \ref{fig:linkage_effects} and calculated with algorithm \ref{alg:alphalinkage} where the top level node contains one cluster with all points and the leaf nodes contain one cluster for each point. We then prune the cluster tree to $k$ clusters in order to compare these clusters to the target distribution. Afterwards, we use the in section \ref{chapter:costfunctions} discussed cost functions as quality criteria for the resulting criteria.
 
 \begin{algorithm}
 \textbf{Input:} Merge functions $\DZero$ and $\DOne$, parameter $\alpha \in [0,1]$, and clustering instance $S = \{x_1, \dots, x_n\}$.
@@ -58,12 +58,12 @@ Our goal is to find an algorithm that determines all different behavior dependin
 \label{alg:alphalinkage}
 \end{algorithm}
 
- Next, we show an algorithm to divide the interval of $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ into subintervals where the behavior is consistent within each interval, i.e. we split the interval $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ into several different executions depending on the parameter $\alpha$. First, we introduce the definition of an execution tree that stores all intervals $\mathcal{I} \in [0,1]$ that lead to different clusterings. We start with the entire range $[\alo, \ahi]$ and then iteratively bound the interval depending on the different merges. The result is a tree where each node represents a different merging behavior (see figure \ref{fig:toe}) and in the end, each leaf node corresponds to one cluster tree.
+ Next, we show an algorithm to divide the interval of $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ into subintervals where the behavior is consistent within each interval, i.e.\ we split the interval $\alpha \in [\alpha_{lo}, \alpha_{hi}]$ into several different executions depending on the parameter $\alpha$. First, we introduce the definition of an execution tree that stores all intervals $\mathcal{I} \in [0,1]$ that lead to different clusterings. We start with the entire range $[\alo, \ahi]$ and then iteratively bound the interval depending on the different merges. The result is a tree where each node represents a different merging behavior (see figure \ref{fig:toe}) and in the end, each leaf node corresponds to one cluster tree.
 
  \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\textwidth]{images/ClusterTreeFigure}
-    \caption{The ``tree of executions'' stores all different merge behaviors and the resulting $\alpha$-intervals behaviors in a tree.}
+    \caption{The ``tree of executions'' stores all different merge behaviors and the resulting $\alpha$-intervals in a tree.}
     \label{fig:toe}
 \end{figure}
 
@@ -71,7 +71,7 @@ Our goal is to find an algorithm that determines all different behavior dependin
     \textbf{Input:} Merge functions $\DZero$ and $\DOne$, clustering instance $S = \{x_1, \dots, x_n\}$ and initial state $st$
     \begin{enumerate}[nosep, leftmargin=*]
     \item Let $\mathcal{I} = \emptyset$ be the initially empty set of parameter intervals.
-    \item For $iteration 1$ : $N-1$
+    \item For iteration $1$ : $n-1$
         \begin{itemize}[nosep, leftmargin=*]
         \item For each state $s \in st$
             \begin{enumerate}[nosep, leftmargin=*]
@@ -80,7 +80,7 @@ Our goal is to find an algorithm that determines all different behavior dependin
                 \item If $(A,B) == (C,D)$
                 \begin{enumerate}[nosep, leftmargin=*]
                     \item $ms \gets$ merge $(A, B)$\;
-                    \item add state $ms$ with interval $[\alpha_{lo},\alpha_{hi}]$ to the end of $st$
+                    \item add state $ms$ with interval $[\alpha_{lo},\alpha_{hi})$ to the end of $st$
                 \end{enumerate}
                 \item Else
                 \begin{enumerate}[nosep, leftmargin=*]
@@ -129,7 +129,7 @@ Applying \ref{eq:equalize} to a concrete example of distance functions leads to 
     \label{eq:equalizesc}
 \end{equation}
 
-After knowing the exact consistent range, we split the clusters for the different states and then calculate the merge candidates for the start and the end of the new intervals again. We can show the different possible merges in a tree of executions, where each node represents one interval $[\alpha_{lo}, \alpha_{hi}]$ where the same clusters get merged (see figure \ref{fig:toe}). We perform the described procedure for iterations $i = count(points) -1$ times until only one cluster containing all points is left. All the leaf nodes in the resulting tree of executions then represent one interval $[\alpha_{lo}, \alpha_{hi}]$ where the clustering is expected to be consistent within the interval and each interval contains a different clustering. Next we will show that all intervals are well-defined, i.e. in each interval, the clustering always is constant. To do so, we prove that each distance function is a linear function depending on the parameter $\alpha$ (see equation \ref{eq:linear}).
+After knowing the exact consistent range, we split the clusters for the different states and then calculate the merge candidates for the start and the end of the new intervals again. We can show the different possible merges in a tree of executions, where each node represents one interval $[\alpha_{lo}, \alpha_{hi}]$ where the same clusters get merged (see figure \ref{fig:toe}). We perform the described procedure for iterations $i = count(points) -1$ times until only one cluster containing all points is left. All the leaf nodes in the resulting tree of executions then represent one interval $[\alpha_{lo}, \alpha_{hi}]$ where the clustering is expected to be consistent within the interval and each interval contains a different clustering. Next we will show that all intervals are well-defined, i.e.\ in each interval, the clustering always is constant. To do so, we prove that each distance function is a linear function depending on the parameter $\alpha$ (see equation \ref{eq:linear}).
 
 \begin{equation}
     \begin{aligned}
@@ -232,7 +232,7 @@ By calculating the split points recursively, the example in figure \ref{fig:noto
     \label{alg:alphalinkage2}
 \end{algorithm}
 
-As experimental results turn out to need a lot of memory (up to $\approx$ 20 GB for 300 points and 20,000 states), we want to adapt algorithm \ref{alg:alphalinkage2} so that it uses less memory. The memory usage scales relative to the amount of currently in-memory stored states, so the goal is to reduce these. As the amount of states is much larger than the amound of iterations, we calculate and evaluate the leave nodes of the tree and keep the alternative merges stored, i.e. we use a depth-first instead of a breadth-first approach. This results in algorithm \ref{alg:alphalinkage3}.
+As experimental results turn out to need a lot of memory (up to $\approx$ 20 GB for 300 points and 20,000 states), we want to adapt algorithm \ref{alg:alphalinkage2} so that it uses less memory. The memory usage scales relative to the amount of currently in-memory stored states, so the goal is to reduce these. As the amount of states is much larger than the amound of iterations, we calculate and evaluate the leave nodes of the tree and keep the alternative merges stored, i.e.\ we use a depth-first instead of a breadth-first approach. This results in algorithm \ref{alg:alphalinkage3}.
 
 \begin{algorithm}
     \textbf{Input:} Merge functions $\DZero$ and $\DOne$, clustering instance $S = \{x_1, \dots, x_n\}$ and initial state $st$
@@ -261,7 +261,7 @@ As experimental results turn out to need a lot of memory (up to $\approx$ 20 GB 
     \label{alg:alphalinkage3}
 \end{algorithm}
 
-Using a depth-first implementation instead of a breadth-first implementation leads to huge benefits. We do not need a lot of memory anymore and together with the memory / copying costs, we also improve the runtime. Figure \ref{fig:performance} gives insights about the memory usage and the required runtime for our MNIST experiments with algorithm \ref{alg:alphalinkage2} (breadth-first) and algorithm \ref{alg:alphalinkage3} (depth-first). We notice that the memory usage for the breadth-first implementation had an exponential growth. Clustering 500 points already needed 8 GB of memory, that was the maximum of the device the experiments were run on, i.e. for larger-scale experiments we would have been forced to use better hardware. Instead, with the depth-first we have a linear growth over the points and it is possible to reduce the amount of needed memory further if the intervals do not have to be stored in-memory, e.g. when we run an experiment on one dataset, we can directly export resulting intervals. For the breadth-first approach this would also be possible, but not prior to the last iteration, as we have to store each interval in each of the previous iterations. In addition, figure \ref{fig:performance} shows that the runtime also benefits from using the depth-first implementation. While we needed more than one hour to evaluate 500 points, we now need less than 10 minutes. This allows us to scale up our experiments from so far $\approx 250$ points to $\approx 1,000$ points.
+Using a depth-first implementation instead of a breadth-first implementation leads to huge benefits. We do not need a lot of memory anymore and together with the memory / copying costs, we also improve the runtime. Figure \ref{fig:performance} gives insights about the memory usage and the required runtime for our MNIST experiments with algorithm \ref{alg:alphalinkage2} (breadth-first) and algorithm \ref{alg:alphalinkage3} (depth-first). We notice that the memory usage for the breadth-first implementation had an exponential growth. Clustering 500 points already needed 8 GB of memory, that was the maximum of the device the experiments were run on, i.e.\ for larger-scale experiments we would have been forced to use better hardware. Instead, with the depth-first we have a linear growth over the points and it is possible to reduce the amount of needed memory further if the intervals do not have to be stored in-memory, e.g.\ when we run an experiment on one dataset, we can directly export resulting intervals. For the breadth-first approach this would also be possible, but not prior to the last iteration, as we have to store each interval in each of the previous iterations. In addition, figure \ref{fig:performance} shows that the runtime also benefits from using the depth-first implementation. While we needed more than one hour to evaluate 500 points, we now need less than 10 minutes. This allows us to scale up our experiments from so far $\approx 250$ points to $\approx 1,000$ points.
 
 \begin{figure}
 \centering
@@ -339,11 +339,11 @@ This leads to a clean implementation, where we do not store unnecessary interval
 
 \section{Performance Optimizations}
 
-In order to have real-world applications, the proposed algorithms should run in an efficient way, i.e. it should not take the $\alpha$-linkage algorithms too much time to run. A first python implementation took days to run, but switching to C++ and using its advantages took down the runtime to hours. However, there are more optimization methods that we used in order to improve the runtime.
+In order to have real-world applications, the proposed algorithms should run in an efficient way, i.e.\ it should not take the $\alpha$-linkage algorithms too much time to run. A first python implementation took days to run, but switching to C++ and using its advantages took down the runtime to hours. However, there are more optimization methods that we used in order to improve the runtime.
 
 \subsection{Dynamic Programming}
 
-One of the most time-consuming parts was the calculation of the distances. For each pair of clusters $C_i, C_j$ the distance had to be calculated for each clustering state. We optimized this by using dynamic programming to store the distance matrices $D_{lower}$ and $D_{upper}$ for each state. There we interpolate from one linkage distance (lower) to another linkage distance (upper), e.g. the $\dsc$ setting describes the interpolation from single linkage (lower) to complete linkage (upper). In this example we then store the pairwise distances for both single linkage and complete linkage and in order to find the merge candidates we have to iterate over the distance matrices instead of calculating the distances over and over again. When we merge two clusters, we then update the distance matrices for the given state. Table \ref{dp:distances} shows an example for the pairwise distances of clusters $i$ and $j$.
+One of the most time-consuming parts was the calculation of the distances. For each pair of clusters $C_i, C_j$ the distance had to be calculated for each clustering state. We optimized this by using dynamic programming to store the distance matrices $D_{lower}$ and $D_{upper}$ for each state. There we interpolate from one linkage distance (lower) to another linkage distance (upper), e.g.\ the $\dsc$ setting describes the interpolation from single linkage (lower) to complete linkage (upper). In this example we then store the pairwise distances for both single linkage and complete linkage and in order to find the merge candidates we have to iterate over the distance matrices instead of calculating the distances over and over again. When we merge two clusters, we then update the distance matrices for the given state. Table \ref{dp:distances} shows an example for the pairwise distances of clusters $i$ and $j$.
 
 \begin{table}[H]
     \centering
@@ -360,7 +360,7 @@ One of the most time-consuming parts was the calculation of the distances. For e
     \label{dp:distances}
 \end{table}
 
-One observation that we can make is that the matrix has a lot of redundant values, because all our distance functions are symmetric, i.e. $D(i,j) = D(j,i)$. Removing these redundant values will result in a trade-off between copying and indexing costs and will be discussed in the following section. Another optimization we can do is to store the indices of the active clusters, i.e. the clusters that can get merged. Once two clusters got merged, they cannot be merged any further, only the resulting cluster can. So we then do not have to consider the old clusters anymore and can remove them from the set of active indicies. This allows us to find the merge candidates faster as the pool of candidates gets smaller.
+One observation that we can make is that the matrix has a lot of redundant values, because all our distance functions are symmetric, i.e.\ $D(i,j) = D(j,i)$. Removing these redundant values will result in a trade-off between copying and indexing costs and will be discussed in the following section. Another optimization we can do is to store the indices of the active clusters, i.e.\ the clusters that can get merged. Once two clusters got merged, they cannot be merged any further, only the resulting cluster can. So we then do not have to consider the old clusters anymore and can remove them from the set of active indicies. This allows us to find the merge candidates faster as the pool of candidates gets smaller.
 
 \subsection{Trade-Off between Copying and Indexing Costs}
 

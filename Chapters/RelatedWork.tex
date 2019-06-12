@@ -1,6 +1,6 @@
 \chapter{Related Work}
 
-As briefly discussed earlier, it is often not trivial to find the best algorithm for a given clustering task. While there already is empirical work in data-driven algorithm selection in certain such as choosing the step size in gradient descent \cite{DBLP:journals/corr/GuptaR15b}, this thesis focuses on the in section \ref{chapter:background} discussed bottom-up hierarchical clustering with the three different linkage strategies. In practice, there exists a variety of additional clustering algorithms that often also are parameterized, however data-driven methods only exist to some extent, e.g. for calculating the seeds of k-means efficiently \cite{arthur2007k}.
+As briefly discussed earlier, it is often not trivial to find the best algorithm for a given clustering task. While there already is empirical work in data-driven algorithm selection in certain domains such as choosing the step size in gradient descent \cite{DBLP:journals/corr/GuptaR15b}, this thesis focuses on the in section \ref{chapter:background} discussed bottom-up hierarchical clustering with the three different linkage strategies. In practice, there exists a variety of additional clustering algorithms that often also are parameterized, however data-driven methods only exist to some extent, e.g.\ for calculating the seed points of k-means efficiently \cite{arthur2007k}.
 
 \todo[inline]{Explain \cite{DBLP:journals/corr/abs-1711-03091}.}
 
@@ -13,7 +13,7 @@ As this work tries to select from a family of strategies, we first look at formu
     \label{eq:algfam1}
 \end{equation}
 
-Equation \ref{eq:algfam1} shows a distances in the range between single linkage ($\alpha = -\infty$) and complete linkage ($\alpha = \infty$). They also show that $\mathbb{R} \cup \{\infty, -\infty\}$ contains a maximum of $O(n^8)$ different intervals, where each interval $[\alpha_{lo}, \alpha_{hi}]$ represents a different merging behavior.
+Equation \ref{eq:algfam1} shows a distance in the range between single linkage ($\alpha = -\infty$) and complete linkage ($\alpha = \infty$). They also show that $\mathbb{R} \cup \{\infty, -\infty\}$ contains a maximum of $O(n^8)$ different intervals, where each interval $[\alpha_{lo}, \alpha_{hi}]$ represents a different merging behavior.
 
 \begin{equation}
     \begin{aligned}
@@ -22,6 +22,6 @@ Equation \ref{eq:algfam1} shows a distances in the range between single linkage 
     \label{eq:algfam2}
 \end{equation}
 
-Equation \ref{eq:algfam2} will also result in single linkage for $\alpha = - \infty$ and complete linkage for $\alpha = \infty$. In addition to that, the family $\mathcal{A}_2$ also contains the definition of average linkage ($\alpha = 0$). However, the guarantee for maximum $O(n^8)$ intervals does not apply to this family. A formal guarantee will be $O(n^4 2^n)$, but this thesis will show that the experimental results are much better than the actual formal guarantee.\\
+Equation \ref{eq:algfam2} will also result in single linkage for $\alpha = - \infty$ and complete linkage for $\alpha = \infty$. In addition to that, the family $\mathcal{A}_2$ also contains the definition of average linkage ($\alpha = 1$). However, the guarantee for maximum $O(n^8)$ intervals does not apply to this family. A formal guarantee will be $O(n^4 2^n)$, but this thesis will show that the empirical results are much better than the actual formal guarantee.\\
 
-Balcan et. al also provided a solution to calculate all different merges of $\mathcal{A}_1$, however this approach solved the mathematical equations and led to the same clusters being used for a merge quite a often. As our solution only evaluates cases where different clusters get merged, the algorithm described in the following section has a lower runtime as well as a lower lower complexity.
+Balcan et. al also provide a solution to calculate all different merges of $\mathcal{A}_1$, however this approach solves the mathematical equations and leads to the same clusters being used for a merge quite often. As our solution only evaluates cases where different pairs of clusters get merged, the algorithm described in the following section has a lower runtime as well as a lower lower complexity.
