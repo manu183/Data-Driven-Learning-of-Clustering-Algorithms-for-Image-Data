@@ -102,7 +102,7 @@ Our goal is to find an algorithm that determines all different behaviors dependi
     \label{alg:alphalinkage1}
 \end{algorithm}
 
-Starting from an interval $\alpha \in [\alpha_{lo}, \alpha_{hi}]$, algorithm \ref{alg:alphalinkage1} calculates the merging clusters by $\min\limits_{X, Y} d(X,Y,\alpha)$ for both the minimum $\alo$ and the maximum $\ahi$ of the interval. In case both values of $\alpha$ return the same pair of merging clusters $A$ and $B$, we merge $A$ and $B$. In case the values of $\alo$ and $ahi$ lead to different merges, we can calculate a value $\alpha_{split}$ where we know that for values of $\alpha \in [\alo, alpha_{split})$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\alo)$ and for values of $\alpha \in [\alpha_{split}, \ahi]$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\ahi)$. In order to calculate the value of $\alpha_{split}$ we can equalize the distance functions of the merges of clusters $A, B$ and the clusters $C, D$ (say $\alpha_{lo}$ leads to merging $A$ and $B$ and $\alpha_{hi}$ leads to merging $C$ and $D$ or vice versa) as seen in equation \ref{eq:equalize}. 
+Starting from an interval $\alpha \in [\alpha_{lo}, \alpha_{hi}]$, algorithm \ref{alg:alphalinkage1} calculates the merging clusters by $\min\limits_{X, Y} d(X,Y,\alpha)$ for both the minimum $\alo$ and the maximum $\ahi$ of the interval. In case both values of $\alpha$ return the same pair of merging clusters $A$ and $B$, we merge $A$ and $B$. In case the values of $\alo$ and $ahi$ lead to different merges, we can calculate a value $\alpha_{split}$ where we know that for values of $\alpha \in [\alo, \alpha_{split})$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\alo)$ and for values of $\alpha \in [\alpha_{split}, \ahi)$ we merge the clusters found for $\min\limits_{X, Y} d(X,Y,\ahi)$. In order to calculate the value of $\alpha_{split}$ we can equalize the distance functions of the merges of clusters $A, B$ and the clusters $C, D$ (say $\alpha_{lo}$ leads to merging $A$ and $B$ and $\alpha_{hi}$ leads to merging $C$ and $D$ or vice versa) as seen in equation \ref{eq:equalize}. 
 
 \begin{equation}
     \begin{aligned}
@@ -141,7 +141,7 @@ After knowing the exact consistent range, we split the clusters for the differen
     \label{eq:linear}
 \end{equation}
 
-As we now know that all distance functions are linear functions, we can argue that by calculating the intersection of two distance functions, we can say that both distance functions will be optimal for some region. However just calculating the split values in a range $[\alpha_{lo}, \alpha_{hi}]$ does not necessarily yield to the best possible solution. One of these examples is demonstrated in figure \ref{fig:notoptimal}, where the blue line for the constant value of $d$ will not be considered, only the lines $\alpha \in [\alpha_{lo}, alpha_{split})$ (red) and $\alpha \in [\alpha_{split}, alpha_{high}]$ (black) will be.
+As we now know that all distance functions are linear functions, we can argue that by calculating the intersection of two distance functions, we can say that both distance functions will be optimal for some region. However just calculating the split values in a range $[\alpha_{lo}, \alpha_{hi}]$ does not necessarily yield to the best possible solution. One of these examples is demonstrated in figure \ref{fig:notoptimal}, where the blue line for the constant value of $d$ will not be considered, only the lines $\alpha \in [\alpha_{lo}, \alpha_{split})$ (red) and $\alpha \in [\alpha_{split}, \alpha_{hi})$ (black) will be.
 
 \begin{figure}
     \centering
@@ -407,7 +407,7 @@ The matrices are now smaller, so they need less memory. In the example, we chang
     \label{eq:indexing}
 \end{equation}
 
-Calculating this index in a nested loop is very expensive, however we calculate the part that does not depend on $i$ in the outer loop and thus only need to add $i$ in the inner loop. This does not only yield to a lower memory usage of $\approx 30\%$, but also increases the runtime by the same factor.
+Calculating this index in a nested loop is very expensive, however we calculate the part $index(j)$ that does not depend on $i$ in the outer loop and thus only need to add $i$ in the inner loop. This does not only yield to a lower memory usage of $\approx 30\%$, but also increases the runtime by roughly the same factor.
 
 \subsection{Implementation-specific Optimizations}
 

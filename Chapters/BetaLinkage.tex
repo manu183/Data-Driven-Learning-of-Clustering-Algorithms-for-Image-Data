@@ -35,6 +35,21 @@ We can then compete all possible discontinuities by comparing the distances of g
 \label{eq:discont}
 \end{align*}
 
-As we know that the function $d_\beta$ is a linear function depending on $\beta$ and we showed that all discontinuities depend on four points, we know that there at most $O(n^4)$ well-defined intervals $I_i \in [0,1]$ for any clustering instance $S$, i.e. in any interval $I_i$ the algorithm will merge the same two points.
+As we know that the function $d_\beta$ is a linear function depending on $\beta$ and we showed that all discontinuities depend on four points, we know that there at most $O(n^4)$ well-defined intervals $I_i \in [0,1]$ for any clustering instance $S$, i.e. in any interval $I_i$ the algorithm will merge the same two points. In order to efficiently calculate and evaluate all resulting cluster trees, we use an algorithm similar to algorithm \ref{alg:alphalinkage4}, but adapted to $\beta$-linkage.
+
+\begin{algorithm}
+\textbf{Input:} Metrics $\dZero$ and $\dOne$, parameter $\beta \in [0,1]$, and clustering instance $S = \{x_1, \dots, x_n\}$.
+\begin{enumerate}[nosep, leftmargin=*]
+\item Let $\mathcal{N} = \{\leaf(x_1), \dots, \leaf(x_n)\}$ be the initial set of nodes (one leaf per point).
+\item While $|\mathcal{N}| > 1$
+\begin{enumerate}[nosep, leftmargin=*]
+  \item Let $A, B \in \mathcal{N}$ be the clusters in $\mathcal{N}$ minimizing $\max_{a \in A, b \in B} \dbeta(a, b)$.
+  \item Remove nodes $A$ and $B$ from $\mathcal{N}$ and add $\node(A,B)$ to $\mathcal{N}$.
+\end{enumerate}
+\item Return the cluster tree (the only element of $\mathcal{N}$).
+\end{enumerate}
+\caption{$\beta$-linkage Clustering}
+\label{alg:betalinkage}
+\end{algorithm}
 
 \todo[inline]{more details / explanations}
