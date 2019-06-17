@@ -48,6 +48,15 @@ Average linkage defines a distance between two clusters $X$ and $Y$ as the avera
     \label{eq:averagelinkage}
 \end{equation}
 
+Figure \ref{fig:linkage_types} demonstrates which points are used for the different linkage strategies using two exemplary clusters.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/linkage_types}
+    \caption{To calculate the distance between two clusters, single linkage calculates the nearest neighbor distance, complete linkage uses the farthest neighbor and average linkage calculates the average distance over all points \cite{linkage_types}.}
+    \label{fig:linkage_types}
+\end{figure}
+
 \paragraph{Effects of different linkage strategies.}
 
 Depending on the linkage strategy, the pairwise distances between all $N$ clusters $C_1, ..., C_N$ will be different. As the clustering algorithm merges the closest pair of clusters in each iteration, the merging clusters $C_i$ and $C_j$ with $i, j \in 1,...,N$ might vary as shown in figure \ref{fig:linkage_effects}, where ten clusters $C_0, ..., C_9$ get clustered with bottom-up hierarchical clustering using the Euclidean distance as the pointwise distance $d(x,y)$ to calculate the pairwise distance according to the three mentioned linkage strategies.
