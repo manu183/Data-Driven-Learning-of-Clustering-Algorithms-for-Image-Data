@@ -16,6 +16,20 @@ While the in section \ref{sec:relatedwork} described approaches are less efficie
 \item Parameter Advising is a very powerful tool to provide more accurate clusterings. Our greedy implementation allows to calculate the optimal parameter in an approximately optimal way very efficiently.
 \end{itemize}
 
+To be more precise, we show the results for the different datasets. In table \ref{table:comparison} we compare the single to complete linkage interpolation for all the discussed data sets in the batch setting. We notice that we achieve major improvements for all data sets and, excluding the synthetic data, receive similar values for $\alpha_{opt}$. This knowledge may be useful for transfer learning between different data sets in feature work.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l | l l l l l l |}
+    \hline
+    & Synthetic & NELL & MNIST & Omniglot & CIFAR10 & CIFAR100\\ \hline
+    $\alpha_{opt}$ & 0.169 & 0.918 & 0.857 & 0.908 & TODO & TODO\\
+    $\Delta_{cost}$ & 22.70\% & 1.20\% & 3.70\% & 1.0\% & TODO & TODO\\\hline
+    \end{tabular}
+    \caption{$\alpha$-linkage reduces the cost of the MNIST dataset by up to $\Delta_{max} cost = 5.1543\%$ when interpolating between single and complete linkage.}
+    \label{table:comparison}
+\end{table}
+
 As we had implemented a framework to efficiently interpolate between inter-cluster distances, we also adapted it to interpolate between point distances in section \ref{sec:beta}. We generated image features with Convolutional Neural Networks and text features with Word Embeddings and showed in section \ref{sec:results} that we outperform all used feature representations.
 
 \paragraph{Future Work.} Nevertheless we can think of further additions to this work. The proposed algorithms only work for linear interpolation between two algorithms. In this setting, proving that in each interval we perform the same optimal merge is mostly trivial. As an adaption of our algorithms, we can think of interpolating between more algorithms, e.g.\ we could interpolate between single, average and complete linkage with a distance such as the following:

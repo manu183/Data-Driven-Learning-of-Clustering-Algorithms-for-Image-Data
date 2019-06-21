@@ -147,6 +147,8 @@ As we now know that all distance functions are linear functions, we can argue th
     \centering
     \begin{tikzpicture}
         \begin{axis}[ 
+        axis x line=bottom,% only show the bottom x axis
+        axis y line=left,
         xlabel=$\alpha$,
         ylabel={$d$},
         xmin=0.4,
@@ -177,6 +179,8 @@ In order to solve this, we can recursively check each resulting interval again i
     \centering
     \begin{tikzpicture}
         \begin{axis}[ 
+        axis x line=bottom,% only show the bottom x axis
+        axis y line=left,
         xlabel=$\alpha$,
         ylabel={$d$},
         xmin=0.4,
@@ -315,6 +319,8 @@ This leads to a clean implementation, where we do not store unnecessary interval
     \centering
     \begin{tikzpicture}
         \begin{axis}[ 
+        axis x line=bottom,% only show the bottom x axis
+        axis y line=left,
         xlabel=$\alpha$,
         ylabel={$d$},
         xmin=0.4,
