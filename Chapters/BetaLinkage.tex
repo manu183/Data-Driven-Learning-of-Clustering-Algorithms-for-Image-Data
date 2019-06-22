@@ -6,7 +6,7 @@ In a similar fashion as described in section \ref{chapter:alphalinkage} this sec
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ExampleDataset}
-    \caption{Combining several metrics seems often natural and can lead to improved results as in this example where we project a dataset on both axes.}
+    \caption{Combining several metrics seems often natural and can lead to improved results as in this example where we project a dataset on the $x_1$- and the $x_2$-axis.}
     \label{fig:metrics}
 \end{figure}
 
@@ -29,7 +29,7 @@ We can then compete all possible discontinuities by comparing the distances of g
 \begin{align*}
 &d_\beta(x,x') = d_\beta(y,y')\\
 &(1 - \beta) \cdot d_0(x,x') + \beta \cdot d_1(x,x') = (1 - \beta) \cdot d_0(y,y') + \beta \cdot d_1(y,y')\\
-&d_0(x,x') - \beta \cdot d_0(x,x')  + \beta \cdot d_1(x,x') = d_0(y,y') - \beta \cdot d_0(y,y') + \beta \cdot d_1(y,y')\\
+&d_0(x,x') - \beta \cdot d_0(x,x') + \beta \cdot d_1(x,x') = d_0(y,y') - \beta \cdot d_0(y,y') + \beta \cdot d_1(y,y')\\
 &\beta \cdot (- d_0(x,x') + d_1(x,x') + d_0(y,y') - d_1(y,y')) = - d_0(x,x') + d_0(y,y')\\
 &\beta = \frac{- d_0(x,x') + d_0(y,y')}{- d_0(x,x') + d_1(x,x') + d_0(y,y') - d_1(y,y')}
 \label{eq:discont}

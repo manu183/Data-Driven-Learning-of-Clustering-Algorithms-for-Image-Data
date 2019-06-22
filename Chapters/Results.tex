@@ -56,7 +56,7 @@ In order to find new subclusters for the NELL data, we cluster each of the 32 ma
 \label{fig:nellresults}
 \end{figure}
 
-We see minor improvements when clustering between single and complete and average and complete linkage. On the other hand, interpolating between single and average linkage did not lead to any improvement. In order to evaluate the results further, we have a closer look at the curves and see that the overall improvement we get is $0.53\%$, a reduction from $15.9725\%$ (complete linkage) to $15.4422\%$ ($\alpha_{SC}(0.826)$) as shown in table \ref{table:nellresults}. An interesting observation is that while single linkage performs very poor overall, interpolating between single and complete linkage gives a better improvement than interpolating between average and complete linkage. To evaluate these experiments we are using the Majority Distance, as for such a large number of target clusters calculating the Hamming distance is not efficient. 
+We see minor improvements when clustering between single and complete and average and complete linkage. On the other hand, interpolating between single and average linkage did not lead to any improvement. In order to evaluate the results further, we have a closer look at the curves and see that the overall improvement we get is $0.53\%$, a reduction from $15.97\%$ (complete linkage) to $15.44\%$ ($\alpha_{SC}(0.826)$) as shown in table \ref{table:nellresults}. An interesting observation is that while single linkage performs very poor overall, interpolating between single and complete linkage gives a better improvement than interpolating between average and complete linkage. To evaluate these experiments we are using the Majority Distance, as for such a large number of target clusters calculating the Hamming distance is not efficient. 
 
 \begin{table}[h]
     \centering
@@ -73,7 +73,7 @@ We see minor improvements when clustering between single and complete and averag
     \label{table:nellresults}
 \end{table}
 
-As the algorithm became a lot more efficient during this work, we scaled up the algorithms to use 1,000 instead of 250 points per class. Figure \ref{fig:nellresults1000} shows that in general the error is slightly higher. This is because our experiments contain more different classes. Overall, we again see slight improvements that are shown in table \ref{table:nell1000}. Compared to the previous experiments, the improvements were a bit bigger ($1.2078\%$ leading to an error of $16.6742\%$), however the overall curves look very similar. In this setting, we also evaluated the parameter advising for the first 10 parameters $\alpha^*$ (see figure \ref{fig:nell1000top10}).
+As the algorithm became a lot more efficient during this work, we scaled up the algorithms to use 1,000 instead of 250 points per class. The results for all classes are shown in appendix \ref{app:nell}. Figure \ref{fig:nellresults1000} shows that in general the error is slightly higher. This is because our experiments contain more different classes. Overall, we again see slight improvements that are shown in table \ref{table:nell1000}. Compared to the previous experiments, the improvements were a bit bigger ($1.21\%$ leading to an error of $16.67\%$), however the overall curves look very similar. In this setting, we also evaluated the parameter advising for the first 10 parameters $\alpha^*$ (see figure \ref{fig:nell1000top10}).
 
 \begin{figure}[h]
 \centering
@@ -93,7 +93,7 @@ As the algorithm became a lot more efficient during this work, we scaled up the 
     $\alpha_{SC}(0.918)$ & 0.166742\\
     $\alpha_{AC}(0.855)$ & 0.171083\\\hline
     \end{tabular}
-    \caption{Our proposed algorithm reduces the NELL cost by $\Delta cost = 1.2078\%$ when using a maximum of 1000 points for each class.}
+    \caption{Our proposed algorithm reduces the NELL cost by $\Delta cost = 1.21\%$ when using a maximum of 1000 points for each class.}
     \label{table:nell1000}
 \end{table}
 
@@ -107,7 +107,7 @@ As the algorithm became a lot more efficient during this work, we scaled up the 
   \centering
   \includegraphics[width=\linewidth]{plots/nell_ac_1000_top10}
 \end{minipage}
-\caption{$\alpha$-linkage using 1000 points for each clustering instance gives minor improvements for the NELL data when clustering between single and complete (left) and average and complete linkage (right).}
+\caption{Parameter Advising improves the clustering in both settings by at least $2\%$ for three parameters $\alpha^*$ for the NELL data.} 
 \label{fig:nell1000top10}
 \end{figure}
 
@@ -241,7 +241,7 @@ Table \ref{table:mnistscbatches} leads to several observations. Clustering point
 \label{fig:splits}
 \end{figure}
 
-In figure \ref{fig:splits} we observe that interpolating between single and complete linkage leads to a larger amount of discontinuities than interpolating between average and complete linkage, evaluating the MNIST batch experiments leads to more than three times as many discontinuities. We also observe that a large amount of discontinuities occur close to single linkage, i.e.\ we observe a huge variety of different clustering trees. Precisely, around single linkage ($\alpha \rightarrow 0$) we observe four times as many different clusterings as for complete linkage ($\alpha \rightarrow 1$). An interesting observation is that for $\alpha \approx 0.25$ we have half as many discontinuities as for single linkage and twice as many as complete linkage,  i.e.\ we have an approximately exponential decrease during the interpolation.
+In figure \ref{fig:splits} we observe that interpolating between single and complete linkage leads to a larger amount of discontinuities than interpolating between average and complete linkage, evaluating the MNIST batch experiments leads to more than three times as many discontinuities. We also observe that a large amount of discontinuities occur close to single linkage, i.e.\ we observe a huge variety of different clustering trees. Precisely, around single linkage ($\alpha \rightarrow 0$) we observe four times as many different clusterings as for complete linkage ($\alpha \rightarrow 1$). An interesting observation is that for $\alpha \approx 0.25$ we have half as many discontinuities as for single linkage and twice as many as complete linkage, i.e.\ we have an approximately exponential decrease during the interpolation.
 
 \begin{table}[H]
     \centering
@@ -254,7 +254,7 @@ In figure \ref{fig:splits} we observe that interpolating between single and comp
     $cost_{opt}$ & 0.439207\\
     $\Delta cost$ & 3.6979\%\\\hline
     \end{tabular}
-    \caption{Over the first 12,000 points of the MNIST dataset interpolating between single and complete linkage improves hamming cost by $3.7\%$ }
+    \caption{Over the first 12,000 points of the MNIST dataset interpolating between single and complete linkage improves hamming cost by $3.7\%$.}
     \label{table:mnist1000avgsc}
 \end{table}
 
@@ -322,32 +322,6 @@ Summarizing, we also obtained very positive results for $d_{AC}$, however the re
 
 \paragraph{Learning MNIST features.} Differently to just using the raw pixel features, we here apply preprocessing techniques with the intention to generate more accurate clusterings. As in section \ref{sec:imagefeatures} described, we use a Convolutional Neural Network to learn a more robust and lower-dimensional feature representation. Therefore, we use the in appendix \ref{sec:cnnarchitecture} described architecture, train the network with all data and then extract the features by cutting off the last three layers of the network. This then results in a learned 128-dimensional representation for each image.
 
-% \begin{figure}[h]
-% \centering
-% \begin{minipage}{.45\textwidth}
-%   \centering
-%   \subcaptionbox{By evaluating all 252 combinations of five different labels, the average error goes down to $2.6\%$ that makes an improvement of $7.4\%$ compared to complete linkage.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-avg}}
-% \end{minipage}\quad
-% \begin{minipage}{.45\textwidth}
-%   \centering
-%   \subcaptionbox{Evaluating 512 random sets of labels and points gives an eror of $7.1\%$ that is an improvement of $1.9\%$ compared to complete linkage.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-random}}
-% \end{minipage}
-% \begin{minipage}{.45\textwidth}
-%   \centering
-%   \subcaptionbox{Considerung more than one optimal value to evaluate the experiments results in lower costs, e.g. using two values $\alpha_{opt}$ cuts the cost by $50\%$ and using three values results in a cost below $1\%$.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-sc-top-10}}
-% \end{minipage}\quad
-% \begin{minipage}{.45\textwidth}
-%   \centering
-%   \subcaptionbox{On random sets of labels and randomly selected points, taking more than one optimal value $\alpha_{opt}$ also gives major improvements. With three values the cost goes down below $3\%$ that is less than a half of the original optimum.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-sc-random-top-10}}
-% \end{minipage}
-% \caption{By learning feature representations with a Convolutional Neural Network, we can reduce the overall error a lot compared to clustering raw pixel images.}
-% \label{fig:mnist1000cnn}
-% \end{figure}
-
 Figure \ref{fig:mnist_overview} (a) shows that single linkage still performs poorly, however the error for both complete linkage and the interval in between are much lower. Also, we note that the improvement using $\alpha$-linkage is large over both settings. However, a Convolutional Neural Network aims at recognizing the characters, so training on all images might be the sole cause of our improvements. Thus, it is more relevant for our experiments to either train the network on a subset of the data or to train the network on a different task in order to transfer the knowledge to unseen data or to a different task.
 
 \paragraph{Learning Subsets of the MNIST Data.} As our goal is also to cluster unseen data, we evaluated another setup, where a CNN was trained on a subset of the dataset. In a first attempt, we trained it on the labels $\{0,1,2,3,4\}$ that are represented with 30,000 of the 60,000 points in the dataset. Figure \ref{fig:mnist_overview} (a) shows that clustering unseen points (i.e. the CNN did not use these points for training) still results in a lower error than using the raw pixel features where combining seen and unseen points leads to results that are comparable to clusterings with features extracted from a neural network that was trained with all digits. In average, complete linkage resulted in an error of $22.1\%$. The cost for $\alpha_{opt} = 0.67$ is $20.7\%$ and makes an improvement of $1.4\%$. Interesting especially in this setting are the different results of seen and unseen data. In machine learning, the task of applying knowledge to unseen data is commonly known as few-shot learning \cite{ren2018meta}. While the error was $0.2\%$ for large parts of the seen data (i.e. clustering the digits $\{0,1,2,3,4\}$), the optimal cost for the unseen data (i.e. clustering the digits $\{5,6,7,8,9\}$) was $24.7\%$ for $\alpha_{opt} = 0.76$.\\
@@ -356,74 +330,9 @@ In the random setting, we again used the same feature vectors. Figure \ref{fig:m
 
 \paragraph{Learning Broader Features.} In comparison to extracting the feature vectors from the 6th layer, we also evaluated feature vectors before the dense layer that compromises the feature dimensionality from 9216 to 128 dimensions. The higher dimensionality might represent more information that however does necessarily have to be important for the clustering tasks. In this setting, the neural network was agained trained with the images showing the digits $\{0,1,2,3,4\}$. Figure \ref{fig:mnist_overview} (a) shows that even for the trained digits, the clusterings were not accurate on the 9216-dimensional features. More precisely, clustering the labels the network was trained on results in an optimal cost of $40.0\%$ that is still slightly better than using the raw pixel features, however when averaging over all instances, the optimal cost was $49.0\%$ for $\alpha_{opt} = 0.98$. This means that the results are worse than using the raw pixel features. Another interesting observation is that the cost stays mostly constant at $0.8$ for $\alpha \in [0.0,0.6]$. As this matches a random guess for distinguishing between five classes, this observation leads to the result that the broader features extracted from an earlier layer of the neural network do not give a helpful feature representation for clustering tasks. We did not consider these features for further usage.
 
-% \begin{figure}[h]
-% \centering
-% \begin{minipage}{.3\textwidth}
-%   \centering
-%   \subcaptionbox{The learned characters (i.e. labels $\{0,1,2,3,4\}$) can be clustered very well. Similar to training on all labels, the error goes down close to $0\%$.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-01234}}
-% \end{minipage}\quad
-% \begin{minipage}{.3\textwidth}
-%   \centering
-%   \subcaptionbox{Combining three trained ($0,2,4$) with two untrained digits ($6,8$) still leads to an optimal error of $2.1\%$ that is $10\%$ below complete linkage.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-02468}}
-% \end{minipage}\quad
-% \begin{minipage}{.3\textwidth}
-%   \centering
-%   \subcaptionbox{Clustering three untrained ($5,7,9$) with two trained digits ($1,3$) already leads to larger errors of $15.1\%$.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-13579}}
-% \end{minipage}
-% \begin{minipage}{.3\textwidth}
-%   \centering
-%   \subcaptionbox{Even by clustering only untrained characters, the error goes down to $37\%$ that is a major improvement compared to clustering the raw pixel features that resulted in an optimal cost of $44\%$.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-56789}}
-% \end{minipage}\quad
-% \begin{minipage}{.3\textwidth}
-%   \centering
-%   \subcaptionbox{Averaged over all 252 instances, the error for $\alpha_{opt} = 0.67$ is $20.7\%$ and an improvement of $1.4\%$ compared to complete linkage and $23\%$ compared to the raw pixel features.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-sc}}
-% \end{minipage}\quad
-% \begin{minipage}{.3\textwidth}
-%   \centering
-%   \subcaptionbox{Parameter advising results in major improvements for this setting. Using three values $\alpha^* \in \{0.86, 0.67, 0.99\}$ reduces the error by additional $5.3\%$ to $15.5\%$.} 
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-sub-sc-top10}}
-% \end{minipage}
-% \caption{Learning features depending on a subset of the represented digits leads to different results. While applying the learned digits still leads to almost perfect clusterings, clustering the unlearned digits leads to worse results that still are much better than applying the raw pixel features.}
-% \label{fig:mnist1000cnnsub}
-% \end{figure}
-
 \paragraph{Learning Even and Odd Numbers.} Beside training a neural network on recognizing all digits separately, another learning task to generate feature representations that we used is to learn if an image shows an even or an odd digit. In this setting, we trained the CNN on all images and extracted the feature vectors from the sixth layer. The used network had the same architecture as the one used in the earlier experiments with the only difference of two neurons in the output layer. Figure \ref{fig:mnist_overview} (a) shows that with features trained on a different learning task we still can improve the overall clustering. Complete linkage resulted in a cost of $28.1\%$ for the first data batch, where the optimal alpha $\alpha_{opt} = 0.74$ led to $23.6\%$, an improvement of 4.5\%. The results are only slightly worse than the ones of a network trained to distinguish the digits $\{0,1,2,3,4\}$. Parameter advising lowers the cost another $5.2\%$ for $n = 3$ values $\alpha^* \in \{0.74, 0.65, 0.76\}$.\\
 
 In figure \ref{fig:mnist_overview} (b), we see the results for clustering features extracted from a neural network that was trained on separating even and odd numbers in the random setting. In general, complete linkage results in an error of $26.8\%$. $\alpha_{opt} = 0.75$ improved the error by $2.7\%$ to a cost of $24.1\%$. We notice that the parameter $\alpha_{opt}$ is almost identical. The improvement differs in both settings, however it is still a major improvement that $\alpha$-linkage achieves.
-
-% \begin{figure}[h]
-% \centering
-% \begin{minipage}{.45\textwidth}
-%   \centering
-%   \subcaptionbox{Compared to complete linkage, we got an improvement of $4.5\%$ for $\alpha_{opt} = 0.74$.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-even-odd-sc}}
-% \end{minipage}\quad
-% \begin{minipage}{.45\textwidth}
-%   \centering
-%   \subcaptionbox{Applying parameter advising shows significant improvements for small numbers of $k$.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-even-odd-sc-top10}}
-% \end{minipage}
-% \begin{minipage}{.45\textwidth}
-%   \centering
-%   \subcaptionbox{.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-even-odd-random-sc}}
-% \end{minipage}\quad
-% \begin{minipage}{.45\textwidth}
-%   \centering
-%   \subcaptionbox{.}
-%   {\includegraphics[width=\linewidth]{plots/mnist-cnn-even-odd-random-sc-top10}}
-% \end{minipage}
-% \caption{%
-%   %
-%   Clustering features extracted from a CNN that learned to distinguish even from odd numbers with all data led to an optimal cost of $23.6\%$ (a). Parameter advising allows us to minimize the cost ether further to $18.4\%$ for the values $\alpha^* \in \{0.74, 0.65, 0.76\}$ (b).}
-%   %
-% \label{fig:mnist_cnn_even_odd}
-% \end{figure}
 
 \paragraph{Summarized MNIST Results.} Different experimental setups were discussed in this section. First, raw pixel features were used for clustering. Later on, features extracted from Convolutional Neural Networks were used. There, we trained a network on all digits and extracted the feature vectors from the 6th layer of the network that represents each image encoded in a 128-dimensional vector. We used the same representation coming from a network trained on a subset of the images. In addition, we extracted feature vectors from the 9216-dimensional 5th layer of the network that was trained on a subset of the characters. Figure \ref{fig:mnist_overview} gives an overview about the results of the different settings for both the 252 experiments evaluating all different combinations of five labels within the first data batch as well as the randomized experiments where we evaluated 512 experiments with radomized digits and points from the entire data.
 
@@ -448,7 +357,9 @@ In figure \ref{fig:mnist_overview} (b), we see the results for clustering featur
 
 \subsection{Omniglot}
 
-\paragraph{Intra-Alphabet Experiments.} The omniglot dataset contains 30 different alphabets that clustered independently. We cluster all alphabets independently and average over all clustering instances. To see the results for specific alphabets, please see appendix \ref{app:omniglot}. Here, we average the results over all alphabets for $\dsc$ and $\dac$. Figure \ref{fig:omniglot_overview} shows in both settings complete linkage performs best and we slightly outperform complete linkage. Interpolating between single and complete linkage leads to an error of $71.5\%$ for complete linkage while the optimal parameter $\alpha = 0.908$ leads to an error of $70.5\%$ that makes an improvement of $1.0\%$. When interpolating between average and complete linkage, complete linkage has an error of $71.5\%$, while $\alpha_{opt} = 0.798$ results in an error of $70.5\%$ that makes an improvement of $1.0\%$. We notice that even with the slight improvements we obtain, the error is still very high. This may be caused by the large number of classes (up to 22) used in the omniglot dataset, where a random  guess will result in an error of up to $\approx 95.5\%$ depending on the selected alphabet. Again, we observe that single linkage does not perform well at all, however complete linkage leads to significant improvements over a random guess.
+The creators of the Omniglot dataset have recently published a review about current results with supervised methods \cite{DBLP:journals/corr/abs-1902-03477}. As this work is only about unsupervised learning, our intention is not to perform as well as state-of-the-art supervised methods, but rather to outperform common clustering techniques within the following experiments.
+
+\paragraph{Intra-Alphabet Experiments.} The Omniglot dataset contains 30 different alphabets that clustered independently. We cluster all alphabets independently and average over all clustering instances. To see the results for specific alphabets, please see appendix \ref{app:omniglot}. Here, we average the results over all alphabets for $\dsc$ and $\dac$. Figure \ref{fig:omniglot_overview} shows in both settings complete linkage performs best and we slightly outperform complete linkage. Interpolating between single and complete linkage leads to an error of $71.5\%$ for complete linkage while the optimal parameter $\alpha = 0.908$ leads to an error of $70.5\%$ that makes an improvement of $1.0\%$. When interpolating between average and complete linkage, complete linkage has an error of $71.5\%$, while $\alpha_{opt} = 0.798$ results in an error of $70.5\%$ that makes an improvement of $1.0\%$. We notice that even with the slight improvements we obtain, the error is still very high. This may be caused by the large number of classes (up to 22) used in the Omniglot dataset, where a random guess will result in an error of up to $\approx 95.5\%$ depending on the selected alphabet. Again, we observe that single linkage does not perform well at all, however complete linkage leads to significant improvements over a random guess.
 
 \paragraph{CNN Features.} In addition to clustering the raw pixels, we also used the previously discussed CNN architecture trained on all MNIST images to create a better feature representation. We again clustered all alphabets separately, where we show the results for all alphabets in appendix \ref{app:omniglot}. Figure \ref{fig:omniglot_overview} shows that we the feature representations lower the error a lot. When interpolating between single and complete linkage, we note that single linkage does not perform better with the new features. However, complete linkage leads to an error of $61.0\%$ that is an improvement of $10.5\%$ over the raw pixels. In addition for $\alpha_{opt} = 0.835$, the error is $59.6\%$, i.e.\ an improvement of $1.4\%$ over complete linkage. When interpolating between average and complete linkage, complete linkage leads to an error of $61.0\%$ and $\alpha_{opt} = 0.435$ reduces the cost by another $2.1\%$ to $58.9\%$.
 
@@ -470,15 +381,39 @@ In figure \ref{fig:mnist_overview} (b), we see the results for clustering featur
 \label{fig:omniglot_overview}
 \end{figure}
 
-\subsection{CIFAR}
+\subsection{CIFAR-10}
 
-In addition to these experiments, we will try to cluster as diverse as possible superclasses of the CIFAR100 dataset by manually picking the five superclasses fish, flowers, household furniture, people and vehicles 1. For each superclass we pick one subclass and evaluate the results for all $5 \cdot$ $5 \choose 1$ $= 25$ different combinations of subclasses. In addition to the experiments with $k = 5$ clusters, we compare these results to the results for picking two different subclasses of each superclass ($5 \cdot$ $5 \choose 2$ $= 50$ different experiments) resulting in $k = 10$ clusters and also for picking three different subclasses ($5 \cdot$ $5 \choose 3$ $= 50$ different experiments) resulting in $k = 15$ clusters.\\
+For the CIFAR 10 data, we only have 10 different classes, so we can only cluster these classes. In the first setting, we cluster all different combinations of five different labels and later average the results over all 252 experiments. Figure \ref{fig:cifar10res} (a) shows the results when interpolating between single and complete linkage. While complete linkage has an error of $51.3\%$, the optimal parameter $\alpha = 0.917$ when interpolating between single and complete linkage improves the clustering by $0.2\%$. As this is only a very small improvement, we decided not to proceed with this dataset and focus on the CIFAR-100 dataset instead that allows a bigger variety of experiments.
 
-In comparison to picking as diverse as possible superclasses, we also evaluate the performance for as similar as possible subclasses. Similar subclasses are already given in the dataset through the subclasses within one superclass. We then evaluate the majority and the hamming cost for each superclass and again average the cost over all 20 superclasses to evaluate an optimal value for the parameter $\alpha$.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.6\textwidth]{plots/cifar10_sc}
+  \caption{Experiments for the CIFAR-10 dataset do not lead to significant improvements.}
+  \label{fig:cifar10res}
+\end{figure}
+
+\subsection{CIFAR-100}
+
+The CIFAR 100 dataset contains 20 high-level classes, e.g.\ insects and trees, and five low-level classes for each high-level class, e.g. $\{$bee, cockroach$\} \in$ insects and $\{$oak, palm$\} \in$ trees. In the following experiments, we denote the high-level classes as superclasses and the low-level classes as subclasses.
+
+\paragraph{Inter-Superclass Experiments.} We try to cluster as diverse as possible superclasses of the CIFAR 100 dataset by manually picking the five superclasses fish, flowers, household furniture, people and vehicles 1. For each superclass we pick one subclass and evaluate the results for the different combinations of subclasses. In addition to the experiments with $k = 5$ clusters, we compare these results to the results for picking two different subclasses of each superclass resulting in $k = 10$ clusters and also for picking three different subclasses resulting in $k = 15$ clusters.
+
+\paragraph{Intra-Superclass Experiments.} In comparison to picking as diverse as possible superclasses, we also evaluate the performance for as similar as possible subclasses. Similar subclasses are already given in the dataset through the subclasses within one superclass. We then evaluate the majority and the hamming cost for each superclass and again average the cost over all 20 superclasses to evaluate an optimal value for the parameter $\alpha$. 
+
+\paragraph{Results.} Figure \ref{fig:cifar100} shows the results for the different experiments. We observe that clustering diverse classes in general leads to a lower error than clustering similar images. While for the intra-superclass experiments, complete linkage results in an error of $66.5\%$, it is $61.3\%$ for inter-superclass experiments with images from the manually drawn superclasses. When interpolating between average and complete linkage, $\alpha$-linkag reduces the error in the intra setting by $1.8\%$ for $\alpha = 0.875$ leading to $64.7\%$ and by $0.5\%$ for $\alpha = 0.821$ leading to an error of $60.8\%$. For using $k = 10$ and $k = 15$ clusters, we observe less significant improvements.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.6\textwidth]{plots/cifar100}
+  \caption{Clustering diverse samples of the CIFAR-100 datasets leads to better results than clustering similar images.}
+  \label{fig:cifar100}
+\end{figure}
+
+We summarize that in general it is easier to cluster rather diverse classes of images, however when differentiating more similar images, i.e.\ for more difficult learning tasks, $\alpha$-linkage leads to more significant improvements.
 
 \section{Metric Learning}
 
-\medskip\noindent\textbf{Omniglot.} First we present results on the omniglot
+\medskip\noindent\textbf{Omniglot.} First we present results on the Omniglot
 dataset \cite{Lake1332}.
 
 \paragraph{Instance distributions.} We conduct experiments for two distributions
@@ -549,13 +484,13 @@ For both distributions, the best mixture of two metrics performs better than the
 best fixed single metric. On the MN/MAML distribution, the best average
 performance is obtained when mixing the Euclidean and cosine distances for the
 MNIST CNN features with $\beta = 0.727$ achieving an average Hamming error of
-$0.263$. In contrast, using the cosine distance on the MNIST CNN features is the
-best single metric and has an average Hamming error of $0.289$, yielding an
-improvement of $0.026$. For the MD instance distribution, the stroke distance
+$26.3\%$. In contrast, using the cosine distance on the MNIST CNN features is the
+best single metric and has an average Hamming error of $28.9\%$, yielding an
+improvement of $2.6\%$. For the MD instance distribution, the stroke distance
 appears to be more useful. The best performance is achieved when mixing the
 stroke distance and the cosine distance on the MNIST CNN features with $\beta =
-0.514$ and achieves error $0.33$, while the best fixed metric has error $0.42$,
-leading to an improvement of $0.09$.
+0.514$ and achieves error $33\%$, while the best fixed metric has error $42\%$,
+leading to an improvement of $9\%$.
 
 
 \begin{figure}[H]

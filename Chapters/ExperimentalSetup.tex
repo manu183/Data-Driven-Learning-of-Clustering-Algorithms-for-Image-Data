@@ -3,7 +3,7 @@
 
 This work evaluates the proposed algorithms for image and text data. This chapter describes the used datasets and the evaluation methods.
 
-\section{Datasets}
+\section{Data Sets}
 \label{chapter:datasets}
 
 \subsection{Synthetic Data}
@@ -24,7 +24,7 @@ To motivate our approach, we manually created a dataset containing disks and rin
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/nell_beliefs}
-    \caption{The Never Ending Language Learner represents different entities and their correlation.}
+    \caption{The Never Ending Language Learner represents different entities and their correlations \cite{Mitchell:2018:NL:3210350.3191513}.}
     \label{fig:nell_beliefs}
 \end{figure}
 
@@ -32,31 +32,31 @@ The used dataset, extracted web-information by NELL, contains 32 different main 
 \newpage
 \subsection{Image Data}
 
-\paragraph{MNIST handwritten digits.} The MNIST handwritten digit database contains images of the handwritten digits from zero to nine \cite{lecun-mnisthandwrittendigit-2010}. Samples of these images are shown in figure \ref{fig:mnist} Its training set contains a total of 60,000 images, where each image is represented as a 784-dimensional vector corresponding to a greyscale image with 28x28 pixels.
+\paragraph{MNIST handwritten digits.} The MNIST handwritten digit database contains images of the handwritten digits from zero to nine \cite{lecun-mnisthandwrittendigit-2010}. Samples of these images are shown in figure \ref{fig:mnist} Its training set contains a total of 60,000 images, where each image is represented as a 784-dimensional vector corresponding to a grayscale image with $28 \times 28$ pixels.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/mnist}
-    \caption{The MNIST handwritten digits database contains 60,000 greyscale images of handwritten digits ranging from zero to nine. These samples show ten randomly drawn samples for each label represented as a 28x28 pixel image \cite{lecun-mnisthandwrittendigit-2010}.}
+    \caption{The MNIST handwritten digits database contains 60,000 grayscale images of handwritten digits ranging from zero to nine. These samples show ten randomly drawn samples for each label represented as a $28 \times 28$ pixel image \cite{lecun-mnisthandwrittendigit-2010}.}
     \label{fig:mnist}
 \end{figure}
 
-The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between greyscale images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the knowledge the learned gained for clustering images labeled as five, six, seven, eight or nine. Theses types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.
+The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between grayscale images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the knowledge the learned gained for clustering images labeled as five, six, seven, eight or nine. Theses types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.
 
 Another obsevation that results from hierarchical clustering is the similarity of different labels, i.e. which labels are likely to get clustered together.
 
-\paragraph{CIFAR-10.} Another image dataset this thesis uses for evaluation is the CIFAR-10 dataset that contains 60,000 RGB images of ten different categories \cite{Krizhevsky2009LearningML}. Each image consists of 32x32 pixels and is thus represented as a 3072-dimensional vector (32x32x3). The categories and ten random images from each are shown in figure \ref{fig:cifar10}.
+\paragraph{CIFAR-10.} Another image dataset this thesis uses for evaluation is the CIFAR-10 dataset that contains 60,000 RGB images of ten different categories \cite{Krizhevsky2009LearningML}. Each image consists of $32 \times 32$ pixels and is thus represented as a 3072-dimensional vector ($32 \times 32 \times 3$). The categories and ten random images from each are shown in figure \ref{fig:cifar10}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/cifar10}
-    \caption{The CIFAR-10  database contains 60,000 RGB images of the ten shown different classes. These samples show ten randomly drawn samples for each label represented as a 32x32 pixel image \cite{Krizhevsky2009LearningML}.}
+    \caption{The CIFAR-10 database contains 60,000 RGB images of the ten shown different classes. These samples show ten randomly drawn samples for each label represented as a $32 \times 32$ pixel image \cite{Krizhevsky2009LearningML}.}
     \label{fig:cifar10}
 \end{figure}
 
-As the amount of images and the amount of classes is equal to the ones in the MNIST database, we can also try similar experiments. The main difference is that the images consist of RGB pixels instead of greyscale values.
+As the amount of images and the amount of classes is equal to the ones in the MNIST database, we can also try similar experiments. The main difference is that the images consist of RGB pixels instead of grayscale values.
 
-\paragraph{CIFAR-100.}  The CIFAR-100 dataset contains similar images, but instead of 6,000 images each for 10 classes, it consists of 600 images each for 100 classes. The classes are divided into 20 superclasses each containing five subclasses. Examples of superclasses and corresponding subclasses are shown in table \ref{table:cifar100data}. 
+\paragraph{CIFAR-100.} The CIFAR-100 dataset contains similar images, but instead of 6,000 images each for 10 classes, it consists of 600 images each for 100 classes. The classes are divided into 20 superclasses each containing five subclasses. Examples of superclasses and corresponding subclasses are shown in table \ref{table:cifar100data}. 
 
 \begin{table}[h]
     \centering
@@ -95,7 +95,14 @@ Having superclasses and subclasses allows clustering between different subclasse
 \label{fig:omniglotcharacters}
 \end{figure}
 
-The omniglot dataset is similar to the MNIST dataset as it also contains handwritten characters, however it has more different characters and less images of each of them. This allows us to run more learning tasks.
+The omniglot dataset is similar to the MNIST dataset as it also contains handwritten characters, however it has more different characters and less images of each of them. This allows us to run more learning tasks. In addition, the dataset also contains stroke data of each of the images, i.e.\ the time-series data of the actual drawings where each observation corresponds to a (x,y)-coordinate together with a timestamp. This gives us insights about in which order the character was written. Figure \ref{fig:omniglotstroke} shows an example of strokes for one character of the Tagalog alphabet.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=.7\textwidth]{plots/demo_strokes}
+  \caption{The stroke data gives a time-series representation of the omniglot drawings that indicate the order in which the characters were written \cite{Lake1332}.}
+  \label{fig:omniglotstroke}
+\end{figure}
 
 \section{Pruning}
 
@@ -143,7 +150,7 @@ In order to evaluate a cluster tree with some target labels, we have to prune th
 \label{fig:pruning}
 \end{figure}
 
-However, we still have to find a way to calculate the preferred pruning of a clustering tree into $k$ clusters, i.e.\ whether in case of figure \ref{fig:pruning}  we would prefer the pruning on the left or the one on the right.
+However, we still have to find a way to calculate the preferred pruning of a clustering tree into $k$ clusters, i.e.\ whether in case of figure \ref{fig:pruning} we would prefer the pruning on the left or the one on the right.
 
 \section{Cost functions}
 \label{chapter:costfunctions}
@@ -161,7 +168,7 @@ In order to evaluate the quality of a clustering, we need some kind of cost func
 
 This cost function is motivated by finding corresponding clusters with the lowest distance, i.e. each generated cluster gets matched with the optimal target cluster. However two generated clusters can be matched with the same target cluster. 
 
-\paragraph{Hamming  Cost.} This motivates the hamming distance as shown in figure \ref{eq:hammingdistance}.
+\paragraph{Hamming Cost.} This motivates the hamming distance as shown in figure \ref{eq:hammingdistance}.
 
 \begin{equation}
     \begin{aligned}
@@ -183,13 +190,12 @@ However, the hamming distance consists of an assignment problem to find the opti
     4 & 30 & 50 & 40 & \cellcolor{blue!25}20 & 10\\
     5 & 20 & 30 & 40 & 50 & \cellcolor{blue!25}25\\ \hline
     \end{tabular}
-    \caption{In order to calculate the hamming distance between two clusterings, we have to calculate the optimal mapping that results in lowest distance for these two clusterings. For random distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (blue highlighted cells) in a brute force way or more efficiently with the hungarian method \cite{kuhn1955hungarian}\cite{munkres1957algorithms}.}
+    \caption{In order to calculate the hamming distance between two clusterings, we have to calculate the optimal mapping that results in the lowest distance for these two clusterings. For randomly selected distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (blue highlighted cells) in a brute force way or more efficiently with the Hungarian method \cite{kuhn1955hungarian}\cite{munkres1957algorithms}.}
     \label{table:matching}
 \end{table}
 
-While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkred modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. A detailed explanation of the Hungarian method is included in appendix \ref{sec:hungarian}.
+While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the Hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkred modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. A detailed explanation of the Hungarian method is included in appendix \ref{sec:hungarian}.
 
-\newpage
 \section{Parameter Advising}
 
 Our settings average over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$ \cite{deblasio2015parameter}. We select the pool of $\alpha$-values through the local optima for each experiment. The best $k$ values of $\alpha$, where $k$ is much smaller than the number of experiments, can then be calculated with an integer optimization problem. A scenario where this setup can be used is by having a domain expert, who can select the best clustering from the $k$ suggested ones.\\

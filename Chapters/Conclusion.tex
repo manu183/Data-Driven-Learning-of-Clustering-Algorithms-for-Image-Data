@@ -1,38 +1,56 @@
 \chapter{Conclusion}
 
-In this work, we developed a data-driven solution to find the best algorithm (here: linkage strategy) for clustering tasks on a given data set. In section \ref{chapter:alphalinkage} we introduced an algorithm to efficiently interpolate between the in section \ref{chapter:background} described linkage strategies. The final $\alpha$-linkage algorithm uses a line sweep approach to find the pairwise distance function that leads to merges with the lowest resulting cost, i.e.\ the optimal clusterings.\\
+In this work, we developed a data-driven solution to find the best algorithm (here: linkage strategy) for clustering tasks on a given dataset. In section \ref{chapter:alphalinkage} we introduced an algorithm to efficiently interpolate between the in section \ref{chapter:relatedwork} described linkage strategies. The final $\alpha$-linkage algorithm uses a line sweep approach to find the pairwise distance function that leads to merges with the lowest resulting cost, i.e.\ the optimal clusterings.\\
 
-While the in section \ref{sec:relatedwork} described approaches are less efficient, our approach is able to analyze large parts of the in section \ref{chapter:setup}  discussed real-world data sets using cloud computing. We take multiple key observations from the experiments in section \ref{sec:results}:
+While the in section \ref{chapter:relatedwork} described approaches are less efficient, our approach is able to analyze large parts of the in section \ref{chapter:setup}  discussed real-world datasets using cloud computing. We take multiple key observations from the experiments in section \ref{sec:results}:
 \begin{itemize}
 \item Interpolating between single and complete linkage overcomes the hurdles of clustering data where both single and complete linkage perform better for some certain parts of the data. While single and complete linkage lead to an error of approximately $25\%$ for our synthetic data, in some experiments $\alpha$-linkage leads to optimal clusterings.
-\item For all our real-world data sets, we can sort the linkage strategies according to the quality in following order (best first):
+\item For all our real-world datasets, we can sort the linkage strategies according to the quality in following order (best first):
 \begin{enumerate}
 \item Complete Linkage
 \item Average Linkage
 \item Single Linkage
 \end{enumerate}
 \item Interpolating between single and average linkage does in general not lead to significant improvements.
-\item When interpolating between single and complete or average and complete linkage, $\alpha$-linkage outperforms the used linkage strategies in \textbf{all} of our experiments.
+\item When interpolating between single and complete or average and complete linkage, $\alpha$-linkage outperforms the used linkage strategies in all of our experiments.
 \item Parameter Advising is a very powerful tool to provide more accurate clusterings. Our greedy implementation allows to calculate the optimal parameter in an approximately optimal way very efficiently.
 \end{itemize}
 
-To be more precise, we show the results for the different datasets. In table \ref{table:comparison} we compare the single to complete linkage interpolation for all the discussed data sets in the batch setting. We notice that we achieve major improvements for all data sets and, excluding the synthetic data, receive similar values for $\alpha_{opt}$. This knowledge may be useful for transfer learning between different data sets in feature work.
+To be more precise, we show the results for the different datasets. In table \ref{table:comparison} we compare the single to complete linkage interpolation for all the discussed datasets\footnote{CIFAR 100 single to complete linkage was not discussed in section \ref{sec:results}.} in the batch setting. We notice that we achieve major improvements for all datasets and, excluding the synthetic data, receive similar values for $\alpha_{opt}$. This knowledge may be useful for transfer learning between different datasets in future work.
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l | l l l l l l |}
+    \begin{tabular}{|l | l | l | l | l | l |}
     \hline
-    & Synthetic & NELL & MNIST & Omniglot & CIFAR10 & CIFAR100\\ \hline
-    $\alpha_{opt}$ & 0.169 & 0.918 & 0.857 & 0.908 & TODO & TODO\\
-    $\Delta_{cost}$ & 22.70\% & 1.20\% & 3.70\% & 1.0\% & TODO & TODO\\\hline
+    & Synthetic & NELL & MNIST & Omniglot & CIFAR10\\ \hline
+    $\alpha_{opt}$ & 0.169 & 0.918 & 0.857 & 0.908 & 0.917\\
+    $\Delta_{cost}$ & 22.70\% & 1.20\% & 3.70\% & 1.0\% & 0.2\%\\\hline
     \end{tabular}
-    \caption{$\alpha$-linkage reduces the cost of the MNIST dataset by up to $\Delta_{max} cost = 5.1543\%$ when interpolating between single and complete linkage.}
+    \caption{Comparing the results over the different datasets while interpolating between single and complete linkage leads to similar parameters for many datasets.}
     \label{table:comparison}
 \end{table}
 
+Similar to table \ref{table:comparison}, we also show the results for interpolating between average and complete linkage in table \ref{table:comparison_ac}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l | l | l | l | l | l | l |}
+    \hline
+    & Synthetic & NELL & MNIST & Omniglot & CIFAR10 & CIFAR100\\ \hline
+    $\alpha_{opt}$ & 0.201 & 0.855 & 0.633 & 0.798 & 0.539 & 0.875\\
+    $\Delta_{cost}$ & 0.29\% & 0.77\% & 3.30\% & 1.0\% & 0.83\% & 1.8\%\\\hline
+    \end{tabular}
+    \caption{Comparing the results over the different datasets leads to a large spread of the parameters.}
+    \label{table:comparison_ac}
+\end{table}
+
+In comparison to interpolating between single and complete linkage, we also get good improvements, however the optimal parameter $\alpha$ is spread more widely, i.e.\ it will be more difficult to reuse the gained knowledge for further use.\\
+
 As we had implemented a framework to efficiently interpolate between inter-cluster distances, we also adapted it to interpolate between point distances in section \ref{sec:beta}. We generated image features with Convolutional Neural Networks and text features with Word Embeddings and showed in section \ref{sec:results} that we outperform all used feature representations.
 
-\paragraph{Future Work.} Nevertheless we can think of further additions to this work. The proposed algorithms only work for linear interpolation between two algorithms. In this setting, proving that in each interval we perform the same optimal merge is mostly trivial. As an adaption of our algorithms, we can think of interpolating between more algorithms, e.g.\ we could interpolate between single, average and complete linkage with a distance such as the following:
+\paragraph{Future Work.} Nevertheless we can think of further additions to this work. The trivial next step will be to combine metric learning with algorithm selection, as for now, we only evaluated the same setups independently, i.e.\ we used a static feature representation for algorithm selection and we used complete linkage for metric learning. At the point of writing this work, we are not exactly sure how difficult it will be to efficiently combine both aspects of this work, but we know that it is feasible and can be achieved in future work.\\
+
+The proposed algorithms only work for linear interpolation between two algorithms. In this setting, proving that in each interval we perform the same optimal merge is mostly trivial. As an adaption of our algorithms, we can think of interpolating between more algorithms, e.g.\ we could interpolate between single, average and complete linkage with a distance such as the following:
 
 \begin{align*}
 &\mathcal{D}_\text{SAC}(X,Y) = \alpha_1 \cdot \min\limits_{x \in X, y \in Y} d(x,y) + \alpha_2 \cdot \frac{1}{|X||Y|} \sum\limits_{x \in X, y \in Y} d(x,y) + (1-\alpha_1-\alpha_2) \cdot \max\limits_{x \in X, y \in Y} d(x,y)\\
@@ -112,7 +130,7 @@ However, the distance functions $d_{(\alpha_1, \alpha_2)}$ now are not linear an
 \end{axis}
 \end{tikzpicture}
 \end{minipage}
-\caption{While in this work, the split between different merges was based on a linear function $d(\alpha)$ (left), it will be more difficult to evaluate the merges when interpolating with two weight parameters $\alpha_1$ and $\alpha_2$, where the merges will be represented as a convex hull in the $\alpha_1$-$\alpha_2$-space.}
+\caption{While in this work, the split between different merges was based on a linear function $d(\alpha)$ (left), it will be more difficult to evaluate the merges when interpolating with two weight parameters $\alpha_1$ and $\alpha_2$, where the merges will be represented as a convex hull in the $\alpha_1$-$\alpha_2$-space (right).}
 \label{fig:convexhull}
 \end{figure}
 
@@ -163,6 +181,6 @@ However, the distance functions $d_{(\alpha_1, \alpha_2)}$ now are not linear an
 \label{fig:convexhulls2}
 \end{figure}
 
-In addition, we can apply the introduced algorithm to more data sets and data domains, such as the sets contained in the UCI Machine Learning Repository \cite{Dua:2019}. For instance, we could compare different data sets within one specific data domain. Say we evaluate a variety of different image data sets and compare the optimal values of $\alpha$. An interesting observation would be, if we could reuse the optimal parameter from different data sets within the same or even across other domains. In our experiments, we often found similar optimal values in the range $[0.7,0.9]$ while other ranges mostly did not lead to good results (e.g.\ $[0.0, 0.5]$). We could use this knowledge for further experiments by e.g. evaluating only smaller regions or by putting more emphasis on given parameters in general. We can then also evaluate other domains, such as (partially) labeled voice data sets and compare the results across different data domains.\\
+In addition, we can apply the introduced algorithm to more datasets and data domains, such as the sets contained in the UCI Machine Learning Repository \cite{Dua:2019}. For instance, we could compare different datasets within one specific data domain. Say we evaluate a variety of different image datasets and compare the optimal values of $\alpha$. An interesting observation would be, if we could reuse the optimal parameter from different datasets within the same or even across other domains. In our experiments, we often found similar optimal values in the range $[0.7,0.9]$ while other ranges mostly did not lead to good results (e.g.\ $[0.0, 0.5]$). We could use this knowledge for further experiments by e.g. evaluating only smaller regions or by putting more emphasis on given parameters in general. We can then also evaluate other domains, such as (partially) labeled voice datasets and compare the results across different data domains.\\
 
 Also, we can imagine applying this framework to (a) other clustering algorithms than agglomerative hierarchical clustering and (b) other tasks than clustering.
