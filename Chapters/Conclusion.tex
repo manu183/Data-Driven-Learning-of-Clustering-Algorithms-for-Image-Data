@@ -2,9 +2,9 @@
 
 In this work, we developed a data-driven solution to find the best algorithm (here: linkage strategy) for clustering tasks on a given dataset. In section \ref{chapter:alphalinkage} we introduced an algorithm to efficiently interpolate between the in section \ref{chapter:relatedwork} described linkage strategies. The final $\alpha$-linkage algorithm uses a line sweep approach to find the pairwise distance function that leads to merges with the lowest resulting cost, i.e.\ the optimal clusterings.\\
 
-While the in section \ref{chapter:relatedwork} described approaches are less efficient, our approach is able to analyze large parts of the in section \ref{chapter:setup}  discussed real-world datasets using cloud computing. We take multiple key observations from the experiments in section \ref{sec:results}:
+While the in section \ref{chapter:relatedwork} described approaches are less efficient, our approach is able to analyze large parts of the in section \ref{chapter:setup}  discussed real-world datasets using cloud computing. We summarize multiple key observations from the experiments in section \ref{sec:results}:
 \begin{itemize}
-\item Interpolating between single and complete linkage overcomes the hurdles of clustering data where both single and complete linkage perform better for some certain parts of the data. While single and complete linkage lead to an error of approximately $25\%$ for our synthetic data, in some experiments $\alpha$-linkage leads to optimal clusterings.
+\item Interpolating between single and complete linkage overcomes the hurdles of clustering data where both single and complete linkage perform better for some certain parts of the data. While single and complete linkage lead to an error of approximately $25\%$ for our synthetic data, in some experiments $\alpha$-linkage leads to optimal clusterings (i.e. an error of $0\%$).
 \item For all our real-world datasets, we can sort the linkage strategies according to the quality in following order (best first):
 \begin{enumerate}
 \item Complete Linkage
@@ -40,13 +40,15 @@ Similar to table \ref{table:comparison}, we also show the results for interpolat
     $\alpha_{opt}$ & 0.201 & 0.855 & 0.633 & 0.798 & 0.539 & 0.875\\
     $\Delta_{cost}$ & 0.29\% & 0.77\% & 3.30\% & 1.0\% & 0.83\% & 1.8\%\\\hline
     \end{tabular}
-    \caption{Comparing the results over the different datasets leads to a large spread of the parameters.}
+    \caption{Comparing the results over the different datasets leads to a bigger spread of the parameters.}
     \label{table:comparison_ac}
 \end{table}
 
 In comparison to interpolating between single and complete linkage, we also get good improvements, however the optimal parameter $\alpha$ is spread more widely, i.e.\ it will be more difficult to reuse the gained knowledge for further use.\\
 
 As we had implemented a framework to efficiently interpolate between inter-cluster distances, we also adapted it to interpolate between point distances in section \ref{sec:beta}. We generated image features with Convolutional Neural Networks and text features with Word Embeddings and showed in section \ref{sec:results} that we outperform all used feature representations.
+
+\todo[inline]{Summarize 6.2}
 
 \paragraph{Future Work.} Nevertheless we can think of further additions to this work. The trivial next step will be to combine metric learning with algorithm selection, as for now, we only evaluated the same setups independently, i.e.\ we used a static feature representation for algorithm selection and we used complete linkage for metric learning. At the point of writing this work, we are not exactly sure how difficult it will be to efficiently combine both aspects of this work, but we know that it is feasible and can be achieved in future work.\\
 
@@ -57,7 +59,7 @@ The proposed algorithms only work for linear interpolation between two algorithm
 &\text{s. t. } \{\alpha_1, \alpha_2\} \in [0,1] \text{ and } \alpha_1 + \alpha_2 \le 1
 \end{align*}
 
-However, the distance functions $d_{(\alpha_1, \alpha_2)}$ now are not linear anymore, as they depend on the two parameters $\alpha_1$ and $\alpha_2$. This means that our suggested line sweep approach will not work anymore, as the distance depending on the two parameter spans a three-dimensional space, where each split is a convex hull instead of a linear subspace. Figure \ref{fig:convexhull} shows the interval split depending on $\alpha$ on the left, and the split depending on $\alpha_1$ and $\alpha_2$ on the right. Our example shows a very optimistic example where the splitting linear functions are parallel, however this might often not be the case, i.e.\ we will receive more different regions where it will be less intuitive to find the borders where and when one merge is preferred over another (e.g.\ see figure \ref{fig:convexhulls2}).
+However, the distance functions $d_{(\alpha_1, \alpha_2)}$ now are not linear anymore, as they depend on the two parameters $\alpha_1$ and $\alpha_2$. This means that our suggested line sweep approach will not work anymore, as the distance depending on the two parameter spans a three-dimensional space, where each split is a convex hull instead of a linear subspace. Figure \ref{fig:convexhull} shows the interval split depending on $\alpha$ on the left, and the split depending on $\alpha_1$ and $\alpha_2$ on the right. Moreover, it shows a very optimistic example where the splitting linear functions are parallel, however this might often not be the case, i.e.\ we will receive more different regions where it will be less intuitive to find the borders where and when one merge is preferred over another (e.g.\ see figure \ref{fig:convexhulls2}).
 
 \begin{figure}[h]
 \centering

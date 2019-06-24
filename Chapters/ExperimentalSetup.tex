@@ -8,7 +8,7 @@ This work evaluates the proposed algorithms for image and text data. This chapte
 
 \subsection{Synthetic Data}
 
-To motivate our approach, we manually created a dataset containing disks and rings as shown in figure \ref{fig:disksrings}. In this case, we know that single linkage performs well clustering the two rings, however it might be problematic to cluster the disks. On the other hand, complete linkage is expected to cluster the disks very well, but it might contact the two rings earlier than wanted. This data motivates our approach of interpolating between different linkage strategies, however the data is not natural and real-world datasets are very likely to have a different structure. 
+To motivate our approach, we manually created a dataset containing disks and rings as shown in figure \ref{fig:disksrings}. In this case, we know that single linkage performs well clustering the two rings, however it might be problematic to cluster the disks. On the other hand, complete linkage is expected to cluster the disks very well, but it might connect the two rings earlier than wanted. This data motivates our approach of interpolating between different linkage strategies, however the data is not natural and real-world datasets are very likely to have a different structure. 
 
 \begin{figure}[h]
     \centering
@@ -19,7 +19,7 @@ To motivate our approach, we manually created a dataset containing disks and rin
 
 \subsection{Text Data}
 
-\paragraph{Never Ending Language Learner data.} The Never Ending Language Learner (NELL) is a learning agent that reads the web, extracts data and verifies beliefs \cite{Mitchell:2015:NL:2886521.2886641}\cite{Mitchell:2018:NL:3210350.3191513}. NELL for example knows that "Pittsburgh" is located in "Pennsylvania". These beliefs represent different noun-phrases such as "Pittsburgh" and "Pennsylvania". The noun-phrases belong to certain categories. "Pittsburgh" is a "City" and "Pennsylvania" is a "State". These subcategories both belong to the main category "Geopolitical Location". Figure \ref{fig:nell_beliefs} shows such a knowledge graph. While there are already different subcategories, the goal for a hierarchical clustering algorithm here is to extract new useful subcategories.
+\paragraph{Never Ending Language Learner data.} The Never Ending Language Learner (NELL) is a learning agent that reads the web, extracts data and verifies beliefs \cite{Mitchell:2015:NL:2886521.2886641}\cite{Mitchell:2018:NL:3210350.3191513}. NELL for example knows that "Pittsburgh" is located in "Pennsylvania". These beliefs represent different noun-phrases such as "Pittsburgh" and "Pennsylvania". The noun-phrases belong to certain categories, e.g.``Pittsburg'' is a ``City'' and ``Pennsylvania'' is a ``State''. These subcategories both belong to the main category "Geopolitical Location". Figure \ref{fig:nell_beliefs} shows such a knowledge graph. While there are already different subcategories, the goal for a hierarchical clustering algorithm here could be to extract new useful subcategories.
 
 \begin{figure}[h]
     \centering
@@ -28,11 +28,11 @@ To motivate our approach, we manually created a dataset containing disks and rin
     \label{fig:nell_beliefs}
 \end{figure}
 
-The used dataset, extracted web-information by NELL, contains 32 different main categories, such as "Animal", "Location" or "Person". Each of these consists of up to 250 different entities that belong to different subcategories. Exemplary entities for the category "Animal" are "Otter", "Squirrel" or "Wolf". 
+The used dataset, extracted web-information by NELL, contains 32 different main categories, such as "Animal", "Location" or "Person". We limit each of these categories to up to 250 and up to 1000 different entities that belong to different subcategories, so we can run experiments with 250 points and later on with 1000 points. Exemplary entities for the category "Animal" are "Otter", "Squirrel" or "Wolf". 
 \newpage
 \subsection{Image Data}
 
-\paragraph{MNIST handwritten digits.} The MNIST handwritten digit database contains images of the handwritten digits from zero to nine \cite{lecun-mnisthandwrittendigit-2010}. Samples of these images are shown in figure \ref{fig:mnist} Its training set contains a total of 60,000 images, where each image is represented as a 784-dimensional vector corresponding to a grayscale image with $28 \times 28$ pixels.
+\paragraph{MNIST handwritten digits.} The MNIST handwritten digit database contains images of the handwritten digits from zero to nine \cite{lecun-mnisthandwrittendigit-2010}. Samples of these images are shown in figure \ref{fig:mnist}. Its training set contains a total of 60,000 images, where each image is represented as a 784-dimensional vector corresponding to a grayscale image with $28 \times 28$ pixels.
 
 \begin{figure}[h]
     \centering
@@ -41,7 +41,7 @@ The used dataset, extracted web-information by NELL, contains 32 different main 
     \label{fig:mnist}
 \end{figure}
 
-The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between grayscale images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the knowledge the learned gained for clustering images labeled as five, six, seven, eight or nine. Theses types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.
+The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between grayscale images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the knowledge the learned gained for clustering images labeled as five, six, seven, eight or nine. Theses types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.\\
 
 Another obsevation that results from hierarchical clustering is the similarity of different labels, i.e. which labels are likely to get clustered together.
 
@@ -75,27 +75,27 @@ As the amount of images and the amount of classes is equal to the ones in the MN
 
 Having superclasses and subclasses allows clustering between different subclasses within a superclass and also between different superclasses. This allows more experiments than for the CIFAR10 data.
 
-\paragraph{Omniglot.}The omniglot dataset contains 1623 handwritten characters from 50 different alphabets, where each character is represented by 20 different images. Each image is grayscale and represented by 105x105 pixels \cite{Lake1332}. Figure \ref{fig:omniglotcharacters} shows characters of the more well-known Latin, Greek and Hebrew alphabets that are part of the dataset.
+\paragraph{Omniglot.}The Omniglot dataset contains 1623 handwritten characters from 30 different alphabets, where each character is represented by 20 different images. Each image is grayscale and represented by $105 \times 105$ pixels \cite{Lake1332}. Figure \ref{fig:omniglotcharacters} shows characters of the more well-known Latin, Greek and Hebrew alphabets that are part of the dataset.
 
 \begin{figure}[h]
 \centering
-\begin{minipage}{.3\textwidth}
+\begin{minipage}{.32\textwidth}
   \centering
   \includegraphics[width=\linewidth]{images/latin}
 \end{minipage}
-\begin{minipage}{.3\textwidth}
+\begin{minipage}{.32\textwidth}
   \centering
   \includegraphics[width=\linewidth]{images/greek}
 \end{minipage}
-\begin{minipage}{.3\textwidth}
+\begin{minipage}{.32\textwidth}
   \centering
   \includegraphics[width=\linewidth]{images/hebrew}
 \end{minipage}
-\caption{The omniglot dataset contains handwritten characters of different alphabets, such as Latin (left), Greek (middle) and Hebrew (right) \cite{Lake1332}.}
+\caption{The Omniglot dataset contains handwritten characters of different alphabets, such as Latin (left), Greek (middle) and Hebrew (right) \cite{Lake1332}.}
 \label{fig:omniglotcharacters}
 \end{figure}
 
-The omniglot dataset is similar to the MNIST dataset as it also contains handwritten characters, however it has more different characters and less images of each of them. This allows us to run more learning tasks. In addition, the dataset also contains stroke data of each of the images, i.e.\ the time-series data of the actual drawings where each observation corresponds to a (x,y)-coordinate together with a timestamp. This gives us insights about in which order the character was written. Figure \ref{fig:omniglotstroke} shows an example of strokes for one character of the Tagalog alphabet.
+The Omniglot dataset is similar to the MNIST dataset as it also contains handwritten characters, however it has more different characters and less images for each of the characters. This allows us to run more learning tasks. In addition, the dataset also contains stroke data of each of the images, i.e.\ the time-series data of the actual drawings where each observation corresponds to a (x,y)-coordinate together with a timestamp. This gives us insights about in which order the character was written. Figure \ref{fig:omniglotstroke} shows an example of strokes for one character of the Tagalog alphabet.
 
 \begin{figure}[h]
   \centering
@@ -106,7 +106,7 @@ The omniglot dataset is similar to the MNIST dataset as it also contains handwri
 
 \section{Pruning}
 
-In order to evaluate a cluster tree with some target labels, we have to prune the tree into the corresponding number of $k$ target labels, i.e.\ the $k$ different classes of the target data. Therefore, we evaluate the costs of all possible combinations of $k$ clusters and select the best clusters. Figure \ref{fig:pruning} shows an example how we can prune a clustering tree into $k = 3$ clusters by either using the clusters $C, D$ and $E$ or the clusters $B, F$ and $G$.
+In order to evaluate a cluster tree together with some target labels, we have to prune the tree into the corresponding number of $k$ target labels, i.e.\ the $k$ different classes of the target data. Therefore, we evaluate the costs of all possible combinations of $k$ clusters and select the best clusters. Figure \ref{fig:pruning} shows an example of how we can prune a clustering tree into $k = 3$ clusters by either using the clusters $C, D$ and $E$ or the clusters $B, F$ and $G$.
 
 \begin{figure}[h]
 \centering
@@ -114,7 +114,7 @@ In order to evaluate a cluster tree with some target labels, we have to prune th
   \centering
 \begin{tikzpicture}
  
-\node{A}
+\node[circle,draw]{A}
 	child { node[circle,draw] {B}
     child { node[circle,draw,fill=blue, fill opacity=0.25,text opacity=1] {D}}
 	  child { node[circle,draw,fill=blue, fill opacity=0.25,text opacity=1] {E}}
@@ -132,7 +132,7 @@ In order to evaluate a cluster tree with some target labels, we have to prune th
   \centering
 \begin{tikzpicture}
  
-\node{A}
+\node[circle,draw]{A}
 	child { node[circle,draw,fill=blue, fill opacity=0.25,text opacity=1] {B}
     child { node[circle,draw] {D}}
 	  child { node[circle,draw] {E}}
@@ -157,27 +157,27 @@ However, we still have to find a way to calculate the preferred pruning of a clu
 
 In order to evaluate the quality of a clustering, we need some kind of cost function that compares the generated clustering $C_1,...,C_k$ with the target clustering $C_1^*, ..., C_k^*$. 
 
-\paragraph{Majority Cost.} One method to compare them is the majority distance as shown in equation \ref{eq:majoritydistance} where $n$ ist the number of sampled points.
+\paragraph{Majority Cost.} One method to compare them is the Majority distance as shown in equation \ref{eq:majoritydistance} where $n$ ist the number of sampled points.
 
 \begin{equation}
     \begin{aligned}
-        cost_{majority}(C_{1:k}, C_{1:k}^*) = \frac{1}{n} \sum_{i=1}^k \min_{j \in [m]} |C_i - C'_j|
+        cost_{Majority}(C_{1:k}, C_{1:k}^*) = \frac{1}{n} \sum_{i=1}^k \min_{j \in [m]} |C_i - C'_j|
     \end{aligned}
     \label{eq:majoritydistance}
 \end{equation}
 
 This cost function is motivated by finding corresponding clusters with the lowest distance, i.e. each generated cluster gets matched with the optimal target cluster. However two generated clusters can be matched with the same target cluster. 
 
-\paragraph{Hamming Cost.} This motivates the hamming distance as shown in figure \ref{eq:hammingdistance}.
+\paragraph{Hamming Cost.} This motivates the Hamming distance as shown in figure \ref{eq:hammingdistance}. We denote $\mathbb{S}_k$ as all possible permutations of the $k$ clusters.
 
 \begin{equation}
     \begin{aligned}
-        cost_{hamming}(C_{1:k}, C'_{1:k}) = \frac{1}{n} \min_{\sigma \in \mathbb{S}_k} \sum_{i=1}^k |C_i - C'_{\sigma_i}|
+        cost_{Hamming}(C_{1:k}, C'_{1:k}) = \frac{1}{n} \min_{\sigma \in \mathbb{S}_k} \sum_{i=1}^k |C_i - C'_{\sigma_i}|
     \end{aligned}
     \label{eq:hammingdistance}
 \end{equation}
 
-However, the hamming distance consists of an assignment problem to find the optimal matching $\sigma$ between the generated clusters and the target clusters. Table \ref{table:matching} shows how such a matching can look like.
+However, the Hamming distance consists of an assignment problem to find the optimal matching $\sigma$ between the generated clusters and the target clusters. Table \ref{table:matching} shows how such a matching can look like.
 
 \begin{table}[h]
     \centering
@@ -190,11 +190,11 @@ However, the hamming distance consists of an assignment problem to find the opti
     4 & 30 & 50 & 40 & \cellcolor{blue!25}20 & 10\\
     5 & 20 & 30 & 40 & 50 & \cellcolor{blue!25}25\\ \hline
     \end{tabular}
-    \caption{In order to calculate the hamming distance between two clusterings, we have to calculate the optimal mapping that results in the lowest distance for these two clusterings. For randomly selected distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (blue highlighted cells) in a brute force way or more efficiently with the Hungarian method \cite{kuhn1955hungarian}\cite{munkres1957algorithms}.}
+    \caption{In order to calculate the Hamming distance between two clusterings, we have to calculate the optimal mapping that results in the lowest distance for these two clusterings. For randomly selected distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (blue highlighted cells) in a brute force way or more efficiently with the Hungarian method \cite{kuhn1955hungarian}\cite{munkres1957algorithms}.}
     \label{table:matching}
 \end{table}
 
-While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the Hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkred modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. A detailed explanation of the Hungarian method is included in appendix \ref{sec:hungarian}.
+While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the Hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkred modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. In general we can say that it  makes sense to use the Hungarian method when there are more than five classes. A detailed explanation of the Hungarian method is included in appendix \ref{sec:hungarian}.
 
 \section{Parameter Advising}
 
@@ -217,9 +217,9 @@ More formally, we want to to find the optimal parameters $\alpha_1^*, \dots, \al
   & \text{for each $i \in [N], j \in [M]$, } x_{ij} \leq y_j.
 \end{align*}
 
-Note that the optimization problem contains three constraints. $\sum_{j=1}^m y_j = k$ makes sure that exactly $k$ values are used, the second guarantees that we assign clustering instance to at most one parameter, and the final constraint ensures that we only assign clustering instances to selected parameters. In our experiments, we use IBM ILOG’s CPLEX to solve these integer programming problems. However, the computation of the optimal values is very complex, so we also implement a greedy strategy that calculates approximately optimal values more efficiently.
+Note that the optimization problem contains three constraints. $\sum_{j=1}^m y_j = k$ makes sure that exactly $k$ values are used, the second guarantees that we assign any clustering instance to at most one parameter, and the final constraint ensures that we only assign clustering instances to selected parameters. In our experiments, we use IBM ILOG’s CPLEX to solve these integer programming problems. However, the computation of the optimal values is very complex, so we also implement a greedy strategy that calculates approximately optimal values more efficiently.
 
-\paragraph{Greedy Parameter Advising.} In a convex space, it is very likely that an optimal value $\alpha_n^*$ will also be optimal when calculating $k = n + 1$ optimal values. Leveraging this knowledge, we can iteratively calculate the optimal values $\alpha_1, \dots, \alpha_m$ step by step, where we first calculate $\alpha_1^*$ that has the largest utility over all clustering instances $S$ and then calculate $\alpha_2^*$ that results in the highest utility combined with $\alpha_1^*$ (see equation \ref{eq:greedypa}).
+\paragraph{Greedy Parameter Advising.} In a convex space an optimal value $\alpha_n^*$ will also be optimal when calculating $k = n + 1$ optimal values. Leveraging this knowledge, we can iteratively calculate the optimal values $\alpha_1, \dots, \alpha_m$ step by step, where we first calculate $\alpha_1^*$ that has the largest utility over all clustering instances $S$ and then calculate $\alpha_2^*$ that results in the highest utility combined with $\alpha_1^*$ (see equation \ref{eq:greedypa}).
 
 \begin{equation}
 \sum_{i=1}^N \max\{u(S_i, T(S_i, \alpha_1)), u(S_i, T(S_i, \alpha_2)\} 

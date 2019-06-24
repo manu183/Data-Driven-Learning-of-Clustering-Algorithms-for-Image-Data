@@ -1,7 +1,7 @@
 \chapter{Optimizing the Metric}
 \label{sec:beta}
 
-In a similar fashion as described in section \ref{chapter:alphalinkage} this sections aims to optimize a metric that is a linear combination of several metrics. For instance, images can have a 2D pixel representation and a text describing the each image. Combining these features for clustering tasks can be problematic as it is not how the optimal weight between these features should be. Does a word describe more than a subset of the image, are the features equally important or does the pixel image lead to better clusterings? With $\beta$-linkage we provide a framework based on $\alpha$-linkage that calculates different merges based on linear combinations of representations and leads to optimized clusterings.
+In a similar fashion as described in section \ref{chapter:alphalinkage} this sections aims to find an optimized feature representation that is a linear combination of several metrics. For instance, images can have a 2D pixel representation and a text describing each image. Combining these features for clustering tasks can be problematic as it is not trivial how the optimal weight between these features should be. Does a word describe more than a fragment of the image, are the features equally important or does the pixel image lead to better clusterings? With $\beta$-linkage we provide a framework based on $\alpha$-linkage that calculates different merges based on linear combinations of representations and leads to optimized clusterings.
 
 \begin{figure}[h]
     \centering
@@ -10,7 +10,7 @@ In a similar fashion as described in section \ref{chapter:alphalinkage} this sec
     \label{fig:metrics}
 \end{figure}
 
-For instance, figure \ref{fig:metrics} shows a set of points that might be put in clusters easily. However, if you only look at the distance regarding the $X_1$-axis or the $X_2$-axis clustering will be very difficult, because each of the axis does not describe the spatial correlation anymore. This example is selected on purpose to motivate the following experiments where we learn optimal combinations of different metrics.\\ 
+For instance, figure \ref{fig:metrics} shows a set of points that might be put in clusters easily. However, if you only look at the distance regarding the $x_1$-axis or the $x_2$-axis, clustering will be very difficult, because each of the axes does not describe the spatial correlation anymore. This example is selected on purpose to motivate the following experiments where we learn optimal combinations of different metrics.\\ 
 
 To interpolate between $d_0$ and $d_1$, we use the same interpolation as discussed in section \ref{chapter:alphalinkage}. We use a parameter $\beta \in [0,1]$ and weight the metrics as shown in equation \ref{eq:betalinkage}.
 
@@ -52,4 +52,4 @@ As we know that the function $d_\beta$ is a linear function depending on $\beta$
 \label{alg:betalinkage}
 \end{algorithm}
 
-A slight adaption that we need is to normalize the features such that for $\beta = 0.5$ we equally weight both distance matrices. We achieve this by dividing the features $f_1, \dots, f_k$ through the maximum value $f_{max}$. In this way, we scaled the features into $[0,1]$ and did not lose the proportions as it would happen when using a min-max-scaler.
+A slight adaption that we need is to normalize the features such that for $\beta = 0.5$ we equally weight both distance matrices. We achieve this by dividing the features $f_1, \dots, f_k$ through the maximum value $f_{max}$. In this way, we scale the features into $[0,1]$ and do not lose the proportions as it would happen when using a min-max-scaler.
