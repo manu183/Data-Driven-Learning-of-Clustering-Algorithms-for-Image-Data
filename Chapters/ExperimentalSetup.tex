@@ -32,16 +32,16 @@ The used dataset, extracted web-information by NELL, contains 32 different main 
 \newpage
 \subsection{Image Data}
 
-\paragraph{MNIST handwritten digits.} The MNIST handwritten digit database contains images of the handwritten digits from zero to nine \cite{lecun-mnisthandwrittendigit-2010}. Samples of these images are shown in figure \ref{fig:mnist}. Its training set contains a total of 60,000 images, where each image is represented as a 784-dimensional vector corresponding to a grayscale image with $28 \times 28$ pixels.
+\paragraph{MNIST handwritten digits.} The MNIST handwritten digit database contains images of the handwritten digits from zero to nine \cite{lecun-mnisthandwrittendigit-2010}. Samples of these images are shown in figure \ref{fig:mnist}. Its training set contains a total of 60,000 images, where each image is represented as a 784-dimensional vector corresponding to a black and white image with $28 \times 28$ pixels.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/mnist}
-    \caption{The MNIST handwritten digits database contains 60,000 grayscale images of handwritten digits ranging from zero to nine. These samples show ten randomly drawn samples for each label represented as a $28 \times 28$ pixel image \cite{lecun-mnisthandwrittendigit-2010}.}
+    \caption{The MNIST handwritten digits database contains 60,000 black and white images of handwritten digits ranging from zero to nine. These samples show ten randomly drawn samples for each label represented as a $28 \times 28$ pixel image \cite{lecun-mnisthandwrittendigit-2010}.}
     \label{fig:mnist}
 \end{figure}
 
-The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between grayscale images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the knowledge the learned gained for clustering images labeled as five, six, seven, eight or nine. Theses types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.\\
+The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between black and white images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the knowledge the learned gained for clustering images labeled as five, six, seven, eight or nine. Theses types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.\\
 
 Another obsevation that results from hierarchical clustering is the similarity of different labels, i.e. which labels are likely to get clustered together.
 
@@ -54,7 +54,7 @@ Another obsevation that results from hierarchical clustering is the similarity o
     \label{fig:cifar10}
 \end{figure}
 
-As the amount of images and the amount of classes is equal to the ones in the MNIST database, we can also try similar experiments. The main difference is that the images consist of RGB pixels instead of grayscale values.
+As the amount of images and the amount of classes is equal to the ones in the MNIST database, we can also try similar experiments. The main difference is that the images consist of RGB pixels instead of black and white values.
 
 \paragraph{CIFAR-100.} The CIFAR-100 dataset contains similar images, but instead of 6,000 images each for 10 classes, it consists of 600 images each for 100 classes. The classes are divided into 20 superclasses each containing five subclasses. Examples of superclasses and corresponding subclasses are shown in table \ref{table:cifar100data}. 
 
@@ -75,7 +75,7 @@ As the amount of images and the amount of classes is equal to the ones in the MN
 
 Having superclasses and subclasses allows clustering between different subclasses within a superclass and also between different superclasses. This allows more experiments than for the CIFAR10 data.
 
-\paragraph{Omniglot.}The Omniglot dataset contains 1623 handwritten characters from 30 different alphabets, where each character is represented by 20 different images. Each image is grayscale and represented by $105 \times 105$ pixels \cite{Lake1332}. Figure \ref{fig:omniglotcharacters} shows characters of the more well-known Latin, Greek and Hebrew alphabets that are part of the dataset.
+\paragraph{Omniglot.}The Omniglot dataset contains 1623 handwritten characters from 30 different alphabets, where each character is represented by 20 different images. Each image is black white and represented by $105 \times 105$ pixels \cite{Lake1332}. Figure \ref{fig:omniglotcharacters} shows characters of the more well-known Latin, Greek and Hebrew alphabets that are part of the dataset.
 
 \begin{figure}[h]
 \centering

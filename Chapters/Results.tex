@@ -412,35 +412,15 @@ The CIFAR-100 dataset contains 20 high-level classes, e.g.\ insects and trees, a
 We summarize that in general it is easier to cluster rather diverse classes of images, however when differentiating more similar images, i.e.\ for more difficult learning tasks, $\alpha$-linkage leads to more significant improvements.
 
 \section{Metric Learning}
+\label{sec:metric}
 
-\medskip\noindent\textbf{Omniglot.} First we present results on the Omniglot
-dataset \cite{Lake1332}.
+In this section, we apply the introduced framework to learning metrics as suggested in section \ref{sec:beta}. Therefore, we use the Omniglot dataset and evaluate two different settings.
 
-\paragraph{Instance distributions.} We conduct experiments for two distributions
-over clustering instances on the Omniglot dataset, both inspired by prior work
-on few-shot meta-learning. Following \cite{NIPS2016_6385} and
-\cite{pmlr-v70-finn17a}, our first instance distribution selects $k = 5$ random
-characters (independently of their alphabet) and takes the 20 examples of those
-5 characters resulting in a dataset with $n = 100$ examples. The target
-clustering is given by the $5$ character labels. We refer to this instance
-distribution as the MN/MAML distribution. Second, following
-\cite{DBLP:journals/corr/abs-1903-03096}, our second instance distribution generates
-clustering instances that have a variable number of target clusters and each
-clustering task involves related characters. Specifically, to generate an
-instance, we pick one alphabet from Omniglot uniformly at random, choose the
-number of classes $k$ uniformly between $5$ and $10$, and then choose $k$
-characters from that alphabet uniformly at random. As before, the clustering
-instance consists of all $20k$ examples for the chosen characters, and the
-target clustering is given by the $k$ character labels. We refer to this
-instance distribution as the MD distribution.
+\paragraph{Fixed Amount of Classes.} In the first setting, we follow \cite{NIPS2016_6385} and \cite{pmlr-v70-finn17a} and select $k = 5$ random characters across different alphabets and takes the 20 examples of those five characters resulting in a dataset with $n = 100$ examples.
 
-\paragraph{Distance metrics.} We present results for mixing three different
-distance metrics on the Omniglot data. This dataset provides two different
-representations for each example: a $105 \times 105$ black and white image of
-the character, and stroke data describing the path that the pen took when
-writing that character (i.e., a time series of $(x,y)$ coordinates). We use a
-hand-designed distance metric based on the stroke data, as well as features
-derived from a convolutional neural network trained on MNIST.
+\paragraph{Varying Amount of Classes.} Here, we follow \cite{DBLP:journals/corr/abs-1903-03096} and generate a random number for the amount of $k$ classes between $5$ and $10$. Here, we select the $k$ characters from one randomly selected alphabet, i.e.\ each experiment clusters characters taken from a random alphabet. We again use all $20$ examples for each character.
+
+\paragraph{Distance metrics.} We present results for mixing three different distance metrics on the Omniglot data. This dataset provides two different representations for each example: a $105 \times 105$ black and white image of the character, and stroke data describing the path that the pen took when writing that character (i.e., a time series of $(x,y)$ coordinates). We use a hand-designed distance metric based on the stroke data, as well as features derived from a convolutional neural network trained on MNIST.
 %
 \begin{itemize}
   %
@@ -474,19 +454,18 @@ derived from a convolutional neural network trained on MNIST.
   %
 \end{itemize}
 
-\paragraph{Results.} Figure \ref{fig:dl-omniglot} shows our empirical results for
-learning the best combinations of the above metrics on both instance
+\paragraph{Results.} Figure \ref{fig:dl-omniglot} shows our empirical results for learning the best combinations of the above metrics on both instance
 distributions over the Omniglot dataset. For each pair of metrics and each
 instance distribution, we plot the average Hamming error of the cluster tree
 produced by the algorithm as a function of the mixing parameter $\beta$ averaged
 over $N = 2000$ clustering instances sampled from the underlying distribution.
 For both distributions, the best mixture of two metrics performs better than the
-best fixed single metric. On the MN/MAML distribution, the best average
+best fixed single metric. On the distribution with $k=5$ clusters, the best average
 performance is obtained when mixing the Euclidean and cosine distances for the
 MNIST CNN features with $\beta = 0.727$ achieving an average Hamming error of
 $26.3\%$. In contrast, using the cosine distance on the MNIST CNN features is the
 best single metric and has an average Hamming error of $28.9\%$, yielding an
-improvement of $2.6\%$. For the MD instance distribution, the stroke distance
+improvement of $2.6\%$. For the instance distribution with a variable amount of classes, the stroke distance
 appears to be more useful. The best performance is achieved when mixing the
 stroke distance and the cosine distance on the MNIST CNN features with $\beta =
 0.514$ and achieves error $33\%$, while the best fixed metric has error $42\%$,
@@ -497,16 +476,16 @@ leading to an improvement of $9\%$.
   \begin{subfigure}[b]{0.5\textwidth}
     \centering
     \includegraphics[width=0.9\textwidth]{plots/omniglot_MAML_results}
-    \caption{MN/MAML Instance Distribution}
+    \caption{Chosing $k=5$ different characters from different alphabets improves the cost by $2.6\%$ when combining the Euclidean and the cosine distance of the MNIST CNN features.}
     \label{fig:dl-omniglot-maml}
   \end{subfigure}
   ~
   \begin{subfigure}[b]{0.5\textwidth}
     \centering
     \includegraphics[width=0.9\textwidth]{plots/omniglot_MD2_results}
-    \caption{MD Instance Distribution}
+    \caption{Selecting $k$ between $5$ and $10$ characters of the same alphabet improves the cost by $9\%$ when combining the stroke features and the cosine distance of the MNIST CNN features.}
     \label{fig:dl-omniglot-md}
   \end{subfigure}
-  \caption{Learning the best distance metric for Omniglot.}
+  \caption{Learning the best distance metric for Omniglot leads to improvements of up to $9\%$ when combining the time-series stroke data with the cosine distance of the MNIST CNN features.}
   \label{fig:dl-omniglot}
 \end{figure}

@@ -19,7 +19,7 @@ Our goal is to find the best possible matching between two clusterings $C_1^i, .
 %     \label{app:hung:distances}
 % \end{table}
 
-To find the optimal matching in a brute force way, we have to look at each possible matching. Say we want to match each $i$ to one $j$. For $i = 1$ we can pick from 5 different values of $j$, for $i = 2$ there are 4 potential values of $j$. This will overall result in $k! = 5! = 120$ different combinations, thus the complexity of the brute force approach is $O(k!)$. A more efficient algorithm (especially for higher values of $k$) was introduced by Kuhn and Munkres \cite{kuhn1955hungarian}\cite{munkres1957algorithms}. It consists of three major steps. In the first one, we subtract the row minima from each row. This step is performed in table \ref{app:hung:step1}.
+To find the optimal matching in a brute force way, we have to look at each possible matching. Say we want to match each $i$ to one $j$ for five clusters. For $i = 1$ we can pick from 5 different values of $j$, for $i = 2$ there are 4 potential values of $j$. This will overall result in $k! = 5! = 120$ different combinations, thus the complexity of the brute force approach is $O(k!)$. A more efficient algorithm (especially for higher values of $k$) was introduced by Kuhn and Munkres \cite{kuhn1955hungarian}\cite{munkres1957algorithms}. It consists of three major steps. In the first one, we subtract the row minima from each row. This step is performed in table \ref{app:hung:step1}.
 
 \begin{table}[h]
     \centering
