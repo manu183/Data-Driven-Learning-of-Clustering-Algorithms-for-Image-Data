@@ -7,13 +7,13 @@ We evaluate the in chapter \ref{chapter:alphalinkage} and chapter \ref{sec:beta}
 
 In general we evaluate two different types of experiments that apply for most of the datasets. Only for the synthetic dataset, we evaluate a data distribution similar to the one shown in figure \ref{fig:disksrings}.
 
-\paragraph{Batch Data Experiments.} In the first one, we evaluate certain data batches, i.e. we subsample the $n$-th set of points in sorted order for each of the target classes. To generalize the experiments for larger datasets, we average over multiple batches. In our experiments, we evaluate all distinct combinations of $k$ classes, e.g. for multiple datasets we have 10 target classes and use 5 labels for our experiments, i.e. we evaluate all $10 \choose 5$ combinations to cover all possible label subsets.
+\paragraph{Batch Data Experiments.} In the first one, we evaluate certain data batches, i.e. we subsample the $n$-th set of points in sorted order for each of the target classes. To generalize the experiments for larger datasets, we average over multiple batches. In our experiments, we evaluate all distinct combinations of $k$ classes, e.g. for multiple datasets we have 10 target classes and use 5 labels for our experiments, i.e. we evaluate all $10 \choose 5$ combinations to cover all possible subsets of the given labels.
 
-\paragraph{Randomized Experiments.} In the other setting, we select the points for certain classes by random. Averaging over a large number of clustering instances allows us to cover a major fraction of the dataset. To cluster a subset of the target classes, we also select the classes by random. Overall, in case both experimental settings agree, we know that the results are generalized well for the underlying data distribution.
+\paragraph{Randomized Experiments.} In the other setting, we select the points for certain classes by random. Averaging over a large number of clustering instances allows us to cover a major fraction of the dataset. To cluster a subset of the target classes, we also select the classes by random. Overall, in case both experimental settings agree, we know that the results generalize well for the underlying data distribution.
 
 \subsection{Synthetic Data} 
 
-Here we generate 1,000 clustering instances by random given the data distribution shown in section \ref{chapter:datasets}, i.e. all instances contain four classes, two rings and two disks. In figure \ref{fig:syntheticexperiments} we observe that all three linkage strategies perform very similarly. Only single linkage does slightly better with an error below $25\%$ while both average and complete linkage are above $25\%$. Interpolating between single and linkage (a) leads to significantly lower errors ($4.2\%$), where interpolating between average and complete linkage (b) does not lead to improvements. As this example motivates interpolating between single and complete linkage, we elaborate this setting further. Figure \ref{fig:syntheticexperiments} (c) shows that single linkage does very well identifying the two rings, while it tends to combine the two disk-shaped clusters in a quite early step. On the other hand, complete linkage does very well clustering the two disks, but it tends to combine the two rings (see figure \ref{fig:syntheticexperiments} (d)).
+Here we generate 1,000 clustering instances by random given the data distribution shown in section \ref{chapter:datasets}, i.e. all instances contain four classes, two rings and two disks. In figure \ref{fig:syntheticexperiments} we observe that all three linkage strategies perform very similarly. Only single linkage does slightly better with an error below $25\%$ while both average and complete linkage are above $25\%$. Interpolating between single and complete linkage (a) leads to significantly lower errors ($4.2\%$), where interpolating between average and complete linkage (b) does not lead to improvements. As this example motivates interpolating between single and complete linkage, we elaborate this setting further. Figure \ref{fig:syntheticexperiments} (c) shows that single linkage does very well identifying the two rings, while it tends to combine the two disk-shaped clusters in a quite early step. On the other hand, complete linkage does very well clustering the two disks, but it tends to combine the two rings (see figure \ref{fig:syntheticexperiments} (d)).
 
 \begin{figure}[H]
 \centering
@@ -73,7 +73,7 @@ We see minor improvements when clustering between single and complete and averag
     \label{table:nellresults}
 \end{table}
 
-As the algorithm has become a lot more efficient during this work, we scale up the algorithms to use 1,000 instead of 250 points per class. The results for all entities are shown in appendix \ref{app:nell}. Figure \ref{fig:nellresults1000} shows that in general the error is slightly higher, because our experiments contain more different classes. Overall, we again see slight improvements that are shown in table \ref{table:nell1000}. Compared to the previous experiments, the improvements were a bit bigger ($1.21\%$ leading to an error of $16.67\%$), however the overall curves look very similar. In this setting, we also evaluate the parameter advising for the first 10 parameters $\alpha^*$ (see figure \ref{fig:nell1000top10}).
+As the algorithm has become a lot more efficient during this work, we scale up the algorithms to use 1,000 instead of 250 points per class. The results for all entities are shown in appendix \ref{app:nell}. Figure \ref{fig:nellresults1000} shows that in general the error is slightly higher, because our experiments contain more different classes. Overall, we again see slight improvements that are shown in table \ref{table:nell1000}. Compared to the previous experiments, the improvements were slightly larger ($1.21\%$ leading to an error of $16.67\%$), however the overall curves look very similar. In this setting, we also evaluate the parameter advising for the first 10 parameters $\alpha^*$ (see figure \ref{fig:nell1000top10}).
 
 \begin{figure}[h]
 \centering
@@ -111,7 +111,7 @@ As the algorithm has become a lot more efficient during this work, we scale up t
 \label{fig:nell1000top10}
 \end{figure}
 
-Also, we evaluate the corresponding clusters. As $\alpha$-linkage uses agglomerative hierarchical clustering, we can extract clusters at different levels starting with each noun phrase as its own cluster. Tables \ref{tbl:rooms}, \ref{tbl:clothing} and \ref{tbl:kitchenitems} show some examples for discovered categories.
+Also, we evaluate the corresponding clusters. As $\alpha$-linkage uses agglomerative hierarchical clustering, we can extract clusters at different levels starting with each noun phrase as its own cluster. Tables \ref{tbl:rooms}, \ref{tbl:clothing} and \ref{tbl:kitchenitems} show some examples for discovered subcategories.
 
 \begin{table}[H]
   \makebox[\textwidth][c]{
@@ -180,7 +180,7 @@ Also, we evaluate the corresponding clusters. As $\alpha$-linkage uses agglomera
 
 \subsection{MNIST}
 
-\paragraph{Pixel Representation.} For the MNIST images, we evaluate both described experimental settings with combinations of five out of the ten target classes. To cluster the data, we set up $10 \choose 5$ $= 252$ different experiments by selecting all combinations of five out of the ten labels. In order to do so in efficient time, we subsample the dataset to 200 points for each label, so one experiment will cluster 1000 points. First, we evaluate the results for both average to complete and single to complete linkage for several batches. Note that we do not discuss the interpolation between single to average linkage in this and the following paragraphs, as experiments did not lead to improvements. First, we show the experiments for the six first batches $b_i, i \in \{0, 1, 2, 3, 4, 5\}$ for interpolating between single and complete linkage.
+\paragraph{Pixel Representation.} For the MNIST images, we evaluate both described experimental settings with combinations of five out of the ten target classes. To cluster the data, we set up $10 \choose 5$ $= 252$ different experiments by selecting all combinations of five out of the ten labels. In order to do so in efficient time, we subsample the dataset to 200 points for each label, so one experiment will cluster 1000 points. First, we evaluate the results for both average to complete and single to complete linkage for several batches. First, we show the experiments for the six first batches $b_i, i \in \{0, 1, 2, 3, 4, 5\}$ for interpolating between single and complete linkage.
 
 \begin{figure}[h]
 \centering
@@ -297,7 +297,7 @@ Similar to that, we also interpolate between average and complete linkage and ev
     $cost_{opt}$ & 0.458167 & 0.406563 & 0.440964 & 0.451063 & 0.429849 & 0.431631\\
     $\Delta cost$ & 3.2301\% & 5.45\% & 3.8861\% & 2.4266\% & 3.3472\% & 5.548\%\\\hline
     \end{tabular}
-    \caption{$\alpha$-linkage reduces the cost of the MNIST dataset by up to $\Delta_{max} cost = 5.548\%$ when interpolating between average and complete linkage.}
+    \caption{$\alpha$-linkage reduces the cost of the MNIST dataset by up to $\Delta cost = 5.548\%$ when interpolating between average and complete linkage.}
     \label{table:mnist1000acbatch}
 \end{table}
 
@@ -314,13 +314,13 @@ Figure \ref{fig:mnistscrandom} shows the comparison between the batch and the ra
     $cost_{opt}$ & 0.44314 & 0.439632\\
     $\Delta cost$ & 3.3047\% & 3.6696\%\\\hline
     \end{tabular}
-    \caption{Comparing between average and complete linkage for the MNIST data leads to slight differences between the batch and the random setting.}
+    \caption{Interpolating between average and complete linkage for the MNIST data leads to slight differences between the batch and the random setting.}
     \label{table:mnistacavg}
 \end{table}
 
-Summarizing, we also obtain very positive results for $dac$, however the results are not as stable as for $dsc$. In our experiments, we notice that $\dsc$ results in more discontinuities (factor $\approx 3$) than $d_{AC}$. This may be because the distance $d(\alpha)$ is wider spread for $dsc$, i.e. $|\dsc(\alpha = 1) - \dsc(\alpha = 0)| > |\dac(\alpha = 1) - \dac(\alpha = 0)|$. However $\dac$ is depending on more points, so it may be an indicator for this observation, but not a proof. We leave the formal proof open for future work at this point. Parameter advising is useful with a small value $k$ already and reduces the costs for $k = 3$ by $\approx 5\%$ in addition.
+Summarizing, we also obtain very positive results for $\dac$, however the results are not as stable as for $\dsc$. In our experiments, we notice that $\dsc$ results in more discontinuities (factor $\approx 3$) than $\dac$. This may be because the distance $d(\alpha)$ is wider spread for $\dsc$, i.e. $|\dsc(\alpha = 1) - \dsc(\alpha = 0)| > |\dac(\alpha = 1) - \dac(\alpha = 0)|$. However $\dac$ is depending on more points, so it may be an indicator for this observation, but not a proof. We leave the formal proof open for future work at this point. Parameter advising is useful with a small value $k$ already and reduces the costs for $k = 3$ by $\approx 5\%$ in addition.
 
-\paragraph{Learning MNIST features.} Differently to just using the raw pixel features, we here apply preprocessing techniques with the intention to generate more accurate clusterings. As in section \ref{sec:imagefeatures} described, we use a Convolutional Neural Network to learn a more robust and lower-dimensional feature representation. Therefore, we use the in appendix \ref{sec:cnnarchitecture} described architecture, train the network with all data and then extract the features by cutting off the last three layers of the network. This then results in a learned 128-dimensional representation for each image.
+\paragraph{Learning MNIST features.} Differently to just using the raw pixel features, we here apply preprocessing techniques with the intention to generate more accurate clusterings. As in section \ref{sec:imagefeatures} described, we use a Convolutional Neural Network to learn a more robust and lower-dimensional feature representation. Therefore, we use the in appendix \ref{sec:cnnarchitecture} described architecture, train the network with all data and then extract the features by cutting off the last three layers of the network. This then results in a learned 128-dimensional representation for each image.\\
 
 Figure \ref{fig:mnist_overview} (a) shows that single linkage still performs poorly, however the error for both complete linkage and the interval in between are much lower. Also, we note that the improvement using $\alpha$-linkage is large over both settings. However, a Convolutional Neural Network aims at recognizing the characters, so training on all images might be the sole cause of our improvements. Thus, it is more relevant for our experiments to either train the network on a subset of the data or to train the network on a different task in order to transfer the knowledge to unseen data or to a different task.
 

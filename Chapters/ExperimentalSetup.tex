@@ -19,7 +19,7 @@ To motivate our approach, we manually created a dataset containing disks and rin
 
 \subsection{Text Data}
 
-\paragraph{Never Ending Language Learner data.} The Never Ending Language Learner (NELL) is a learning agent that reads the web, extracts data and verifies beliefs \cite{Mitchell:2015:NL:2886521.2886641}\cite{Mitchell:2018:NL:3210350.3191513}. NELL for example knows that "Pittsburgh" is located in "Pennsylvania". These beliefs represent different noun-phrases such as "Pittsburgh" and "Pennsylvania". The noun-phrases belong to certain categories, e.g.``Pittsburg'' is a ``City'' and ``Pennsylvania'' is a ``State''. These subcategories both belong to the main category "Geopolitical Location". Figure \ref{fig:nell_beliefs} shows such a knowledge graph. While there are already different subcategories, the goal for a hierarchical clustering algorithm here could be to extract new useful subcategories.
+\paragraph{Never Ending Language Learner data.} The Never Ending Language Learner (NELL) is a learning agent that reads the web, extracts data and verifies beliefs \cite{Mitchell:2015:NL:2886521.2886641, Mitchell:2018:NL:3210350.3191513}. NELL for example knows that "Pittsburgh" is located in "Pennsylvania". These beliefs represent different noun-phrases such as "Pittsburgh" and "Pennsylvania". The noun-phrases belong to certain categories, e.g.``Pittsburg'' is a ``City'' and ``Pennsylvania'' is a ``State''. These subcategories both belong to the main category "Geopolitical Location". Figure \ref{fig:nell_beliefs} shows such a knowledge graph. While there are already different subcategories, the goal for a hierarchical clustering algorithm here could be to extract new useful subcategories.
 
 \begin{figure}[h]
     \centering
@@ -54,7 +54,7 @@ Another obsevation that results from hierarchical clustering is the similarity o
     \label{fig:cifar10}
 \end{figure}
 
-As the amount of images and the amount of classes is equal to the ones in the MNIST database, we can also try similar experiments. The main difference is that the images consist of RGB pixels instead of black and white values.
+As the amount of images and the amount of classes is equal to the ones in the MNIST database, we can also try similar experiments. The main difference is that the images consist of RGB pixels instead of black and white pixel values.
 
 \paragraph{CIFAR-100.} The CIFAR-100 dataset contains similar images, but instead of 6,000 images each for 10 classes, it consists of 600 images each for 100 classes. The classes are divided into 20 superclasses each containing five subclasses. Examples of superclasses and corresponding subclasses are shown in table \ref{table:cifar100data}. 
 
@@ -75,7 +75,7 @@ As the amount of images and the amount of classes is equal to the ones in the MN
 
 Having superclasses and subclasses allows clustering between different subclasses within a superclass and also between different superclasses. This allows more experiments than for the CIFAR10 data.
 
-\paragraph{Omniglot.}The Omniglot dataset contains 1623 handwritten characters from 30 different alphabets, where each character is represented by 20 different images. Each image is black white and represented by $105 \times 105$ pixels \cite{Lake1332}. Figure \ref{fig:omniglotcharacters} shows characters of the more well-known Latin, Greek and Hebrew alphabets that are part of the dataset.
+\paragraph{Omniglot.}The Omniglot dataset contains 1623 handwritten characters from 30 different alphabets, where each character is represented by 20 different images. Each image is black and white and represented by $105 \times 105$ pixels \cite{Lake1332}. Figure \ref{fig:omniglotcharacters} shows characters of the more well-known Latin, Greek and Hebrew alphabets that are part of the dataset.
 
 \begin{figure}[h]
 \centering
@@ -99,14 +99,14 @@ The Omniglot dataset is similar to the MNIST dataset as it also contains handwri
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=.7\textwidth]{plots/demo_strokes}
+  \includegraphics[width=.6\textwidth]{plots/demo_strokes}
   \caption{The stroke data gives a time-series representation of the omniglot drawings that indicate the order in which the characters were written \cite{Lake1332}.}
   \label{fig:omniglotstroke}
 \end{figure}
 
 \section{Pruning}
 
-In order to evaluate a cluster tree together with some target labels, we have to prune the tree into the corresponding number of $k$ target labels, i.e.\ the $k$ different classes of the target data. Therefore, we evaluate the costs of all possible combinations of $k$ clusters and select the best clusters. Figure \ref{fig:pruning} shows an example of how we can prune a clustering tree into $k = 3$ clusters by either using the clusters $C, D$ and $E$ or the clusters $B, F$ and $G$.
+In order to evaluate a cluster tree together with the target labels, we have to prune the tree into the corresponding number of $k$ target clusters, i.e.\ the $k$ different classes of the target data. Therefore, we evaluate the costs of all possible combinations of $k$ clusters and select the best clusters. Figure \ref{fig:pruning} shows an example of how we can prune a clustering tree into $k = 3$ clusters by either using the clusters $C, D$ and $E$ or the clusters $B, F$ and $G$.
 
 \begin{figure}[h]
 \centering
@@ -177,7 +177,7 @@ This cost function is motivated by finding corresponding clusters with the lowes
     \label{eq:hammingdistance}
 \end{equation}
 
-However, the Hamming distance consists of an assignment problem to find the optimal matching $\sigma$ between the generated clusters and the target clusters. Table \ref{table:matching} shows how such a matching can look like.
+However, the Hamming distance contains an assignment problem to find the optimal matching $\sigma$ between the generated clusters and the target clusters. Table \ref{table:matching} shows how such a matching can look like.
 
 \begin{table}[h]
     \centering
@@ -190,17 +190,17 @@ However, the Hamming distance consists of an assignment problem to find the opti
     4 & 30 & 50 & 40 & \cellcolor{blue!25}20 & 10\\
     5 & 20 & 30 & 40 & 50 & \cellcolor{blue!25}25\\ \hline
     \end{tabular}
-    \caption{In order to calculate the Hamming distance between two clusterings, we have to calculate the optimal mapping that results in the lowest distance for these two clusterings. For randomly selected distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (blue highlighted cells) in a brute force way or more efficiently with the Hungarian method \cite{kuhn1955hungarian}\cite{munkres1957algorithms}.}
+    \caption{In order to calculate the Hamming distance between two clusterings, we have to calculate the optimal mapping that results in the lowest distance for these two clusterings. For randomly selected distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (highlighted cells) in a brute force way or more efficiently with the Hungarian method \cite{kuhn1955hungarian, munkres1957algorithms}.}
     \label{table:matching}
 \end{table}
 
-While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the Hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkred modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. In general we can say that it  makes sense to use the Hungarian method when there are more than five classes. A detailed explanation of the Hungarian method is included in appendix \ref{sec:hungarian}.
+While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the Hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkres modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. In general we can say that it  makes sense to use the Hungarian method when there are more than five classes. A detailed explanation of the Hungarian method is included in appendix \ref{sec:hungarian}.
 
 \section{Parameter Advising}
 
-Our settings average over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$ \cite{deblasio2015parameter}. We select the pool of $\alpha$-values through the local optima for each experiment. The best $k$ values of $\alpha$, where $k$ is much smaller than the number of experiments, can then be calculated with an integer optimization problem. A scenario where this setup can be used is by having a domain expert, who can select the best clustering from the $k$ suggested ones.\\
+Our settings average over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$ \cite{deblasio2015parameter}. We select the pool of $\alpha$-values through the local optima for each experiment. The best $k$ values of $\alpha$, where $k$ is much smaller than the number of experiments, can then be calculated with an integer optimization problem. A possible scenario where this setup is useful is by having a domain expert, who can select the best clustering from the $k$ suggested ones.\\
 
-More formally, we want to to find the optimal parameters $\alpha_1^*, \dots, \alpha_k^*$ such that they optimize the utility $u$ of a clustering instance $S$ and the resulting clustering tree $T(S, \alpha)$ (see equation \ref{eq:advising}). In order to calculate the parameters $\alpha_1^*, \dots, \alpha_k^*$, we first have a look at parameter advising described as facility location problem.
+More formally, we want to to find the optimal parameters $\alpha_1^*, \dots, \alpha_k^*$ such that they optimize the utility $u$ of a clustering instance $S$ and the resulting clustering tree $T(S, \alpha)$ (see equation \ref{eq:advising}). In order to calculate the parameters $\alpha_1^*, \dots, \alpha_k^*$, we first have a look at parameter advising described as a facility location problem.
 
 \begin{equation}
   \alpha_1^*, \dots, \alpha_k^*
@@ -217,7 +217,7 @@ More formally, we want to to find the optimal parameters $\alpha_1^*, \dots, \al
   & \text{for each $i \in [N], j \in [M]$, } x_{ij} \leq y_j.
 \end{align*}
 
-Note that the optimization problem contains three constraints. $\sum_{j=1}^m y_j = k$ makes sure that exactly $k$ values are used, the second guarantees that we assign any clustering instance to at most one parameter, and the final constraint ensures that we only assign clustering instances to selected parameters. In our experiments, we use IBM ILOG’s CPLEX to solve these integer programming problems. However, the computation of the optimal values is very complex, so we also implement a greedy strategy that calculates approximately optimal values more efficiently.
+Note that the optimization problem contains three constraints. $\sum_{j=1}^m y_j = k$ makes sure that exactly $k$ values are used, the second guarantees that we assign any clustering instance to at most one parameter, and the final constraint ensures that we only assign clustering instances to selected parameters. In our experiments, we use IBM ILOG CPLEX to solve these integer programming problems. However, the computation of the optimal values is very complex, so we also implement a greedy strategy that calculates approximately optimal values more efficiently.
 
 \paragraph{Greedy Parameter Advising.} In a convex space an optimal value $\alpha_n^*$ will also be optimal when calculating $k = n + 1$ optimal values. Leveraging this knowledge, we can iteratively calculate the optimal values $\alpha_1, \dots, \alpha_m$ step by step, where we first calculate $\alpha_1^*$ that has the largest utility over all clustering instances $S$ and then calculate $\alpha_2^*$ that results in the highest utility combined with $\alpha_1^*$ (see equation \ref{eq:greedypa}).
 

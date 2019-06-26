@@ -24,7 +24,7 @@ d_\beta(x,x') = d_0(x,x') + \beta \cdot (d_1(x,x') - d_0(x,x'))
 \label{eq:betalinear}
 \end{equation}
 
-We can then compete all possible discontinuities by comparing the distances of given clusters $(x, x')$ and $(y, y')$. As $d_\beta(x,x')$ is a linear function depending on $\beta$ (see equation \ref{eq:betalinear}), we can compute all discontinuities by solving the following equation.
+We can then compute all possible discontinuities by comparing the distances of given clusters $(x, x')$ and $(y, y')$. As $d_\beta(x,x')$ is a linear function depending on $\beta$ (see equation \ref{eq:betalinear}), we can compute all discontinuities by solving the following equation.
 
 \begin{align*}
 &d_\beta(x,x') = d_\beta(y,y')\\
@@ -52,4 +52,4 @@ As we know that the function $d_\beta$ is a linear function depending on $\beta$
 \label{alg:betalinkage}
 \end{algorithm}
 
-A slight adaption that we need is to normalize the features such that for $\beta = 0.5$ we equally weight both distance matrices. We achieve this by dividing the features $f_1, \dots, f_k$ through the maximum value $f_{max}$. In this way, we scale the features into $[0,1]$ and do not lose the proportions as it would happen when using a min-max-scaler.
+A slight adaption that we need is to normalize the features such that for $\beta = 0.5$ we equally weight both distance matrices. We achieve this by dividing the features $f_1, \dots, f_k$ through the maximum value $f_{max}$. In this way, we scale the features into $[0,1]$ and do not lose the proportions as it would happen when e.g.\ using a min-max-scaler.
