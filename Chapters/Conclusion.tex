@@ -1,6 +1,6 @@
 \chapter{Conclusion}
 
-In this work, we developed a data-driven solution to find the best algorithm (here: linkage strategy) for clustering tasks on a given dataset. In section \ref{chapter:alphalinkage} we introduced an algorithm to efficiently interpolate between the in section \ref{chapter:relatedwork} described linkage strategies. The final $\alpha$-linkage algorithm uses a line sweep approach to find the pairwise distance function that leads to merges with the lowest resulting cost, i.e.\ the optimal clusterings.\\
+In this work, we developed a data-driven solution to find the best algorithm, i.e.\ linkage strategy, for clustering tasks on a given dataset. In section \ref{chapter:alphalinkage} we introduced an algorithm to efficiently interpolate between the in section \ref{chapter:relatedwork} described linkage strategies. The final $\alpha$-linkage algorithm uses a line sweep approach to find the pairwise distance function that leads to merges with the lowest resulting cost, i.e.\ the optimal clusterings.\\
 
 While the in section \ref{chapter:relatedwork} described approaches are less efficient, our approach is able to analyze large parts of the in section \ref{chapter:setup}  discussed real-world datasets using cloud computing. We summarize multiple key observations from the experiments in section \ref{sec:results}:
 \begin{itemize}
@@ -12,17 +12,17 @@ While the in section \ref{chapter:relatedwork} described approaches are less eff
 \item Single Linkage
 \end{enumerate}
 \item Interpolating between single and average linkage does in general not lead to significant improvements.
-\item When interpolating between single and complete or average and complete linkage, $\alpha$-linkage outperforms the used linkage strategies in all of our experiments.
+\item When interpolating between single and complete or average and complete linkage, $\alpha$-linkage outperforms the used linkage strategies in all of our experiments with meaningful feature data.
 \item Parameter Advising is a very powerful tool to provide more accurate clusterings. Our greedy implementation allows to calculate the optimal parameter in an approximately optimal way very efficiently.
 \end{itemize}
 
-To be more precise, we show the results for the different datasets. In table \ref{table:comparison} we compare the single to complete linkage interpolation for all the discussed datasets\footnote{CIFAR 100 single to complete linkage was not discussed in section \ref{sec:results}.} in the batch setting. We notice that we achieve major improvements for all datasets and, excluding the synthetic data, receive similar values for $\alpha_{opt}$. This knowledge may be useful for transfer learning between different datasets in future work.
+To be more precise, we show the results for the different datasets. In table \ref{table:comparison} we compare the single to complete linkage interpolation for all the discussed datasets\footnote{CIFAR-100 single to complete linkage was not discussed in this thesis.} in the batch setting. We notice that we achieve major improvements for all datasets and, excluding the synthetic data, receive similar values for $\alpha_{opt}$. This knowledge may be useful for transfer learning between different datasets in future work.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{|l | l | l | l | l | l |}
     \hline
-    & Synthetic & NELL & MNIST & Omniglot & CIFAR10\\ \hline
+    & Synthetic & NELL & MNIST & Omniglot & CIFAR-10\\ \hline
     $\alpha_{opt}$ & 0.169 & 0.918 & 0.857 & 0.908 & 0.917\\
     $\Delta_{cost}$ & 22.70\% & 1.20\% & 3.70\% & 1.0\% & 0.2\%\\\hline
     \end{tabular}
@@ -36,19 +36,17 @@ Similar to table \ref{table:comparison}, we also show the results for interpolat
     \centering
     \begin{tabular}{|l | l | l | l | l | l | l |}
     \hline
-    & Synthetic & NELL & MNIST & Omniglot & CIFAR10 & CIFAR100\\ \hline
+    & Synthetic & NELL & MNIST & Omniglot & CIFAR-10 & CIFAR-100\\ \hline
     $\alpha_{opt}$ & 0.201 & 0.855 & 0.633 & 0.798 & 0.539 & 0.875\\
     $\Delta_{cost}$ & 0.29\% & 0.77\% & 3.30\% & 1.0\% & 0.83\% & 1.8\%\\\hline
     \end{tabular}
-    \caption{Comparing the results over the different datasets leads to a bigger spread of the parameters.}
+    \caption{Comparing the results over the different datasets while interpolating between average and complete linkage leads to a bigger spread of the parameters.}
     \label{table:comparison_ac}
 \end{table}
 
 In comparison to interpolating between single and complete linkage, we also get good improvements, however the optimal parameter $\alpha$ is spread more widely, i.e.\ it will be more difficult to reuse the gained knowledge for further use.\\
 
-As we had implemented a framework to efficiently interpolate between inter-cluster distances, we also adapted it to interpolate between point distances in section \ref{sec:beta}. We generated image features with Convolutional Neural Networks and text features with Word Embeddings and showed in section \ref{sec:results} that we outperform all used feature representations.\\
-
-Also, we show in section \ref{sec:metric} that we can successfully apply the implemented framework to learning optimal metrics for given data. We achieve significant improvements by combining different data sources for the Omniglot data in different settings. Precisely, we improve the clusterings by up to $9\%$ when combining the stroke data distance with the cosine distance of the features extracted from a CNN that was trained on the MNIST data.
+Also, we show in section \ref{sec:metric} that we can successfully apply the implemented framework to learning optimal metrics for given data as discussed in section \ref{sec:beta}. We achieve significant improvements by combining different data sources for the Omniglot data in different settings. Precisely, we improve the clusterings by up to $9\%$ when combining the stroke data distance with the cosine distance of the features extracted from a CNN that was trained on the MNIST data.
 
 \paragraph{Future Work.} Nevertheless we can think of further additions to this work. The trivial next step will be to combine metric learning with algorithm selection, as for now, we only evaluated the same setups independently, i.e.\ we used a static feature representation for algorithm selection and we used complete linkage for metric learning. At the point of writing this work, we are not exactly sure how difficult it will be to efficiently combine both aspects of this work, but we know that it is feasible and can be achieved in future work.\\
 
