@@ -3,52 +3,52 @@
 
 \section{Data-driven Algorithm Design}
 
-This increasing amount of data allows us to improve the learning capabilities of machines. We know how well existing algorithms perform in general and which runtime guarantees they have. However, the algorithms' guarantees are general observations and can vary a lot between different data. Also, it is often not trivial to choose the right algorithm for the given data without extensive data engineering. In many real-world applications the data does not vary that much, e.g.\ the data for clustering websites into different types may vary quite much on a yearly base, but as this task can get executed thousands of times each second for certain search algorithms, the data will not change much. By assuming a static context, it is then possible to leverage the context to improve the algorithmic results. Empirical work without much theoretical foundation exists in domains such as Artificial Intelligence \cite{Xu:2008:SPA:1622673.1622687}, Computational Biology \cite{deblasio2018adaptive} or Game Theory \cite{likhodedov2004methods}. However, in this work we focus on clustering tasks, e.g.\ say you want to cluster person data for different genders. By having a-priori information, you can use a k-means clustering algorithm with $k = 3$ in order to differentiate between female, male and non-binary people.\\
+We know how well existing algorithms perform in general and which complexity guarantees they have. However, the algorithms' guarantees are general observations and can vary a lot between different data. Also, it is often not trivial to choose the right algorithm for the given data without extensive data engineering. In many real-world applications the data does not vary that much, e.g.\ the data for clustering websites into different types may vary quite much on a yearly base, but as this task can get executed thousands of times each second for certain search algorithms, the data will not change much. By assuming a static context, it is then possible to leverage the context to improve the algorithmic results. Empirical work without much theoretical foundation exists in domains such as artificial intelligence \cite{Xu:2008:SPA:1622673.1622687}, computational biology \cite{deblasio2018adaptive} or game theory \cite{likhodedov2004methods}. However, in this work we focus on clustering tasks, e.g.\ say we want to cluster person data for different genders. By having a-priori information, we can use a k-means clustering algorithm with $k = 3$ in order to differentiate between female, male and non-binary people.\\
 
 However, such observations are mostly not trivial and often require more effort in order to obtain useful a-priori information. In order to cluster financial standing, one could imagine seeing different clusters depending on the age or the education. But how many clusters would result here? The data has to be processed and evaluated for different values in this case.\\
 
 Once our algorithm performs well for our data and our tasks, we then want to transfer the gained knowledge to different tasks. Say the algorithm has already learned how to differentiate images of the handwritten digits zero, one and two, the same algorithm should then be able to apply the gained knowledge to distinguish between other handwritten digits too. The gained knowledge is some kind of learned data, that for example can be the feature representation of a Convolutional Neural Network, where a potential goal can be to transfer the representation knowledge to another classification task. For clustering tasks learned knowledge could be a number of clusters, a good feature representation for the input data or other useful information that allows performing similar clustering tasks better by transferring the knowledge.\\
 
-Data-driven learning is in general closely related to Hyperparameter Tuning \cite{hutter2015beyond}, where we try to find the best value of a given parameter to improve the overall quality the most, AutoML \cite{lacoste2014sequential,liu2018very}, where we perform end-to-end learning for given data, and Meta Learning \cite{alexandros2001model}, where we try to extract meta knowledge as one step of the learning process.
+Data-driven learning is in general closely related to hyperparameter tuning \cite{hutter2015beyond}, where we try to find the best value of a given parameter to optimize the overall quality, automated machine learning \cite{lacoste2014sequential,liu2018very}, where we perform end-to-end learning for given data, and meta learning \cite{alexandros2001model}, where we try to extract meta knowledge as one step of the learning process.
 
 \section{Linkage-based Hierarchical Clustering}
 
-This thesis focuses on agglomerative hierarchical clustering, i.e.\ clustering algorithms that merge clusters starting from each point as its own cluster until all points belong to the same cluster. In each iteration, the two clusters with the closest distance get merged together. As there are various clustering algorithms, there also are various distance measurements, which are widely used in practice and optimal in many cases \cite{awasthi2017local,saeed2003software,white2010alignment,awasthi2012center,balcan2016clustering,grosswendt2017improved}. One way to describe the distance between two clusters, say $X$ and $Y$, is by defining a linkage between them. There are three main methods to do so \cite{Manning:2008:IIR:1394399}.
+This thesis focuses on agglomerative hierarchical clustering, i.e.\ clustering algorithms that merge clusters starting from each point as its own cluster until all points belong to the same cluster. In each iteration, the two clusters with the closest distance get merged together. As there are various clustering algorithms, there also are various distance measurements which are widely used in practice and optimal in many cases \cite{awasthi2017local,saeed2003software,white2010alignment,awasthi2012center,balcan2016clustering,grosswendt2017improved}. One popular way to describe the distance between two clusters is by defining a linkage between them. There are three main methods to do so \cite{Manning:2008:IIR:1394399}.
 
 \paragraph{Single Linkage.}
 
-Single linkage defines a distance between two clusters $X$ and $Y$ as the distance between the two nearest points of these clusters (see equation \ref{eq:singlelinkage}).
+Single linkage defines a distance between two clusters $X$ and $Y$ as the distance between the two nearest points of these clusters.
 
-\begin{equation}
+\begin{equation*}
     \begin{aligned}
         d_{SL}(X,Y) = \min\limits_{x \in X, y \in Y} d(x,y)
     \end{aligned}
     \label{eq:singlelinkage}
-\end{equation}
+\end{equation*}
 
 \paragraph{Complete Linkage.}
 
-Complete linkage defines a distance between two clusters $X$ and $Y$ as the distance between the two farthest points of these clusters (see equation \ref{eq:completelinkage}).
+Complete linkage defines a distance between two clusters $X$ and $Y$ as the distance between the two farthest points of these clusters.
 
-\begin{equation}
+\begin{equation*}
     \begin{aligned}
         d_{CL}(X,Y) = \max\limits_{x \in X, y \in Y} d(x,y)
     \end{aligned}
     \label{eq:completelinkage}
-\end{equation}
+\end{equation*}
 
 \paragraph{Average Linkage.}
 
-Average linkage defines a distance between two clusters $X$ and $Y$ as the average distance between all points $x \in X$ and all points $y \in Y$ (see equation \ref{eq:averagelinkage}).
+Average linkage defines a distance between two clusters $X$ and $Y$ as the average distance between all points $x \in X$ and all points $y \in Y$.
 
-\begin{equation}
+\begin{equation*}
     \begin{aligned}
         d_{AL}(X,Y) = \frac{1}{|X||Y|}\sum\limits_{x \in X, y \in Y} d(x,y)
     \end{aligned}
     \label{eq:averagelinkage}
-\end{equation}
+\end{equation*}
 
-Figure \ref{fig:linkage_types} demonstrates which points are used for the different linkage strategies using two exemplary clusters.
+Figure \ref{fig:linkage_types} demonstrates how the distances between the two exemplary clusters get calculated with the different linkage strategies.
 
 \begin{figure}[h]
     \centering
@@ -59,7 +59,7 @@ Figure \ref{fig:linkage_types} demonstrates which points are used for the differ
 
 \paragraph{Effects of different linkage strategies.}
 
-Depending on the linkage strategy, the pairwise distances between all $N$ clusters $C_1, ..., C_N$ will be different. As the clustering algorithm merges the closest pair of clusters in each iteration, the merging clusters $C_i$ and $C_j$ with $i, j \in 1,...,N$ might vary as shown in figure \ref{fig:linkage_effects}, where ten clusters $C_0, ..., C_9$ get clustered with bottom-up hierarchical clustering using the Euclidean distance as the pointwise distance $d(x,y)$ to calculate the pairwise distance according to the three mentioned linkage strategies.
+Depending on the linkage strategy, the pairwise distances between all $N$ clusters $C_1, ..., C_N$ are different for all clusters containing more than one point. As the clustering algorithm merges the closest pair of clusters in each iteration, the merging clusters $C_i$ and $C_j$ with $i, j \in 1,...,N$ might vary as shown in figure \ref{fig:linkage_effects}, where ten clusters $C_0, ..., C_9$ get clustered with bottom-up hierarchical clustering using the Euclidean distance as the pointwise distance $d(x,y)$ to calculate the pairwise distance according to the three mentioned linkage strategies.
 
 \begin{figure}[h]
     \centering
@@ -100,7 +100,7 @@ To cluster different words, there are several ways to create a difference measur
 \label{fig:glove}
 \end{figure}
 
-\paragraph{Bag-of-Contexts.} In addition, CMU's Machine Learning Department provides another way to compare words. Their Never-Ending Language Learner provides information in which contexts certain words are used \cite{nell_pairs}, e.g.\ by considering that both Pittsburgh and Karlsruhe are used in the same context ``\_ is a city'', and Pittsburgh and Philadelphia share additional contexts such as ``\_ belongs to the state Pennsylvania'', we can conclude that Pittsburgh has a higher correlation to Philadelphia than to Karlsruhe. We can then create a corpus containing all different contexts. Similar to the bag-of-words approach \cite{bow}, we then count the occurrences of the words in the corpus' contexts. However, the resulting data is very sparse and Euclidean distance might not work well to compare the ``bag-of-contexts'' representations, i.e.\ other measurements such as the cosine distance are preferred.
+\paragraph{Bag-of-Contexts.} In addition, CMU's Machine Learning Department provides another way to compare words. Their Never-Ending Language Learner provides information in which contexts certain words are used \cite{nell_pairs}, e.g.\ by considering that both Pittsburgh and Karlsruhe are used in the same context ``\_ is a city'', and Pittsburgh and Philadelphia share additional contexts such as ``\_ belongs to the state Pennsylvania'', we can conclude that Pittsburgh has a higher correlation to Philadelphia than to Karlsruhe. We can then create a corpus containing all different contexts. Similar to the bag-of-words approach \cite{bow}, we then count the occurrences of the words in the corpus' contexts. However, the resulting data is very sparse and the Euclidean distance might not work well to compare the ``bag-of-contexts'' representations, i.e.\ other measurements such as the cosine distance are preferred.
 
 \subsection{Image Features}
 \label{sec:imagefeatures}
@@ -140,4 +140,4 @@ Equation \ref{eq:algfam1} shows a distance in the range between single linkage (
 
 Equation \ref{eq:algfam2} will also result in single linkage for $\alpha = - \infty$ and complete linkage for $\alpha = \infty$. In addition, the family $\mathcal{A}_2$ also contains the definition of average linkage ($\alpha = 1$). However, the guarantee for maximum $O(n^8)$ intervals does not apply to this family. A formal guarantee will be $O(n^4 2^n)$, but this thesis will show that the empirical results are much better than the actual formal guarantee.\\
 
-Balcan et. al also provide a solution to calculate all different merges of $\mathcal{A}_1$, however this approach solves the mathematical equations and leads to the same clusters being used for a merge quite often. As our solution only evaluates cases where different pairs of clusters get merged, the algorithm described in the following section has a lower runtime as well as a lower lower complexity.
+Balcan et. al also provide a solution to calculate all different merges of $\mathcal{A}_1$, however this approach solves the mathematical equations and leads to the same clusters being used for a merge quite often. As our solution only evaluates cases where different pairs of clusters get merged, the algorithm described in the following section has a lower runtime as well as a lower complexity.

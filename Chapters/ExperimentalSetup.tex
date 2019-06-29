@@ -32,7 +32,7 @@ The used dataset, extracted web-information by NELL, contains 32 different main 
 \newpage
 \subsection{Image Data}
 
-\paragraph{MNIST handwritten digits.} The MNIST handwritten digit database contains images of the handwritten digits from zero to nine \cite{lecun-mnisthandwrittendigit-2010}. Samples of these images are shown in figure \ref{fig:mnist}. Its training set contains a total of 60,000 images, where each image is represented as a 784-dimensional vector corresponding to a black and white image with $28 \times 28$ pixels.
+\paragraph{MNIST handwritten digits.} The MNIST handwritten digit database contains images of the handwritten digits from zero to nine \cite{lecun-mnisthandwrittendigit-2010}. Samples of these images are shown in figure \ref{fig:mnist}. Its training set contains a total of 60,000 images, where each image is represented as a 784-dimensional vector corresponding to an image with $28 \times 28$ black and white pixels.
 
 \begin{figure}[h]
     \centering
@@ -41,9 +41,9 @@ The used dataset, extracted web-information by NELL, contains 32 different main 
     \label{fig:mnist}
 \end{figure}
 
-The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between black and white images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the knowledge the learned gained for clustering images labeled as five, six, seven, eight or nine. Theses types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.\\
+The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between black and white images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the gained knowledge for clustering images labeled as five, six, seven, eight or nine. Theses types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.\\
 
-Another obsevation that results from hierarchical clustering is the similarity of different labels, i.e. which labels are likely to get clustered together.
+Another observation that results from hierarchical clustering is the similarity of different labels, i.e. which labels are likely to get clustered together. For instance, we would expect images of characters 6 and 9, 3 and 8 or 2 and 5 to have some attributes in common and thus get clustered together rather than with other digits.
 
 \paragraph{CIFAR-10.} Another image dataset this thesis uses for evaluation is the CIFAR-10 dataset that contains 60,000 RGB images of ten different categories \cite{Krizhevsky2009LearningML}. Each image consists of $32 \times 32$ pixels and is thus represented as a 3072-dimensional vector ($32 \times 32 \times 3$). The categories and ten random images from each are shown in figure \ref{fig:cifar10}.
 
@@ -54,9 +54,9 @@ Another obsevation that results from hierarchical clustering is the similarity o
     \label{fig:cifar10}
 \end{figure}
 
-As the amount of images and the amount of classes is equal to the ones in the MNIST database, we can also try similar experiments. The main difference is that the images consist of RGB pixels instead of black and white pixel values.
+As the amount of images and the amount of classes is equal to the ones in the MNIST dataset, we can also try similar experiments. The main difference is that the images consist of RGB pixels instead of black and white pixel values.
 
-\paragraph{CIFAR-100.} The CIFAR-100 dataset contains similar images, but instead of 6,000 images each for 10 classes, it consists of 600 images each for 100 classes. The classes are divided into 20 superclasses each containing five subclasses. Examples of superclasses and corresponding subclasses are shown in table \ref{table:cifar100data}. 
+\paragraph{CIFAR-100.} The CIFAR-100 dataset contains similar images, but instead of 6,000 images each for 10 classes, it consists of 600 images for each of 100 classes. The classes are divided into 20 superclasses each containing five subclasses. Examples of superclasses and corresponding subclasses are shown in table \ref{table:cifar100data}. 
 
 \begin{table}[h]
     \centering
@@ -75,7 +75,7 @@ As the amount of images and the amount of classes is equal to the ones in the MN
 
 Having superclasses and subclasses allows clustering between different subclasses within a superclass and also between different superclasses. This allows more experiments than for the CIFAR10 data.
 
-\paragraph{Omniglot.}The Omniglot dataset contains 1623 handwritten characters from 30 different alphabets, where each character is represented by 20 different images. Each image is black and white and represented by $105 \times 105$ pixels \cite{Lake1332}. Figure \ref{fig:omniglotcharacters} shows characters of the more well-known Latin, Greek and Hebrew alphabets that are part of the dataset.
+\paragraph{Omniglot.}The Omniglot dataset contains 1623 handwritten characters from 30 different alphabets, where each character is represented by 20 different images. Each image is black and white and represented by $105 \times 105$ pixels \cite{Lake1332}. Figure \ref{fig:omniglotcharacters} shows characters of the more well-known Latin, Greek and Hebrew alphabets that are included in the dataset together with less known alphabets such as Tagalog, a language spoken as a first language by 25\% of the population of the Philippines.
 
 \begin{figure}[h]
 \centering
@@ -100,13 +100,13 @@ The Omniglot dataset is similar to the MNIST dataset as it also contains handwri
 \begin{figure}[h]
   \centering
   \includegraphics[width=.6\textwidth]{plots/demo_strokes}
-  \caption{The stroke data gives a time series representation of the omniglot drawings that indicate the order in which the characters were written \cite{Lake1332}.}
+  \caption{The stroke data gives a time series representation of the Omniglot drawings that indicate the order in which the characters were written \cite{Lake1332}.}
   \label{fig:omniglotstroke}
 \end{figure}
 
 \section{Pruning}
 
-In order to evaluate a cluster tree together with the target labels, we have to prune the tree into the corresponding number of $k$ target clusters, i.e.\ the $k$ different classes of the target data. Therefore, we evaluate the costs of all possible combinations of $k$ clusters and select the best clusters. Figure \ref{fig:pruning} shows an example of how we can prune a clustering tree into $k = 3$ clusters by either using the clusters $C, D$ and $E$ or the clusters $B, F$ and $G$.
+In order to evaluate a cluster tree together with the target labels, we have to prune the tree into the corresponding number of $k$ target clusters, i.e.\ the $k$ different classes of the target data. Therefore, we evaluate the costs of all possible combinations of $k$ clusters and select the best clusters. Figure \ref{fig:pruning} shows an example of how we can prune a cluster tree into $k = 3$ clusters by either using the clusters $C, D$ and $E$ or the clusters $B, F$ and $G$.
 
 \begin{figure}[h]
 \centering
@@ -150,12 +150,12 @@ In order to evaluate a cluster tree together with the target labels, we have to 
 \label{fig:pruning}
 \end{figure}
 
-However, we still have to find a way to calculate the preferred pruning of a clustering tree into $k$ clusters, i.e.\ whether in case of figure \ref{fig:pruning} we would prefer the pruning on the left or the one on the right.
+However, we still have to find a way to calculate the preferred pruning of a cluster tree into $k$ clusters, i.e.\ whether in case of figure \ref{fig:pruning} we would prefer the pruning on the left or the one on the right.
 
 \section{Cost functions}
 \label{chapter:costfunctions}
 
-In order to evaluate the quality of a clustering, we need some kind of cost function that compares the generated clustering $C_1,...,C_k$ with the target clustering $C_1^*, ..., C_k^*$. 
+In order to evaluate the quality of a clustering, we need some kind of cost function that compares the generated clustering $C_1,...,C_k$ with the target clustering $C_1^*, ..., C_k^*$ and calculates a quality score indicating how good they match. 
 
 \paragraph{Majority Cost.} One method to compare them is the Majority distance as shown in equation \ref{eq:majoritydistance} where $n$ ist the number of sampled points.
 
@@ -166,7 +166,7 @@ In order to evaluate the quality of a clustering, we need some kind of cost func
     \label{eq:majoritydistance}
 \end{equation}
 
-This cost function is motivated by finding corresponding clusters with the lowest distance, i.e. each generated cluster gets matched with the optimal target cluster. However two generated clusters can be matched with the same target cluster. 
+This cost function is motivated by finding corresponding clusters with the lowest distance, i.e. each generated cluster gets matched with the optimal target cluster and the cost is the average difference between the matched cluster pairs. However, two generated clusters can be matched with the same target cluster. 
 
 \paragraph{Hamming Cost.} This motivates the Hamming distance as shown in figure \ref{eq:hammingdistance}. We denote $\mathbb{S}_k$ as all possible permutations of the $k$ clusters.
 
@@ -190,17 +190,17 @@ However, the Hamming distance contains an assignment problem to find the optimal
     4 & 30 & 50 & 40 & \cellcolor{blue!25}20 & 10\\
     5 & 20 & 30 & 40 & 50 & \cellcolor{blue!25}25\\ \hline
     \end{tabular}
-    \caption{In order to calculate the Hamming distance between two clusterings, we have to calculate the optimal mapping that results in the lowest distance for these two clusterings. For randomly selected distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (highlighted cells) in a brute force way or more efficiently with the Hungarian method \cite{kuhn1955hungarian, munkres1957algorithms}.}
+    \caption{In order to calculate the Hamming distance between two clusterings, we have to calculate the optimal mapping that results in the lowest distance for these two clusterings. For distances between clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$ we can calculate the optimal mapping (highlighted cells) in a brute force way or more efficiently with the Hungarian method \cite{kuhn1955hungarian, munkres1957algorithms}.}
     \label{table:matching}
 \end{table}
 
-While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the Hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkres modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. In general we can say that it  makes sense to use the Hungarian method when there are more than five classes. A detailed explanation of the Hungarian method is included in appendix \ref{sec:hungarian}.
+While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the Hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkres modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. In general we can say that it  makes sense to use the Hungarian method when there are more than five target classes. A detailed explanation of the Hungarian method is included in appendix \ref{sec:hungarian}.
 
 \section{Parameter Advising}
 
-Our settings average over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$ \cite{deblasio2015parameter}. We select the pool of $\alpha$-values through the local optima for each experiment. The best $k$ values of $\alpha$, where $k$ is much smaller than the number of experiments, can then be calculated with an integer optimization problem. A possible scenario where this setup is useful is by having a domain expert, who can select the best clustering from the $k$ suggested ones.\\
+Our settings average over multiple experiments and show one parameter $\alpha$ that represents the best clustering over all experiments, i.e. the algorithm automatically outputs the best result. For parameter advising, we select the top $k$ values of $\alpha$ for each experiment and calculate the clustering's cost with the best of the $k$ values of $\alpha$ \cite{deblasio2015parameter}. We select the pool of $\alpha$-values through the local optima for each of the $n$ experiments. The best $k$ values of $\alpha$, where $k << n$, can then be calculated with an integer optimization problem. A possible scenario where this setup is useful is by having a domain expert, who can select the best from $k$ suggested clusterings.\\
 
-More formally, we want to to find the optimal parameters $\alpha_1^*, \dots, \alpha_k^*$ such that they optimize the utility $u$ of a clustering instance $S$ and the resulting clustering tree $T(S, \alpha)$ (see equation \ref{eq:advising}). In order to calculate the parameters $\alpha_1^*, \dots, \alpha_k^*$, we first have a look at parameter advising described as a facility location problem.
+More formally, we want to to find the optimal parameters $\alpha_1^*, \dots, \alpha_k^*$ such that they optimize the utility $u$ of a clustering instance $S$ and the resulting cluster tree $T(S, \alpha)$ (see equation \ref{eq:advising}). In order to calculate the parameters $\alpha_1^*, \dots, \alpha_k^*$, we first have a look at parameter advising described as a facility location problem.
 
 \begin{equation}
   \alpha_1^*, \dots, \alpha_k^*
@@ -208,7 +208,7 @@ More formally, we want to to find the optimal parameters $\alpha_1^*, \dots, \al
   \label{eq:advising}
 \end{equation}
 
-\paragraph{Facility Location Advising.} We create an integer optimization problem for a candidate set $\alpha_1, \dots, \alpha_m$ over the clustering instances $S_1, \dots, S_N$ and introduce the selection parameters $y_1, \dots, y_m \in \{0, 1\}$ that indicate whether $\alpha_j$ is used as one of the $k$ parameters. Also, we denote $x_{ij} \in \{0, 1\}$ as the auxiliary variable with the interpretation that $x_{ij} = 1$ whenever $\alpha_j$ is the best chosen parameter for problem instance $S_i$. This leads to the following optimization problem that optimizes the overall utility.
+\paragraph{Facility Location Advising.} We create an integer optimization problem for a candidate set $\alpha_1, \dots, \alpha_m$ over the clustering instances $S_1, \dots, S_N$ and introduce the selection parameters $y_1, \dots, y_m \in \{0, 1\}$ that indicate whether $\alpha_j$ is used as one of the $k$ parameters. Also, we denote $x_{ij} \in \{0, 1\}$ as the auxiliary variable with the interpretation that $x_{ij} = 1$ whenever $\alpha_j$ is the best chosen parameter for problem instance $S_i$. This leads to the following optimization problem that maximizes the overall utility.
 
 \begin{align*}
   \argmax_{x_{ij}, y_j} \qquad&\sum_{i = 1}^N \sum_{j = 1}^m x_{ij} u(S_i, T(S_i, \alpha_j)) \\
