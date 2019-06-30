@@ -1,7 +1,7 @@
 \chapter{The Hungarian Method}
 \label{sec:hungarian}
 
-Our goal is to find the best possible matching between two clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$. In order to do so, we calculate the cost of matching each possible pair of clusters within the two clusterings. 
+Our goal is to find the best possible matching between two clusterings $C_1^i, ..., C_k^i$ and $C_1^j, ..., C_k^j$. In order to do so, we calculate the costs of matching each possible pair of clusters within the two clusterings.\\
 % Table \ref{app:hung:distances} shows how such a cost matrix can look like.
 
 % \begin{table}[h]
@@ -71,7 +71,7 @@ Now we try to find the optimal matching. To do so, we cover all zeros with lines
     \label{app:hung:step3}
 \end{table}
 
-After covering the zeros and counting the lines, we found the optimal matching in case the number of lines equals the number of rows (or columns) in the matrix. As we need four lines and the matrix has five rows in this example, we have to add more zeros. To do that, we subtract the minimum value of the matrix (which is 5 here) from all uncovered values that are not zero and add it to all values that are not zero and covered twice. Now we can again check the needed lines as in table \ref{app:hung:additionalstep}.
+After covering the zeros and counting the lines, we found the optimal matching in case the number of lines equals the number of rows (or columns) in the matrix. As this results in four lines and the matrix has five rows in this example, we have to add more zeros. To do that, we subtract the minimum value of the matrix (which is 5 here) from all uncovered values that are not zero and add it to all values that are not zero and covered twice. Now we can again check the needed lines as in table \ref{app:hung:additionalstep}.
 
 \begin{table}[h]
     \centering

@@ -1,7 +1,7 @@
 \chapter{Experimental Setup}
 \label{chapter:setup}
 
-This work evaluates the proposed algorithms for image and text data. This chapter describes the used datasets and the evaluation methods.
+This work evaluates the proposed algorithms for image and text data. This chapter describes the used datasets and evaluation methods.
 
 \section{Data Sets}
 \label{chapter:datasets}
@@ -19,16 +19,16 @@ To motivate our approach, we manually created a dataset containing disks and rin
 
 \subsection{Text Data}
 
-\paragraph{Never Ending Language Learner data.} The Never Ending Language Learner (NELL) is a learning agent that reads the web, extracts data and verifies beliefs \cite{Mitchell:2015:NL:2886521.2886641, Mitchell:2018:NL:3210350.3191513}. NELL for example knows that "Pittsburgh" is located in "Pennsylvania". These beliefs represent different noun-phrases such as "Pittsburgh" and "Pennsylvania". The noun-phrases belong to certain categories, e.g.``Pittsburg'' is a ``City'' and ``Pennsylvania'' is a ``State''. These subcategories both belong to the main category "Geopolitical Location". Figure \ref{fig:nell_beliefs} shows such a knowledge graph. While there are already different subcategories, the goal for a hierarchical clustering algorithm here could be to extract new useful subcategories.
+\paragraph{Never-Ending Language Learner data.} The Never-Ending Language Learner (NELL) is a learning agent that reads the web, extracts data and verifies beliefs \cite{Mitchell:2015:NL:2886521.2886641, Mitchell:2018:NL:3210350.3191513}. NELL, for example, knows that "Pittsburgh" is located in "Pennsylvania". These beliefs represent different noun-phrases such as "Pittsburgh" and "Pennsylvania". The noun-phrases belong to certain categories, e.g.``Pittsburg'' is a ``City'' and ``Pennsylvania'' is a ``State''. These subcategories both belong to the main category "Geopolitical Location". Figure \ref{fig:nell_beliefs} shows such a knowledge graph. While there are already different subcategories, the goal for a hierarchical clustering algorithm here could be to extract new useful subcategories.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{images/nell_beliefs}
-    \caption{The Never Ending Language Learner represents different entities and their correlations \cite{Mitchell:2018:NL:3210350.3191513}.}
+    \caption{The Never-Ending Language Learner represents different entities and their correlations \cite{Mitchell:2018:NL:3210350.3191513}.}
     \label{fig:nell_beliefs}
 \end{figure}
 
-The used dataset, extracted web-information by NELL, contains 32 different main categories, such as "Animal", "Location" or "Person". We limit each of these categories to up to 250 and up to 1000 different entities that belong to different subcategories, so we can run experiments with 250 points and later on with 1000 points. Exemplary entities for the category "Animal" are "Otter", "Squirrel" or "Wolf". 
+The used dataset, extracted web-information by NELL, contains 32 different main categories, such as "Animal", "Location" or "Person". We limit each of these categories up to 250 and 1000 different entities that belong to different subcategories, so we can run experiments with 250 points and later on with 1000 points. Exemplary entities for the category "Animal" are "Otter", "Squirrel" or "Wolf". 
 \newpage
 \subsection{Image Data}
 
@@ -41,7 +41,7 @@ The used dataset, extracted web-information by NELL, contains 32 different main 
     \label{fig:mnist}
 \end{figure}
 
-The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between black and white images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the gained knowledge for clustering images labeled as five, six, seven, eight or nine. Theses types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.\\
+The goal of clustering MNIST images is to find an unsupervised learning method that can distinguish between black and white images. In addition, we can define various clustering tasks where we pick a subsample of the ten labels and then try to transfer the results to other subsamples. For example, we first cluster images labeled as zero, one, two, three or four and later apply the gained knowledge for clustering images labeled as five, six, seven, eight or nine. These types of experiments allow high-level transfer learning if we define several different clustering tasks, e.g. for five different labels there are $10 \choose 5$ $= 252$ different combinations of labels.\\
 
 Another observation that results from hierarchical clustering is the similarity of different labels, i.e. which labels are likely to get clustered together. For instance, we would expect images of characters 6 and 9, 3 and 8 or 2 and 5 to have some attributes in common and thus get clustered together rather than with other digits.
 
@@ -95,12 +95,12 @@ Having superclasses and subclasses allows clustering between different subclasse
 \label{fig:omniglotcharacters}
 \end{figure}
 
-The Omniglot dataset is similar to the MNIST dataset as it also contains handwritten characters, however it has more different characters and less images for each of the characters. This allows us to run more learning tasks. In addition, the dataset also contains stroke data of each of the images, i.e.\ the time series data of the actual drawings where each observation corresponds to a (x,y)-coordinate together with a timestamp. This gives us insights about in which order the character was written. Figure \ref{fig:omniglotstroke} shows an example of strokes for one character of the Tagalog alphabet.
+The Omniglot dataset is similar to the MNIST dataset as it also contains handwritten characters, however it has more different characters and fewer images for each of the characters. This allows us to run more learning tasks. In addition, the dataset also contains stroke data of each of the images, i.e.\ the time series data of the actual drawings where each observation corresponds to a (x,y)-coordinate together with a timestamp. This gives us insight into the order in which the character was written. Figure \ref{fig:omniglotstroke} shows an example of strokes for one character of the Tagalog alphabet.
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=.6\textwidth]{plots/demo_strokes}
-  \caption{The stroke data gives a time series representation of the Omniglot drawings that indicate the order in which the characters were written \cite{Lake1332}.}
+  \caption{The stroke data gives a time series representation of the Omniglot drawings that indicate in which order the characters were written \cite{Lake1332}.}
   \label{fig:omniglotstroke}
 \end{figure}
 
@@ -157,7 +157,7 @@ However, we still have to find a way to calculate the preferred pruning of a clu
 
 In order to evaluate the quality of a clustering, we need some kind of cost function that compares the generated clustering $C_1,...,C_k$ with the target clustering $C_1^*, ..., C_k^*$ and calculates a quality score indicating how good they match. 
 
-\paragraph{Majority Cost.} One method to compare them is the Majority distance as shown in equation \ref{eq:majoritydistance} where $n$ ist the number of sampled points.
+\paragraph{Majority Cost.} One method to compare them is the Majority distance as shown in equation \ref{eq:majoritydistance} where $n$ is the number of sampled points.
 
 \begin{equation}
     \begin{aligned}
@@ -194,7 +194,7 @@ However, the Hamming distance contains an assignment problem to find the optimal
     \label{table:matching}
 \end{table}
 
-While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the Hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkres modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. In general we can say that it  makes sense to use the Hungarian method when there are more than five target classes. A detailed explanation of the Hungarian method is included in appendix \ref{sec:hungarian}.
+While solving the assignment with a brute force strategy would result in $O(n!)$ complexity, Harold Kuhn introduced the Hungarian method to solve the problem in $O(n^4)$ complexity \cite{kuhn1955hungarian}. Later on, James Munkres modified the algorithm to $O(n^3)$ complexity \cite{munkres1957algorithms}. In general, we can say that it  makes sense to use the Hungarian method when there are more than five target classes. A detailed explanation of the Hungarian method is included in Appendix \ref{sec:hungarian}.
 
 \section{Parameter Advising}
 
@@ -219,7 +219,7 @@ More formally, we want to to find the optimal parameters $\alpha_1^*, \dots, \al
 
 Note that the optimization problem contains three constraints. $\sum_{j=1}^m y_j = k$ makes sure that exactly $k$ values are used, the second guarantees that we assign any clustering instance to at most one parameter, and the final constraint ensures that we only assign clustering instances to selected parameters. In our experiments, we use IBM ILOG CPLEX to solve these integer programming problems. However, the computation of the optimal values is very complex, so we also implement a greedy strategy that calculates approximately optimal values more efficiently.
 
-\paragraph{Greedy Parameter Advising.} In a convex space an optimal value $\alpha_n^*$ will also be optimal when calculating $k = n + 1$ optimal values. Leveraging this knowledge, we can iteratively calculate the optimal values $\alpha_1, \dots, \alpha_m$ step by step, where we first calculate $\alpha_1^*$ that has the largest utility over all clustering instances $S$ and then calculate $\alpha_2^*$ that results in the highest utility combined with $\alpha_1^*$ (see equation \ref{eq:greedypa}).
+\paragraph{Greedy Parameter Advising.} In a convex space, an optimal value $\alpha_n^*$ will also be optimal when calculating $k = n + 1$ optimal values. Leveraging this knowledge, we can iteratively calculate the optimal values $\alpha_1, \dots, \alpha_m$ step by step, where we first calculate $\alpha_1^*$ that has the largest utility over all clustering instances $S$ and then calculate $\alpha_2^*$ that results in the highest utility combined with $\alpha_1^*$ (see equation \ref{eq:greedypa}).
 
 \begin{equation}
 \sum_{i=1}^N \max\{u(S_i, T(S_i, \alpha_1)), u(S_i, T(S_i, \alpha_2)\} 

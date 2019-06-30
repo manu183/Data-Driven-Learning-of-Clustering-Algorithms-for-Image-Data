@@ -1,7 +1,7 @@
 \chapter{Optimizing the Metric}
 \label{sec:beta}
 
-In a similar fashion as described in section \ref{chapter:alphalinkage}, this sections aims to find an optimized feature representation that is a linear combination of several metrics. For instance, images can have a 2-dimensional pixel representation and a text describing each image. Combining these features for clustering tasks can be problematic as it is not trivial how the optimal weight between these features should be. Does a word describe more than a fragment of the image, are the features equally important or does the pixel image lead to better clusterings? With $\beta$-linkage we provide a framework based on $\alpha$-linkage that calculates different merges based on linear combinations of representations and leads to optimized clusterings.
+In a similar fashion as described in section \ref{chapter:alphalinkage}, this sections aims to find an optimized feature representation that is a linear combination of several metrics. For instance, images can have a 2-dimensional pixel representation and a text describing each image. Combining these features for clustering tasks can be problematic as it is not trivial how the optimal weight between these features should be. Does a word describe more than a fragment of the image, are the features equally important or does the pixel image lead to better clusterings? With $\beta$-linkage, we provide a framework based on $\alpha$-linkage that calculates different merges based on linear combinations of representations and leads to optimized clusterings.
 
 \begin{figure}[h]
     \centering
@@ -20,7 +20,7 @@ d_\beta(x,x') &= (1 - \beta) \cdot d_0(x,x') + \beta \cdot d_1(x,x') \nonumber \
 \label{eq:betalinkage}
 \end{align}
 
-We can then compute all possible discontinuities by comparing the distances of given clusters $(x, x')$ and $(y, y')$. As $d_\beta(x,x')$ is a linear function depending on $\beta$ (see equation \ref{eq:betalinkage}), we can compute all discontinuities by solving the following equation.
+We then compute all possible discontinuities by comparing the distances of given clusters $(x, x')$ and $(y, y')$. As $d_\beta(x,x')$ is a linear function depending on $\beta$ (see equation \ref{eq:betalinkage}), we can compute all discontinuities by solving the following equation.
 
 \begin{equation*}
     \begin{aligned}
@@ -34,7 +34,7 @@ We can then compute all possible discontinuities by comparing the distances of g
       \end{gathered}
     \end{aligned}
 \end{equation*}
-As we know that the function $d_\beta$ is a linear function depending on $\beta$ and we showed that all discontinuities depend on four points, we know that there are at most $O(n^4)$ well-defined intervals $\mathcal{I}_i \in [0,1]$ for any clustering instance $S$, i.e. in any interval $\mathcal{I}_i$ the algorithm will merge the same two points. In order to efficiently calculate and evaluate all resulting cluster trees, we use an algorithm similar to algorithm \ref{alg:alphalinkage4}, but adapted to $\beta$-linkage.
+As we know that the function $d_\beta$ is a linear function depending on $\beta$ and we showed that all discontinuities depend on four points, we know that there are at most $O(n^4)$ well-defined intervals $\mathcal{I}_i \in [0,1]$ for any clustering instance $S$, i.e. in any interval $\mathcal{I}_i$ the algorithm will merge the same two points. In order to efficiently calculate and evaluate all resulting cluster trees, we use an algorithm similar to algorithm \ref{alg:alphalinkage4} but adapted to $\beta$-linkage.
 
 \begin{algorithm}
 \textbf{Input:} Metrics $\dZero$ and $\dOne$, parameter $\beta \in [0,1]$, and clustering instance $S = \{x_1, \dots, x_n\}$.
