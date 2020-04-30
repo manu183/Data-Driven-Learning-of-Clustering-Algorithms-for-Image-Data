@@ -1,3 +1,3 @@
 # Masters-Thesis
 
-Data-Driven Learning of Clustering Algorithms for Image Data
+This repository contains the writeup of my master's thesis.
